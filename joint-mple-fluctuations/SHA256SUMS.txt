@@ -1,0 +1,2 @@
+49440c2dc0642fbac92105bac39c4c83940c3c4ba3374f63aced12f42fd1b990  joint-mple-fluctuations.pdf
+12a97e432cb6c263649c1f24a87c2088e436f3f06aa60bb2c5d310f2519b95ce  joint-mple-fluctuations.tex

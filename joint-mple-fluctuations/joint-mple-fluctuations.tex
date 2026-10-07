@@ -1,0 +1,1051 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools,microtype}
+\usepackage{xcolor}
+\definecolor{paperlink}{RGB}{0,0,114}
+\usepackage[colorlinks=true,linkcolor=paperlink,citecolor=paperlink,urlcolor=paperlink]{hyperref}
+\setlength{\emergencystretch}{1em}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\R}{\mathbb R}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\sech}{\operatorname{sech}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\Frob}{\mathrm{F}}
+\newcommand{\Law}{\mathcal L}
+\newcommand{\Normal}{\mathcal N}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\dd}{\,\mathrm d}
+\title[Joint pseudolikelihood fluctuations in the SK model]{Joint pseudolikelihood fluctuations in the zero-field Sherrington--Kirkpatrick model}
+\author{Qiang Wu}
+\email{qiangw.math@gmail.com}
+\date{}
+\begin{document}
+\begin{abstract}
+We study joint maximum pseudolikelihood estimation of inverse temperature and external field from one configuration of the Sherrington--Kirkpatrick model, with the coupling matrix observed. At every fixed positive inverse temperature and zero true field, the two-dimensional score is asymptotically Gaussian conditionally on the disorder, in probability over the disorder. Every normalized one-dimensional projection has disorder-averaged Wasserstein error of order $N^{-1/2}$. We prove existence and uniqueness of the finite estimator with probability tending to one, derive its Gaussian fluctuations, and construct a consistent covariance estimate from the fitted parameters. The normalizing matrices are deterministic sequences; their convergence is not assumed. The proof combines a heat-bath Stein identity with a zero-field gauge transformation. The transformed couplings have a strongly log-concave density, while the retained spins are independent uniform signs. These two structures control the entire matrix Stein statistic without a high-temperature restriction.
+\end{abstract}
+\maketitle
+
+\section{Introduction and results}
+
+Pseudolikelihood replaces the partition function of an interacting spin system by its one-site conditional distributions. Its score is therefore accessible from a single configuration, even when the likelihood is difficult to evaluate. The dependence among the spins nevertheless remains in the fluctuations of the score. In the Sherrington--Kirkpatrick model this dependence is especially pronounced at low temperatures, where a proof based on weak correlations is unavailable.
+
+Joint consistency for the temperature and external field in spin glasses is already established by Chen, Sen, and Wu~\cite{ChenSenWu2024}, including the SK model at every fixed positive inverse temperature and every fixed field. The next statistical question is how to quantify the uncertainty of the two fitted parameters. We study their joint fluctuations and a feasible covariance estimate, conditional on the observed Gaussian interaction matrix. At zero true field, gauge symmetry provides the concentration needed for this distributional analysis across temperatures.
+
+\subsection{Model and pseudolikelihood}
+Let $N\ge2$ and let $J$ be the symmetric random matrix with
+\begin{equation}
+ J_{ij}=\frac{g_{ij}}{\sqrt N}\quad(i<j),\qquad
+ J_{ii}=0,\qquad g_{ij}\stackrel{\mathrm{i.i.d.}}{\sim}\Normal(0,1)\,.
+ \label{eq:disorder}
+\end{equation}
+For $\sigma\in\{-1,1\}^N$, define the interaction energy and magnetization by
+\begin{equation}
+ H_J(\sigma)=\sum_{i<j}J_{ij}\sigma_i\sigma_j,
+ \qquad M(\sigma)=\sum_i\sigma_i\,.
+ \label{eq:energy}
+\end{equation}
+The model to be fitted is
+\begin{equation}
+ G_{b,h,J}(\sigma)=\frac{\exp\{bH_J(\sigma)+hM(\sigma)\}}{Z_N(b,h,J)},
+ \qquad (b,h)\in(0,\infty)\times\R\,.
+ \label{eq:gibbs}
+\end{equation}
+Thus $h$ is the natural coefficient of the magnetization. The data consist of the entire matrix $J$ and one configuration sampled at the true parameter
+\begin{equation}
+ \theta_0=(\beta,0),\qquad 0<\beta<\infty\,.
+ \label{eq:true-parameter}
+\end{equation}
+Throughout the paper $\beta$ is fixed. Constants may depend on $\beta$, but not on $N$.
+
+For the observed configuration, put $m_i=\sum_jJ_{ij}\sigma_j$ and $x_i=(m_i,1)^T$. Since $m_i$ does not depend on $\sigma_i$, the log pseudolikelihood, its score, and its normalized negative Hessian are
+\begin{align}
+ L_N(b,h)
+ &=\sum_i\bigl[(bm_i+h)\sigma_i-\log(2\cosh(bm_i+h))\bigr],
+ \label{eq:pseudolikelihood}\\
+ S_N(b,h)
+ &=\sum_i x_i\bigl[\sigma_i-\tanh(bm_i+h)\bigr],
+ \label{eq:score}\\
+ A_N(b,h)
+ &=-\frac1N\nabla^2 L_N(b,h)
+ =\frac1N\sum_i x_ix_i^T\sech^2(bm_i+h)\,.
+ \label{eq:curvature}
+\end{align}
+We write $S_{N,\beta}$ and $S_{N,h}$ for the first and second components of the score. Let $\widehat\theta_N=(\widehat\beta_N,\widehat h_N)$ be the unique finite maximizer of $L_N$ over $(0,\infty)\times\R$ when it exists, and set $\widehat\theta_N=(1,0)$ otherwise. This convention makes the estimator defined for every data set. The probability that the convention is needed tends to zero.
+
+Let $\langle\cdot\rangle_J$ denote expectation under $G_{\beta,0,J}$, and let $\E_J$ denote expectation over the disorder. Define the deterministic quantities
+\begin{align}
+ a_N&=\E_J\langle A_{N,\beta\beta}(\theta_0)\rangle_J,
+ &c_N&=\E_J\langle A_{N,hh}(\theta_0)\rangle_J,
+ \label{eq:curvature-means}\\
+ v_N&=\frac1N\E_J\langle S_{N,\beta}(\theta_0)^2\rangle_J,
+ &\overline A_N&=\diag(a_N,c_N),\qquad
+ \Sigma_N=\diag(v_N,c_N)\,.
+ \label{eq:variance-means}
+\end{align}
+The equality between $c_N$ and the normalized field-score variance will be proved below.
+
+For probability measures on $\R$, $d_{\mathrm W}$ denotes Wasserstein distance with cost $|x-y|$. On $\R^2$, let $\rho(x,y)=\min\{\|x-y\|,2\}$ and write $W_{1,\rho}$ for the bounded Wasserstein distance with cost $\rho$. Its dual representation is
+\begin{equation}
+ W_{1,\rho}(\mu,\nu)
+ =\sup_{\substack{\|f\|_\infty\le1\\\operatorname{Lip}(f)\le1}}
+ \left|\int f\dd\mu-\int f\dd\nu\right|\,.
+ \label{eq:bl-distance}
+\end{equation}
+This metric metrizes weak convergence. Vector norms are Euclidean; matrix norms are the operator norm $\|\cdot\|_\op$ and Frobenius norm $\|\cdot\|_\Frob$.
+
+\begin{theorem}\label{thm:joint}
+Fix $\beta>0$ and suppose the data have true parameter $\theta_0=(\beta,0)$. There are constants $0<c_\beta<C_\beta<\infty$ such that, for all sufficiently large $N$,
+\begin{equation}
+ c_\beta\le a_N,c_N,v_N\le C_\beta\,.
+ \label{eq:normalizer-bounds}
+\end{equation}
+For every deterministic unit vector $u\in\R^2$,
+\begin{equation}
+ \E_J d_{\mathrm W}\left(
+ \Law_{G_{\beta,0,J}}\left(
+ \frac{u^T\Sigma_N^{-1/2}S_N(\theta_0)}{\sqrt N}\right),
+ \Normal(0,1)\right)
+ \le\frac{C_\beta}{\sqrt N}\,.
+ \label{eq:directional-rate}
+\end{equation}
+The constant is uniform over $u$. Moreover,
+\begin{equation}
+ W_{1,\rho}\left(
+ \Law_{G_{\beta,0,J}}\left(\frac{\Sigma_N^{-1/2}S_N(\theta_0)}{\sqrt N}\right),
+ \Normal(0,I_2)\right)
+ \xrightarrow{\Pp_J}0\,.
+ \label{eq:score-quenched}
+\end{equation}
+The joint MPLE is a unique finite interior maximizer with probability tending to one under the joint law of disorder and spins. Its conditional laws satisfy
+\begin{equation}
+ W_{1,\rho}\left(
+ \Law_{G_{\beta,0,J}}\left(
+ \begin{pmatrix}a_N/\sqrt{v_N}&0\\0&\sqrt{c_N}\end{pmatrix}
+ \sqrt N(\widehat\theta_N-\theta_0)\right),
+ \Normal(0,I_2)\right)
+ \xrightarrow{\Pp_J}0\,.
+ \label{eq:estimator-quenched}
+\end{equation}
+\end{theorem}
+
+In particular, the score and estimator converge to their stated Gaussian limits under the joint law of disorder and spins. The deterministic covariance sequence for $\sqrt N(\widehat\theta_N-\theta_0)$ is
+\begin{equation}
+ \Gamma_N=\overline A_N^{-1}\Sigma_N\overline A_N^{-1}
+ =\diag\left(\frac{v_N}{a_N^2},\frac1{c_N}\right)\,.
+ \label{eq:estimator-variance}
+\end{equation}
+The theorem includes the critical value $\beta=1$ and every fixed $\beta>1$. It asserts neither a limit for $\Gamma_N$ nor a multidimensional Wasserstein rate.
+
+\subsection{Feasible normalization}
+For a site $i$, let $\sigma^{(i)}$ be the configuration with its $i$th spin flipped. At a candidate parameter $\theta=(b,h)$, compute the score at each configuration using its own local fields, and define
+\begin{equation}
+ V_N(\theta)=\frac1{2N}\sum_i
+ x_i\bigl[\sigma_i-\tanh(bm_i+h)\bigr]
+ \bigl[S_N(\theta;\sigma)-S_N(\theta;\sigma^{(i)})\bigr]^T\,.
+ \label{eq:feasible-V}
+\end{equation}
+This matrix need not be symmetric or positive definite. Symmetrize $V_N(\widehat\theta_N)$ and replace every eigenvalue smaller than $N^{-1}$ by $N^{-1}$. Denote the resulting matrix by $\widehat V_N$. When $A_N(\widehat\theta_N)$ is invertible, put
+\begin{equation}
+ \widehat\Gamma_N
+ =A_N(\widehat\theta_N)^{-1}\widehat V_NA_N(\widehat\theta_N)^{-1}\,;
+ \label{eq:estimated-covariance}
+\end{equation}
+otherwise put $\widehat\Gamma_N=I_2$.
+
+\begin{theorem}\label{thm:studentized}
+Under the assumptions of Theorem~\ref{thm:joint},
+\begin{equation}
+ \|\widehat\Gamma_N-\Gamma_N\|_\op\xrightarrow{\Pp}0\,.
+ \label{eq:covariance-consistency}
+\end{equation}
+The fully studentized estimator satisfies
+\begin{equation}
+ W_{1,\rho}\left(
+ \Law_{G_{\beta,0,J}}\left(
+ \widehat\Gamma_N^{-1/2}\sqrt N(\widehat\theta_N-\theta_0)\right),
+ \Normal(0,I_2)\right)
+ \xrightarrow{\Pp_J}0\,.
+ \label{eq:studentized-quenched}
+\end{equation}
+\end{theorem}
+
+The diagonal entries of $\widehat\Gamma_N/N$ therefore give feasible variance estimates. Although the estimator and covariance statistic are evaluated at a fitted field, the distributional assertions are at a true field equal to zero.
+
+\subsection{Related work and motivation}
+
+Inference from one interacting configuration has a long history in spatial statistics. Besag's conditional formulation of lattice models and coding methods~\cite{Besag1974}, followed by the product of one-site conditional probabilities in~\cite[Section~3.3]{Besag1975}, made estimation possible without evaluating the joint normalizing constant. This computational advantage does not remove statistical dependence: the conditional residuals are centered given the other coordinates, but they are not independent. Their conditional centering, rather than independence of the spins, is the structural property exploited by pseudolikelihood inference.
+
+The classical theory already shows that phase transitions need not prevent either consistency or Gaussian inference. Gidas~\cite{Gidas1988} established consistency results for finite-dimensional families of lattice Gibbs distributions through phase transitions. Guyon and K\"unsch~\cite{GuyonKuensch1992} compared the asymptotic efficiency of pseudolikelihood and other tractable estimators in the nearest-neighbor Ising model with external field. Jensen and K\"unsch~\cite[Theorem~1.1]{JensenKuensch1994} proved a bivariate, stochastically normalized MPLE central limit theorem for stationary Gibbs point processes with finite-range pair interactions satisfying their potential assumptions, without excluding phase coexistence. Their underlying conditional-centering theorem~\cite[Theorem~2.1]{JensenKuensch1994} uses a fixed local neighborhood and moment assumptions in place of mixing estimates. Comets and Jan\v{z}ura~\cite{CometsJanzura1998} developed a random-normalization central limit theorem for conditionally centered fields, with applications to pseudolikelihood for Markov fields that allow nonstationarity and phase transitions. These results provide an important precedent for studentization under strong dependence. The issue for SK is to control the aggregate effect of interactions with all other spins, whose individual sizes are of order $N^{-1/2}$.
+
+For general known interaction matrices, Chatterjee~\cite[Theorem~1.1]{Chatterjee2007} established $\sqrt N$-consistency of the scalar temperature MPLE under an operator-norm bound and a positive normalized-pressure condition. His SK application covers every fixed positive inverse temperature, including the low-temperature regime. Section~1.6 of that paper explicitly raises both multiparameter estimation and the variance and central-limit behavior of the estimator. Bhattacharya and Sumit Mukherjee~\cite{BhattacharyaMukherjee2018} refined the consistency theory by relating the estimation rate to the growth of the log-partition function relative to the uniform independent-spin measure. Their results also identify regimes in which consistent estimation is impossible. Thus the amount of information in a single growing system depends on its interaction structure and thermodynamic regime; it cannot be inferred merely from the number of spins.
+
+Joint estimation creates an additional identifiability issue: the local interaction fields and the constant field must remain distinguishable in the pseudolikelihood Hessian. Ghosal and Sumit Mukherjee~\cite{GhosalMukherjee2020} studied this problem for nonnegative interaction matrices with bounded row sums. At positive inverse temperature and nonzero field, they gave sufficient conditions for joint $\sqrt N$-consistency, including suitable irregular mean-field graphs and bounded-degree graphs satisfying their nondegeneracy conditions. Their impossibility result for dense Erd\H{o}s--R\'enyi graphs shows why scalar consistency cannot automatically be promoted to joint consistency. Variation among the local fields is a statistical resource, not a technical convenience.
+
+The closest consistency result is Chen, Sen, and Wu~\cite{ChenSenWu2024}, who establish existence and joint $\sqrt N$-consistency of the temperature and field MPLE for spin glasses with signed random interactions. Their results cover SK and diluted variants at every fixed $\beta>0$ and every fixed external field. The sufficient conditions combine control of the interaction operator norm with nondegeneracy of the pseudolikelihood Hessian; small-ball estimates verify the latter for their random coupling models. Joint estimability in SK, including at low temperature, is therefore already established. The question pursued here is its distributional refinement: conditional Gaussian fluctuations and a covariance estimate that makes the limit usable for inference. Our theorem treats Gaussian SK at zero true field. It does not extend the field range or the diluted and non-Gaussian model classes of~\cite{ChenSenWu2024}.
+
+Related consistency results clarify how this identifiability issue changes with the statistical model. Daskalakis, Dikkala, and Panageas~\cite{DaskalakisDikkalaPanageas2019,DaskalakisDikkalaPanageas2020} treated joint estimation of an interaction strength and regression coefficients from one dependent configuration, first for pair interactions and then for bounded-order interactions. Their assumptions control absolute interaction row sums, covariate geometry, and a quadratic measure of interaction strength. Somabha Mukherjee, Niu, Halder, Bhattacharya, and Michailidis~\cite{MukherjeeEtAl2024} obtained high-dimensional penalized-pseudolikelihood guarantees for logistic regression under network dependence, including estimation of the interaction parameter. These results motivate fitting a field together with temperature, but their consistency bounds do not by themselves yield the conditional joint fluctuation theorem considered here.
+
+For cubic interactions, Sumit Mukherjee, Sen, and Wu~\cite{MukherjeeSenWu2026} make the role of heterogeneous local statistics explicit. Under a bounded row-sum condition on a nonnegative interaction tensor, their general error bound depends on the empirical variance of the local fields. Structural conditions then imply joint $\sqrt N$-consistency, while appropriate homogeneous ferromagnetic regimes produce a vanishing local-field variance and an ill-conditioned pseudolikelihood Hessian. The latter statement should be distinguished from an impossibility theorem for every estimator. Their work concerns consistency and conditioning, rather than a joint MPLE central limit theorem, and supplies a useful higher-order counterpart to the identifiability question in the present quadratic model.
+
+Distributional results are also available beyond the classical spatial setting. Somabha Mukherjee, Son, and Bhattacharya~\cite{MukherjeeSonBhattacharya2022} proved scalar MPLE consistency for tensor Ising models, including Gaussian $p$-spin SK, and derived limiting laws in the $p$-spin Curie--Weiss model. For the latter model at zero field, Mukherjee, Liu, and Bhattacharya~\cite[Theorem~4]{MukherjeeLiuBhattacharya2024} obtained a Kolmogorov error bound of order $(\log N)/\sqrt N$ for the scalar temperature MPLE when $p\ge3$ and the inverse temperature lies above the estimability threshold. These are direct precursors to quantitative fluctuation theory for pseudolikelihood, but the Curie--Weiss interaction tensor is deterministic and homogeneous, and the fitted parameter in this result is scalar.
+
+Xu and Sumit Mukherjee~\cite{XuMukherjee2023} established a broader scalar distributional theory on dense regular ferromagnetic graphs. Under bounded rescaled entries, convergence of the interaction matrices and their Frobenius norms, and a simple top eigenvalue of the limiting graphon operator, their low-temperature result gives a common Gaussian limit for the MLE and MPLE. At the critical point, they derive a non-Gaussian limit experiment and different estimator limits. Their results demonstrate that low-temperature MPLE Gaussian fluctuations are not specific to independent or weakly dependent models. They also show why a fluctuation theorem must state its interaction assumptions and parameter regime carefully: behavior on dense regular ferromagnets does not determine behavior for signed Gaussian couplings.
+
+Deb~\cite{Deb2025} develops a general theory of conditionally centered statistics, including pivotal Gaussian limits after studentization and Gaussian scale mixtures before studentization. His joint MPLE theorem for irregular graphons~\cite[Theorem~5.2]{Deb2025} assumes nonnegative interactions with bounded row sums, convergence in cut norm to an irregular graphon, positive inverse temperature, nonzero field, and uniqueness of the associated variational optimizer. It is an important joint central-limit predecessor. The stated Ising application does not cover the signed Gaussian SK matrices here: their operator norms are bounded in probability, whereas their absolute row sums grow on the order of $\sqrt N$. Our proof obtains covariance concentration from zero-field gauge symmetry and Gaussian disorder. It neither assumes a limiting graphon nor invokes uniqueness of a thermodynamic variational optimizer.
+
+Pseudolikelihood also belongs to the broader theory of composite likelihood. The review of Varin, Reid, and Firth~\cite[Sections~2.1--2.3]{VarinReidFirth2011} explains why the covariance of a composite score and its expected negative derivative need not coincide. The resulting estimator covariance has the sandwich form in~\eqref{eq:estimator-variance}; the inverse Hessian alone generally gives the wrong uncertainty. This distinction motivates the separate estimation of $\overline A_N$ and $\Sigma_N$ here. Composite-likelihood asymptotics based on many independent configurations do not establish a limit from one growing spin system. The score limit and covariance concentration must instead be proved under its dependent Gibbs law.
+
+The particular conclusion of this paper is a joint Gaussian approximation conditional on the observed Gaussian interaction matrix, with convergence in probability over that matrix, for every fixed $\beta>0$ at zero true field. Both parameters are fitted, and the covariance estimate is evaluated at the fitted pair. The deterministic normalizers may depend on $N$; their convergence to a fixed limiting covariance is not required. This formulation separates the sampling uncertainty of the spins at a given disorder realization from variation across disorder realizations. It also preserves the precise scope of the proof: the result does not assert an arbitrary-field theorem or a multivariate approximation rate.
+
+The proof combines the heat-bath construction used for pseudolikelihood in~\cite{Chatterjee2007} with a Stein identity whose normal-approximation error is controlled by a fluctuating variance statistic and a small remainder, as in the framework of~\cite{Chatterjee2008}. Its concentration input comes from the inverse-Hessian Brascamp--Lieb inequality, in the form recalled by Carlen, Cordero-Erausquin, and Lieb~\cite[(1.3)]{Carlen2011}. At zero field, the gauge transformation produces a coupling law with Hessian bounded below by $NI$ and an independent vector of uniform signs. These two components control all entries of the matrix variance statistic. The argument therefore supplies a concrete concentration mechanism for joint inference across temperatures without requiring decay of correlations in the original spin system.
+
+\subsection{Proof strategy}
+The heat-bath coupling gives an exact score identity at every fixed disorder realization. Gaussian approximation follows once its matrix variance statistic concentrates and its one-site remainder is small. The change of variables $K_{ij}=J_{ij}\sigma_i\sigma_j$ separates the joint zero-field law into a strongly log-concave coupling law and independent uniform spins. The temperature entry of the matrix statistic is then a smooth function of $K$ with a bounded gradient. The field and cross entries are low-degree polynomials in the independent spins, with coefficients controlled by $\|K\|_\op$. This yields deterministic covariance concentration even at low temperatures.
+
+Section~\ref{sec:gauge} establishes the gauge law and the pressure estimate used for nondegeneracy. Section~\ref{sec:scalar} proves the scalar gradient and moment estimates. Section~\ref{sec:score} treats the matrix Stein statistic and conditional score limit. Section~\ref{sec:estimation} proves existence of the estimator and feasible studentization.
+
+\section{The gauge law and nonvanishing pressure}\label{sec:gauge}
+
+The disorder distribution is invariant under changing the signs of rows and the corresponding columns. At zero field, applying the same transformation to a sampled spin configuration removes that configuration from the Gibbs weight. The resulting density has a convex partition-function contribution.
+
+Define
+\begin{equation}
+ K_{ij}=J_{ij}\sigma_i\sigma_j,\qquad
+ s=\sigma,\qquad \ell=K\one,\qquad B=\|K\|_\op\,.
+ \label{eq:gauge-variables}
+\end{equation}
+In particular, $\ell_i=\sigma_i m_i$. Let $\gamma_N$ be the product Gaussian law on the independent upper-triangular entries with variance $1/N$.
+
+\begin{lemma}\label{lem:gauge}
+Under the joint law at $(\beta,0)$, the vector $s$ consists of independent uniform signs and is independent of $K$. The law of $K$ is
+\begin{equation}
+ \nu_{N,\beta}(\dd K)
+ =2^N\gamma_N(\dd K)
+ \frac{\exp\{\beta\sum_{i<j}K_{ij}\}}{Z_N(\beta,0,K)}\,.
+ \label{eq:gauge-law}
+\end{equation}
+For every smooth function $G$ with polynomial growth, together with its gradient,
+\begin{equation}
+ \Var_\nu(G)\le\frac1N\E_\nu\|\nabla_KG\|^2\,.
+ \label{eq:gauge-poincare}
+\end{equation}
+The gradient is with respect to the independent upper-triangular coordinates. For every fixed $0<p<\infty$,
+\begin{equation}
+ \sup_{N\ge2}\E_\nu B^p<\infty\,.
+ \label{eq:operator-moments}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Fix a sign vector $s$ and write $D_s=\diag(s)$. The transformation $K=D_sJD_s$ preserves the Gaussian density and has Jacobian of absolute value one. It also gives $H_J(s)=\sum_{i<j}K_{ij}$ and $Z_N(\beta,0,J)=Z_N(\beta,0,K)$. Thus the joint density of $(K,s)$ is
+\begin{equation*}
+ \gamma_N(\dd K)
+ \frac{\exp\{\beta\sum_{i<j}K_{ij}\}}{Z_N(\beta,0,K)}\,.
+\end{equation*}
+It is independent of $s$, proving the factorization and~\eqref{eq:gauge-law}.
+
+Up to an additive constant, the negative logarithm of this density is
+\begin{equation}
+ U(K)=\frac N2\sum_{i<j}K_{ij}^2
+ -\beta\sum_{i<j}K_{ij}+\log Z_N(\beta,0,K)\,.
+ \label{eq:gauge-potential}
+\end{equation}
+Its Hessian equals
+\begin{equation*}
+ \nabla_K^2U=NI+
+ \beta^2\Cov_{G_{\beta,0,K}}\bigl((\tau_i\tau_j)_{i<j}\bigr)
+ \succeq NI\,.
+\end{equation*}
+The inverse-Hessian Brascamp--Lieb inequality, in the form recalled in~\cite[(1.3)]{Carlen2011}, gives~\eqref{eq:gauge-poincare}. The extension from compactly supported smooth functions follows by truncation: the density in~\eqref{eq:gauge-law} is bounded by $2^N$ times the Gaussian density, so polynomial moments are finite for each $N$.
+
+Since $K=D_sJD_s$, its operator norm equals that of $J$ pointwise. The disorder marginal of the original joint law is $\gamma_N$, and hence $\E_\nu B^p=\E_J\|J\|_\op^p$. For completeness, a $1/4$-net of the unit sphere with at most $9^N$ elements gives
+\begin{equation*}
+ \Pp_J(\|J\|_\op>t)
+ \le 2\,9^N\exp(-Nt^2/16)\,.
+\end{equation*}
+Indeed, $\|J\|_\op\le2\max_x|x^TJx|$ over the net, and each quadratic form is Gaussian with variance at most $2/N$. For $t^2\ge32\log9$ the displayed bound is at most $2\exp(-Nt^2/32)$. Integrating the tail proves~\eqref{eq:operator-moments}.
+\end{proof}
+
+The next lemma supplies only the pressure input needed later. Its short proof uses a second-moment estimate and Gaussian Poincar\'e. The limiting formula is the classical high-temperature formula of Aizenman, Lebowitz, and Ruelle~\cite[Proposition~2.1(ii)]{ALR1987}.
+
+\begin{lemma}\label{lem:pressure}
+Let
+\begin{equation}
+ p_N(t)=\frac1N\E_J\log\frac{Z_N(t,0,J)}{2^N}\,.
+ \label{eq:pressure-definition}
+\end{equation}
+For every $0<\gamma<1$,
+\begin{equation}
+ p_N(\gamma)=\frac{\gamma^2}{4}+O_\gamma(N^{-1/2})\,.
+ \label{eq:pressure-limit}
+\end{equation}
+Consequently, for every fixed $\beta>0$ there is $m_\beta>0$ such that $\E_\nu\ell_1\ge m_\beta$ for all sufficiently large $N$.
+\end{lemma}
+\begin{proof}
+Put $\widetilde Z=2^{-N}Z_N(\gamma,0,J)$. Gaussian averaging gives
+\begin{equation*}
+ \E_J\widetilde Z=\exp\{\gamma^2(N-1)/4\}\,.
+\end{equation*}
+For independent uniform signs $R_1,\ldots,R_N$, a second Gaussian average yields
+\begin{equation*}
+ \frac{\E_J\widetilde Z^2}{(\E_J\widetilde Z)^2}
+ =e^{-\gamma^2/2}\E_R
+ \exp\left\{\frac{\gamma^2}{2N}\left(\sum_iR_i\right)^2\right\}\,.
+\end{equation*}
+If $G$ is an independent standard Gaussian, then
+\begin{equation*}
+ \E_R\exp\left\{\frac{\gamma^2}{2N}\left(\sum_iR_i\right)^2\right\}
+ =\E_G\cosh(\gamma G/\sqrt N)^N
+ \le\E_Ge^{\gamma^2G^2/2}
+ =(1-\gamma^2)^{-1/2}\,.
+\end{equation*}
+The second-moment inequality therefore gives
+\begin{equation}
+ \Pp_J\left(\widetilde Z\ge\tfrac12\E_J\widetilde Z\right)
+ \ge\delta_\gamma>0\,.
+ \label{eq:pressure-event}
+\end{equation}
+On the other hand, differentiation in the standard Gaussian coordinates gives
+\begin{equation*}
+ \frac{\partial\log\widetilde Z}{\partial g_{ij}}
+ =\frac\gamma{\sqrt N}\langle\sigma_i\sigma_j\rangle_{\gamma,J}\,.
+\end{equation*}
+Gaussian Poincar\'e, which is the Gaussian case of Brascamp--Lieb, implies
+\begin{equation*}
+ \Var_J(\log\widetilde Z)\le\frac{\gamma^2(N-1)}2\,.
+\end{equation*}
+Let $d_N=\log\E_J\widetilde Z-\log2-\E_J\log\widetilde Z$. If $d_N>0$, the event in~\eqref{eq:pressure-event} is contained in $\{\log\widetilde Z-\E_J\log\widetilde Z\ge d_N\}$. Chebyshev's inequality gives $\delta_\gamma d_N^2\le\gamma^2(N-1)/2$. When $d_N\le0$ the same resulting upper bound is automatic. Together with Jensen's inequality this proves
+\begin{equation*}
+ 0\le\log\E_J\widetilde Z-\E_J\log\widetilde Z
+ \le\log2+C_\gamma\sqrt N\,.
+\end{equation*}
+Divide by $N$ to obtain~\eqref{eq:pressure-limit}.
+
+The gauge law is invariant under permutations of the sites, so
+\begin{equation}
+ \E_\nu\ell_1=\frac2N\E_J\langle H_J\rangle_J=2p_N'(\beta)\,.
+ \label{eq:mean-local-field}
+\end{equation}
+Choose $0<\gamma<\min(\beta,1)$. Convexity and $p_N(0)=0$ imply $p_N'(\beta)\ge p_N(\gamma)/\gamma$. The first assertion now gives the positive lower bound.
+\end{proof}
+
+\section{Scalar concentration and local moments}\label{sec:scalar}
+
+We first control the temperature coordinate. Its one-site difference includes the changes in all other local fields. The needed matrix bounds retain the signs of $K$ in the first-order terms and use squared entries only for Taylor remainders.
+
+Define the functions
+\begin{equation}
+ f(x)=x\tanh(\beta x),\qquad
+ w(x)=x-f(x)\,.
+ \label{eq:f-w}
+\end{equation}
+In gauge coordinates the temperature score is $S_{N,\beta}(\theta_0)=\sum_iw(\ell_i)$. Define also
+\begin{equation}
+ d_i=2\ell_i-\frac12\sum_j
+ \bigl[f(\ell_j)-f(\ell_j-2K_{ij})\bigr]\,.
+ \label{eq:d-definition}
+\end{equation}
+Flipping spin $i$ changes $2H_J=\sum_jm_j\sigma_j$ by $4\ell_i$. In the term $\sum_jm_j\tanh(\beta m_j)$, the local field $m_i$ is unchanged, and the remaining gauge local fields change from $\ell_j$ to $\ell_j-2K_{ij}$. Consequently,
+\begin{equation}
+ S_{N,\beta}(\theta_0;\sigma)-S_{N,\beta}(\theta_0;\sigma^{(i)})=2d_i,
+ \qquad
+ V_{N,\beta\beta}(\theta_0)=\frac1Nw(\ell)^Td\,.
+ \label{eq:scalar-flip}
+\end{equation}
+All functions of vectors in this section act coordinatewise.
+
+\begin{lemma}\label{lem:gradient}
+There is a constant $C_\beta$ such that, for every symmetric zero-diagonal matrix $K$,
+\begin{align}
+ \|\ell\|&\le B\sqrt N,
+ &\|d\|&\le C_\beta\sqrt N(B+B^2),
+ \label{eq:ell-d-bounds}\\
+ \|\nabla_KV_{N,\beta\beta}(\theta_0)\|
+ &\le C_\beta(B+B^2+B^3)\,.
+ \label{eq:scalar-gradient}
+\end{align}
+In particular,
+\begin{equation}
+ \Var_\nu\bigl(V_{N,\beta\beta}(\theta_0)\bigr)\le\frac{C_\beta}{N}\,.
+ \label{eq:scalar-V-concentration}
+\end{equation}
+\end{lemma}
+\begin{proof}
+The derivatives $f',f'',f'''$ and $w'$ are bounded for fixed $\beta$, and $|w(x)|\le2|x|$. Taylor's formula in~\eqref{eq:d-definition} gives
+\begin{equation}
+ d=2\ell-Kf'(\ell)+r,
+ \qquad |r_i|\le C_\beta\sum_jK_{ij}^2\,.
+ \label{eq:d-expansion}
+\end{equation}
+Each row-square sum is at most $B^2$, while $\|f'(\ell)\|\le C_\beta\sqrt N$ and $\|\ell\|\le B\sqrt N$. These estimates prove~\eqref{eq:ell-d-bounds}.
+
+Put
+\begin{equation*}
+ D_{ij}=\frac12\bigl[f'(\ell_j)-f'(\ell_j-2K_{ij})\bigr]\,.
+\end{equation*}
+A second Taylor expansion yields
+\begin{equation}
+ D=K\diag(f''(\ell))+R,
+ \qquad |R_{ij}|\le C_\beta K_{ij}^2\,.
+ \label{eq:D-expansion}
+\end{equation}
+Let $Q=K\circ K$ be the entrywise square. It is symmetric and nonnegative, and
+\begin{equation}
+ \|Q\|_\op\le\max_i\sum_jK_{ij}^2\le B^2\,.
+ \label{eq:hadamard-bound}
+\end{equation}
+Although $R$ need not be symmetric, $|Rx|\le C_\beta Q|x|$ coordinatewise for every vector $x$. Hence $\|R\|_\op\le C_\beta B^2$ and
+\begin{equation}
+ \|D\|_\op\le C_\beta(B+B^2)\,.
+ \label{eq:D-bound}
+\end{equation}
+
+Temporarily treat $\ell$ and $K$ as independent variables in~\eqref{eq:scalar-flip}. Differentiation in $\ell$ gives
+\begin{equation*}
+ \nabla_\ell V_{N,\beta\beta}
+ =\frac1N\bigl[\diag(w'(\ell))d+2w(\ell)-D^Tw(\ell)\bigr]\,.
+\end{equation*}
+By~\eqref{eq:ell-d-bounds}, $\|w(\ell)\|\le2B\sqrt N$, and~\eqref{eq:D-bound},
+\begin{equation}
+ \|\nabla_\ell V_{N,\beta\beta}\|
+ \le\frac{C_\beta}{\sqrt N}(B+B^2+B^3)\,.
+ \label{eq:ell-gradient}
+\end{equation}
+The linear map from the upper-triangular coordinates of $K$ to $K\one$ has Gram matrix $(N-2)I+\one\one^T$. Its operator norm is therefore $\sqrt{2N-2}$.
+
+The direct derivative at fixed $\ell$ is
+\begin{equation*}
+ \left.\frac{\partial V_{N,\beta\beta}}{\partial K_{ab}}\right|_\ell
+ =-\frac1N\bigl[w(\ell_a)f'(\ell_b-2K_{ab})
+ +w(\ell_b)f'(\ell_a-2K_{ab})\bigr]\,.
+\end{equation*}
+Its squared Euclidean norm over $a<b$ is at most
+\begin{equation*}
+ \frac{C_\beta}{N^2}\sum_{a<b}\bigl[w(\ell_a)^2+w(\ell_b)^2\bigr]
+ =\frac{C_\beta(N-1)}{N^2}\|w(\ell)\|^2
+ \le C_\beta B^2\,.
+\end{equation*}
+Combining the direct and indirect derivatives proves~\eqref{eq:scalar-gradient}. Applying~\eqref{eq:gauge-poincare} and~\eqref{eq:operator-moments} proves~\eqref{eq:scalar-V-concentration}.
+\end{proof}
+
+\begin{lemma}\label{lem:local-moments}
+For fixed $\beta>0$,
+\begin{equation}
+ \sup_{N\ge2}\E_\nu\bigl(|\ell_1|^4+|d_1|^4\bigr)<\infty\,.
+ \label{eq:local-fourth}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Permutation invariance and~\eqref{eq:operator-moments} give
+\begin{equation}
+ \E_\nu\ell_1^2=\frac1N\E_\nu\|K\one\|^2\le\E_\nu B^2\le C\,.
+ \label{eq:local-second}
+\end{equation}
+The gradient of $\ell_1$ has $N-1$ entries equal to one and all others zero. Applying~\eqref{eq:gauge-poincare} to $\ell_1^2$ yields
+\begin{equation*}
+ \E_\nu\ell_1^4-(\E_\nu\ell_1^2)^2
+ \le\frac{4(N-1)}N\E_\nu\ell_1^2\,.
+\end{equation*}
+This proves the first fourth-moment bound.
+
+Let $Y_i=(Kf'(\ell))_i$. Permutation invariance gives
+\begin{equation*}
+ \E_\nu Y_i^2=\frac1N\E_\nu\|Kf'(\ell)\|^2\le C_\beta\E_\nu B^2\le C_\beta\,.
+\end{equation*}
+For an edge $a<b$, write $z_j=K_{ij}f''(\ell_j)$. Then
+\begin{equation*}
+ \frac{\partial Y_i}{\partial K_{ab}}
+ =\one_{\{a=i\}}f'(\ell_b)+\one_{\{b=i\}}f'(\ell_a)+z_a+z_b\,.
+\end{equation*}
+The first two terms have total squared norm at most $C_\beta N$. The incidence-map bound used above and $\|z\|^2\le C_\beta B^2$ show that the last two terms have total squared norm at most $C_\beta NB^2$. Thus
+\begin{equation*}
+ \|\nabla_KY_i\|^2\le C_\beta N(1+B^2)\,.
+\end{equation*}
+Apply~\eqref{eq:gauge-poincare} to $Y_i^2$ and use Cauchy--Schwarz and~\eqref{eq:operator-moments} to obtain
+\begin{align*}
+ \E_\nu Y_i^4
+ &\le(\E_\nu Y_i^2)^2+C_\beta\E_\nu[Y_i^2(1+B^2)]\\
+ &\le C_\beta+C_\beta(\E_\nu Y_i^4)^{1/2}\,.
+\end{align*}
+The fourth moment is finite at each fixed $N$ by the domination in the proof of Lemma~\ref{lem:gauge}, so this quadratic inequality bounds it uniformly. Finally,~\eqref{eq:d-expansion} and $|r_i|\le C_\beta B^2$ give the fourth-moment bound for $d_i$.
+\end{proof}
+
+The positive curvature and score variance require more than concentration. A positive mean local field places nonzero mass in a bounded region away from complete degeneracy, and the covariance with the energy transfers that curvature to the score variance.
+
+\begin{proposition}\label{prop:nondegeneracy}
+The bounds~\eqref{eq:normalizer-bounds} hold. In addition,
+\begin{equation}
+ \E_\nu\left|A_{N,\beta\beta}(\theta_0)-a_N\right|^2
+ \le\frac{C_\beta}{N}\,.
+ \label{eq:temperature-curvature-concentration}
+\end{equation}
+\end{proposition}
+\begin{proof}
+In gauge coordinates,
+\begin{equation*}
+ A_{N,\beta\beta}(\theta_0)=\frac1N\sum_i\ell_i^2\sech^2(\beta\ell_i),
+ \qquad
+ A_{N,hh}(\theta_0)=\frac1N\sum_i\sech^2(\beta\ell_i)\,.
+\end{equation*}
+The derivative of $x\mapsto x^2\sech^2(\beta x)$ is bounded. Its average has $\ell$-gradient of norm at most $C_\beta/\sqrt N$, and hence $K$-gradient of bounded norm. Brascamp--Lieb proves~\eqref{eq:temperature-curvature-concentration}.
+
+By Lemma~\ref{lem:pressure} and~\eqref{eq:local-second}, there are $m_0>0$ and $M<\infty$ such that $\E_\nu\ell_1\ge m_0$ for all sufficiently large $N$ and $\E_\nu\ell_1^2\le M$ for all $N$. Choose $R\ge2M/m_0$. Then
+\begin{equation*}
+ \E_\nu[\ell_1\one_{\{|\ell_1|\le R\}}]
+ \ge m_0-\E_\nu[|\ell_1|\one_{\{|\ell_1|>R\}}]
+ \ge m_0-\frac MR\ge\frac{m_0}2\,.
+\end{equation*}
+Cauchy--Schwarz gives $\E_\nu[\ell_1^2\one_{\{|\ell_1|\le R\}}]\ge m_0^2/4$. Therefore
+\begin{equation*}
+ a_N\ge\frac{m_0^2}4\sech^2(\beta R)>0\,.
+\end{equation*}
+The upper bound $a_N\le M$ follows from~\eqref{eq:local-second}. Choosing $R^2\ge2M$ instead gives
+\begin{equation*}
+ 1\ge c_N=\E_\nu\sech^2(\beta\ell_1)
+ \ge\tfrac12\sech^2(\beta R)>0\,.
+\end{equation*}
+
+For the score variance, one-site conditional centering gives $\langle S_{N,\beta}(\theta_0)\rangle_J=0$ and
+\begin{equation}
+ \E_J\langle S_{N,\beta}(\theta_0)H_J\rangle_J=Na_N\,.
+ \label{eq:score-energy-covariance}
+\end{equation}
+To verify the latter identity, write $H_J=H_J^{(i)}+m_i\sigma_i$, with $H_J^{(i)}$ independent of $\sigma_i$. Conditional on the other spins, the term with $H_J^{(i)}$ vanishes and the remaining contribution is $m_i^2\sech^2(\beta m_i)$. Sum over $i$ and average the disorder.
+
+In gauge coordinates, $H_J(\sigma)=\sum_{i<j}K_{ij}$, so~\eqref{eq:gauge-poincare} gives
+\begin{equation*}
+ \Var_\nu(H_J)\le\frac{N-1}2\,.
+\end{equation*}
+Cauchy--Schwarz applied to~\eqref{eq:score-energy-covariance} yields
+\begin{equation}
+ v_N\ge\frac{2N}{N-1}a_N^2\,.
+ \label{eq:variance-lower}
+\end{equation}
+Finally, $S_{N,\beta}=\sum_iw(\ell_i)$ has edge derivative $w'(\ell_a)+w'(\ell_b)$. Its squared gradient norm is at most $C_\beta N^2$. Its mean is zero, so Brascamp--Lieb gives $Nv_N\le C_\beta N$, proving the remaining upper bound.
+\end{proof}
+
+\section{The matrix Stein statistic and the score limit}\label{sec:score}
+
+The temperature statistic is now controlled. The gauge representation retains independent signs, and they provide the additional concentration needed for the field coordinate and the off-diagonal entries. We first identify the matrix statistic through an exact identity at fixed disorder.
+
+Choose a site uniformly from $\{1,\ldots,N\}$ and resample its spin from its conditional distribution under $G_{\beta,0,J}$. Let $\sigma'$ be the resulting configuration. Heat-bath reversibility implies that $(\sigma,\sigma')$ is exchangeable conditionally on $J$. Define
+\begin{equation}
+ W=\frac{S_N(\theta_0;\sigma)}{\sqrt N},\qquad
+ W'=\frac{S_N(\theta_0;\sigma')}{\sqrt N},\qquad
+ F=\sqrt N\begin{pmatrix}H_J(\sigma)-H_J(\sigma')\\M(\sigma)-M(\sigma')\end{pmatrix}\,.
+ \label{eq:stein-coupling}
+\end{equation}
+We use $\E$ for expectation over all variables under consideration, including this update when it appears. The vector $F$ is antisymmetric in $(\sigma,\sigma')$. If site $i$ is selected, the sufficient-statistic difference is $x_i(\sigma_i-\sigma_i')$. Therefore
+\begin{equation}
+ \E[F\mid\sigma,J]=W\,.
+ \label{eq:stein-drift}
+\end{equation}
+The corresponding matrix is
+\begin{equation}
+ \frac12\E[F(W-W')^T\mid\sigma,J]=V_N(\theta_0)\,.
+ \label{eq:stein-matrix}
+\end{equation}
+Indeed, the probability of a flip at $i$, given that it is selected, is $(1-\sigma_i\tanh(\beta m_i))/2$, which gives exactly~\eqref{eq:feasible-V}. Antisymmetry also gives the conditional identity
+\begin{equation}
+ \langle V_N(\theta_0)\rangle_J=\langle WW^T\rangle_J\,.
+ \label{eq:matrix-mean}
+\end{equation}
+For example, its $(a,b)$ entry follows by applying~\eqref{eq:stein-drift} to $W_b$ and exchanging the two configurations in the second term of~\eqref{eq:stein-matrix}.
+
+We record the scalar estimate that will be applied to every vector projection. Its only analytic input is the one-dimensional normal Stein equation.
+
+\begin{lemma}\label{lem:stein-bound}
+Suppose the random triple $(X,X',F_0)$ has the same law as $(X',X,-F_0)$. Let $\mathcal F$ be a sigma-field with respect to which $X$ is measurable, and suppose $\E[F_0\mid\mathcal F]=X$. Put $T=\tfrac12\E[F_0(X-X')\mid\mathcal F]$. If the expectations on the right are finite, then for every $v>0$,
+\begin{equation}
+ d_{\mathrm W}(\Law(X/\sqrt v),\Normal(0,1))
+ \le\frac C v\E|T-v|
+ +\frac C{v^{3/2}}\E\bigl[|F_0|(X-X')^2\bigr]\,.
+ \label{eq:general-stein-bound}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Exchangeability and antisymmetry give, for smooth $\varphi$,
+\begin{align*}
+ \E[X\varphi(X)]
+ &=\frac12\E\bigl[F_0\{\varphi(X)-\varphi(X')\}\bigr]\\
+ &=\E[T\varphi'(X)]+R_\varphi,
+\end{align*}
+where
+\begin{equation*}
+ |R_\varphi|\le\frac{\|\varphi''\|_\infty}{4}
+ \E\bigl[|F_0|(X-X')^2\bigr]\,.
+\end{equation*}
+For a one-Lipschitz test function, the solution of the standard normal Stein equation satisfies $\|\varphi'\|_\infty\le1$ and $\|\varphi''\|_\infty\le2$; see~\cite[Lemma~4.2]{Chatterjee2008}. Apply the identity to $X/\sqrt v$ and $F_0/\sqrt v$. Approximation of Lipschitz tests by smooth functions completes the Wasserstein bound.
+\end{proof}
+
+\subsection{Gauge representation of the field coordinate}
+Set
+\begin{equation}
+ q_i=1-\tanh(\beta\ell_i),\qquad
+ E_{ij}=\frac12\bigl[\tanh(\beta\ell_j)-\tanh(\beta(\ell_j-2K_{ij}))\bigr],
+ \qquad e=(I-E)s\,.
+ \label{eq:q-E-e}
+\end{equation}
+The matrix $E$ has zero diagonal. The score and its one-site differences are
+\begin{equation}
+ S_N(\theta_0)=\begin{pmatrix}\sum_i\ell_iq_i\\\sum_i s_iq_i\end{pmatrix},
+ \qquad
+ S_N(\theta_0;\sigma)-S_N(\theta_0;\sigma^{(i)})=2\begin{pmatrix}d_i\\e_i\end{pmatrix}\,.
+ \label{eq:vector-flip}
+\end{equation}
+For the field component, the site's own contribution changes by $2s_i$, while the other contributions change by $-2\sum_js_jE_{ij}$. This proves the second identity together with~\eqref{eq:scalar-flip}. In particular,
+\begin{equation}
+ V_N(\theta_0)=\frac1N
+ \begin{pmatrix}
+ w(\ell)^Td&w(\ell)^Te\\
+ (s\circ q)^Td&(s\circ q)^Te
+ \end{pmatrix}\,.
+ \label{eq:V-gauge}
+\end{equation}
+
+One-site conditional centering identifies the field normalizer exactly. If $t_i=\tanh(\beta\ell_i)$, then
+\begin{align*}
+ \E_\nu t_i
+ &=\E_J\langle\sigma_i\tanh(\beta m_i)\rangle_J\\
+ &=\E_J\langle\tanh^2(\beta m_i)\rangle_J
+ =\E_\nu t_i^2\,.
+\end{align*}
+Consequently,
+\begin{equation}
+ \E_\nu q_i=\E_\nu q_i^2=\E_\nu\sech^2(\beta\ell_i)=c_N\,.
+ \label{eq:field-identities}
+\end{equation}
+Since $s$ is independent of $K$, it follows from~\eqref{eq:vector-flip} that
+\begin{equation}
+ \E_J\langle WW^T\rangle_J=\Sigma_N\,.
+ \label{eq:score-covariance}
+\end{equation}
+The cross entry also vanishes for each fixed $J$: the temperature score is even and the field score is odd under the global transformation $\sigma\mapsto-\sigma$.
+
+\begin{proposition}\label{prop:matrix-concentration}
+For fixed $\beta>0$,
+\begin{equation}
+ \E\|V_N(\theta_0)-\Sigma_N\|_\Frob^2
+ +\E\|A_N(\theta_0)-\overline A_N\|_\Frob^2
+ \le\frac{C_\beta}{N}\,.
+ \label{eq:matrix-concentration}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Taylor expansion in~\eqref{eq:q-E-e}, followed by~\eqref{eq:hadamard-bound}, gives
+\begin{equation}
+ \|E\|_\op\le C_\beta(B+B^2),\qquad
+ |E_{ij}|\le\beta|K_{ij}|,\qquad
+ \|E\|_\Frob^2\le\beta^2NB^2\,.
+ \label{eq:E-bounds}
+\end{equation}
+For the first inequality, the linear term is $K\diag(\beta\sech^2(\beta\ell))$ and the remainder is bounded entrywise by $C_\beta K\circ K$. The other inequalities follow from the Lipschitz constant of $x\mapsto\tanh(\beta x)$ and $\|K\|_\Frob^2\le NB^2$.
+
+The temperature entry of $V_N$ has mean $v_N$ by~\eqref{eq:matrix-mean} and~\eqref{eq:score-covariance}; Lemma~\ref{lem:gradient} gives its required variance. Conditional on $K$, the two cross entries in~\eqref{eq:V-gauge} are linear functions of independent signs with zero mean. Their second moments satisfy
+\begin{align*}
+ \E_s[V_{N,\beta h}^2\mid K]
+ &=\frac1{N^2}\|(I-E)^Tw(\ell)\|^2
+ \le\frac{C_\beta}N B^2(1+B+B^2)^2,\\
+ \E_s[V_{N,h\beta}^2\mid K]
+ &=\frac1{N^2}\sum_iq_i^2d_i^2
+ \le\frac4{N^2}\|d\|^2
+ \le\frac{C_\beta}N(B+B^2)^2\,.
+\end{align*}
+Here $\E_s[\cdot\mid K]$ denotes expectation over the independent signs. Averaging and using~\eqref{eq:operator-moments} proves both cross-entry estimates.
+
+The field entry can be written as
+\begin{equation*}
+ V_{N,hh}=\frac1N\sum_iq_i-\frac1Ns^T\diag(q)Es\,.
+\end{equation*}
+The first term has mean $c_N$ by~\eqref{eq:field-identities}. Its $K$-gradient has bounded norm because $q'$ is bounded, so its variance is at most $C_\beta/N$. For $R=\diag(q)E$, the diagonal vanishes and independence of the signs gives
+\begin{equation*}
+ \E_s[(s^TRs)^2\mid K]
+ =\sum_{i<j}(R_{ij}+R_{ji})^2
+ \le2\|R\|_\Frob^2\le8\beta^2NB^2\,.
+\end{equation*}
+Its conditional mean is zero. The two terms are therefore uncorrelated, and the field-entry variance is at most $C_\beta/N$ after averaging.
+
+For the curvature, the temperature entry is covered by Proposition~\ref{prop:nondegeneracy}. The field entry is the average of $\sech^2(\beta\ell_i)$, whose bounded derivative gives the same gradient and Brascamp--Lieb bound. The cross entry is
+\begin{equation*}
+ A_{N,\beta h}(\theta_0)
+ =\frac1N\sum_i s_i\ell_i\sech^2(\beta\ell_i)\,.
+\end{equation*}
+It has zero sign mean and second moment at most $C_\beta/N$, since $x\mapsto x\sech^2(\beta x)$ is bounded. This proves all entries of~\eqref{eq:matrix-concentration}.
+\end{proof}
+
+\begin{lemma}\label{lem:small-jumps}
+For every fixed $C_0<\infty$, uniformly over deterministic vectors $u\in\R^2$ with $\|u\|\le C_0$,
+\begin{equation}
+ \E\bigl[|u^TF|\{u^T(W-W')\}^2\bigr]
+ \le\frac{C_{\beta,C_0}}{\sqrt N}\,.
+ \label{eq:small-jumps}
+\end{equation}
+\end{lemma}
+\begin{proof}
+The independent-sign fourth-moment inequality and $E_{ii}=0$ give
+\begin{equation*}
+ \E_s[e_i^4\mid K]
+ \le3\left(1+\sum_jE_{ij}^2\right)^2
+ \le3(1+\beta^2B^2)^2\,.
+\end{equation*}
+Thus~\eqref{eq:operator-moments} and Lemma~\ref{lem:local-moments} imply uniform fourth-moment bounds for $e_i,d_i,\ell_i$.
+
+On a flip at $i$,~\eqref{eq:stein-coupling} and~\eqref{eq:vector-flip} give
+\begin{equation*}
+ u^TF=2\sqrt N(u_1\ell_i+u_2s_i),\qquad
+ u^T(W-W')=\frac2{\sqrt N}(u_1d_i+u_2e_i)\,.
+\end{equation*}
+On an update without a flip both expressions vanish. Bounding the flip probability by one and averaging the selected site, permutation invariance yields
+\begin{equation*}
+ \E\bigl[|u^TF|\{u^T(W-W')\}^2\bigr]
+ \le\frac{C_{C_0}}{\sqrt N}
+ \E\bigl[(|\ell_1|+1)(|d_1|+|e_1|)^2\bigr]\,.
+\end{equation*}
+Cauchy--Schwarz and the fourth moments just proved bound the last expectation uniformly in $N$.
+\end{proof}
+
+\begin{proof}[Proof of the score assertions in Theorem~\ref{thm:joint}]
+The normalizer bounds are Proposition~\ref{prop:nondegeneracy}. Fix a deterministic unit vector $u$ and put $z=\Sigma_N^{-1/2}u$. The norm of $z$ is bounded uniformly. At fixed $J$, apply Lemma~\ref{lem:stein-bound} to $X=z^TW$ and $F_0=z^TF$, conditionally on $J$, using the larger sigma-field generated by $(\sigma,J)$. Its variance statistic is $z^TV_N(\theta_0)z$, and its deterministic target variance is $z^T\Sigma_Nz=1$. Averaging the bound in $J$, Proposition~\ref{prop:matrix-concentration} controls the variance-statistic error by $C_\beta/\sqrt N$, and Lemma~\ref{lem:small-jumps} controls the remainder. This proves~\eqref{eq:directional-rate} uniformly in $u$.
+
+We explain the passage from directional bounds to the conditional vector limit. Write $X_N=\Sigma_N^{-1/2}W$ and let $\mu_{N,J}$ be its conditional law. By~\eqref{eq:matrix-mean} and Proposition~\ref{prop:matrix-concentration},
+\begin{equation}
+ \E_J\left\|\int xx^T\dd\mu_{N,J}(x)-I_2\right\|_\Frob^2
+ \le\frac{C_\beta}{N}\,.
+ \label{eq:conditional-second-moment}
+\end{equation}
+For every fixed $t\in\R^2$,~\eqref{eq:directional-rate}, applied to the sine and cosine of the scalar projection, implies convergence in $L^1(\Pp_J)$ of the conditional characteristic function at $t$ to $e^{-\|t\|^2/2}$.
+
+Take any subsequence of $N$. Select a further subsequence on which this convergence holds almost surely for every $t\in\mathbb Q^2$ and on which the matrix in~\eqref{eq:conditional-second-moment} converges almost surely to $I_2$. Such a choice follows by a diagonal subsequence argument from the stated $L^1$ and $L^2$ convergences. Along this further subsequence the conditional second moments are bounded almost surely. This gives tightness of $\mu_{N,J}$ and a uniform Lipschitz bound on its characteristic functions. Convergence on $\mathbb Q^2$ therefore extends to every $t\in\R^2$. L\'evy's continuity theorem gives weak convergence to $\Normal(0,I_2)$ almost surely along the further subsequence. The subsequence characterization of convergence in probability proves~\eqref{eq:score-quenched}.
+\end{proof}
+
+\section{The estimator and its fitted covariance}\label{sec:estimation}
+
+The remaining steps use the positive curvature already established. We prove the existence of a finite maximizer before expanding its score, and then control the covariance statistic uniformly in a fixed parameter neighborhood. All probability statements in the intermediate estimates concern the joint law of disorder and spins.
+
+\begin{lemma}\label{lem:parameter-curvature}
+Fix a compact rectangle $\mathcal R\subset(0,\infty)\times\R$. There is a deterministic constant $C_{\mathcal R}$, independent of $N$ and the data, such that
+\begin{equation}
+ \|A_N(\theta)-A_N(\theta')\|_\op
+ \le C_{\mathcal R}\|\theta-\theta'\|,
+ \qquad \theta,\theta'\in\mathcal R\,.
+ \label{eq:curvature-lipschitz}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Differentiating~\eqref{eq:curvature} in either coordinate produces averages of terms of the form
+\begin{equation*}
+ -2m_i^k\sech^2(bm_i+h)\tanh(bm_i+h),\qquad 0\le k\le3\,.
+\end{equation*}
+Each such function is bounded uniformly in $m_i\in\R$ and $(b,h)\in\mathcal R$. To see this, write $y=bm_i+h$; since $b$ is bounded away from zero and $h$ is bounded, $|m_i|^k\le C_{\mathcal R}(1+|y|^k)$, and $\sech^2 y$ decays exponentially. The coordinate derivatives of all four matrix entries are therefore bounded uniformly. Integrating the derivatives along the segment from $\theta$ to $\theta'$ proves the estimate.
+\end{proof}
+
+\begin{proof}[Proof of the estimator assertion in Theorem~\ref{thm:joint}]
+Choose $\lambda>0$ such that $\lambda_{\min}(\overline A_N)\ge2\lambda$ for all sufficiently large $N$. Proposition~\ref{prop:matrix-concentration} implies
+\begin{equation*}
+ \Pp\bigl(\lambda_{\min}(A_N(\theta_0))\ge\lambda\bigr)\longrightarrow1\,.
+\end{equation*}
+Choose a fixed closed ball of radius $\delta>0$ about $\theta_0$, contained in $(0,\infty)\times\R$, and small enough that~\eqref{eq:curvature-lipschitz} implies $A_N(\theta)\succeq(\lambda/2)I_2$ throughout the ball on this event. Also,~\eqref{eq:score-covariance} and~\eqref{eq:normalizer-bounds} give $\|S_N(\theta_0)\|=O_{\Pp}(\sqrt N)$.
+
+For $\|u\|=\delta$, Taylor's formula on the curvature event gives
+\begin{equation*}
+ L_N(\theta_0+u)-L_N(\theta_0)
+ \le\delta\|S_N(\theta_0)\|-\frac{N\lambda\delta^2}{4}\,.
+\end{equation*}
+The right side is strictly negative with probability tending to one. On this event the maximum over the closed ball occurs in its interior and has zero score. Moreover, positivity of $A_N(\theta_0)$ implies that the vectors $x_i$ span $\R^2$. The weights in~\eqref{eq:curvature} are strictly positive at every finite parameter, so $A_N(\theta)$ is positive definite throughout the parameter domain. Thus $L_N$ is strictly concave, and this interior critical point is its unique global maximizer.
+
+On the same event, the integral Taylor formula for the score gives
+\begin{equation}
+ S_N(\theta_0)=N\widetilde A_N(\widehat\theta_N-\theta_0),
+ \qquad
+ \widetilde A_N=\int_0^1
+ A_N\bigl(\theta_0+t(\widehat\theta_N-\theta_0)\bigr)\dd t\,.
+ \label{eq:integrated-hessian}
+\end{equation}
+The matrix $\widetilde A_N$ is at least $(\lambda/2)I_2$. Consequently,
+\begin{equation}
+ \|\widehat\theta_N-\theta_0\|
+ \le\frac{2\|S_N(\theta_0)\|}{N\lambda}
+ =O_{\Pp}(N^{-1/2})\,.
+ \label{eq:root-rate}
+\end{equation}
+The exceptional-event convention for the estimator does not affect this probability statement. Proposition~\ref{prop:matrix-concentration}, Lemma~\ref{lem:parameter-curvature}, and~\eqref{eq:root-rate} imply $\widetilde A_N-\overline A_N=o_{\Pp}(1)$. Inverting in~\eqref{eq:integrated-hessian} therefore gives
+\begin{equation}
+ \sqrt N(\widehat\theta_N-\theta_0)
+ =\overline A_N^{-1}\frac{S_N(\theta_0)}{\sqrt N}+o_{\Pp}(1)\,.
+ \label{eq:estimator-expansion}
+\end{equation}
+Since the deterministic matrices are diagonal,
+\begin{equation*}
+ \Gamma_N^{-1/2}\overline A_N^{-1}=\Sigma_N^{-1/2}\,.
+\end{equation*}
+The score limit proves the joint-law estimator limit.
+
+To obtain the conditional assertion, let $R_N$ denote the remainder after multiplying~\eqref{eq:estimator-expansion} by $\Gamma_N^{-1/2}$. The normalizer bounds give $R_N=o_{\Pp}(1)$, and hence $\E\min(2,\|R_N\|)\to0$. Markov's inequality gives
+\begin{equation}
+ \left\langle\min(2,\|R_N\|)\right\rangle_J
+ \xrightarrow{\Pp_J}0\,.
+ \label{eq:conditional-remainder}
+\end{equation}
+For every test in~\eqref{eq:bl-distance}, its conditional expectation changes by at most the left side of~\eqref{eq:conditional-remainder} when $R_N$ is added. Combining this with~\eqref{eq:score-quenched} proves~\eqref{eq:estimator-quenched}.
+\end{proof}
+
+The covariance estimate uses $V_N$ at both fitted parameters. It is therefore necessary to control its field derivative as well as its temperature derivative. The following estimate is deterministic and holds throughout a compact parameter rectangle.
+
+\begin{lemma}\label{lem:parameter-V}
+Fix a compact rectangle $\mathcal R\subset(0,\infty)\times\R$. For either coordinate derivative $\partial_b$ or $\partial_h$,
+\begin{equation}
+ \sup_{\theta\in\mathcal R}\|\partial_\theta V_N(\theta)\|_\Frob
+ \le C_{\mathcal R}(1+B+B^2+B^3)\,.
+ \label{eq:V-lipschitz}
+\end{equation}
+Here $K=D_\sigma JD_\sigma$ is formed from the fixed observed data.
+\end{lemma}
+\begin{proof}
+Keep $K,s$ fixed. For $\theta=(b,h)$ define the column-dependent functions
+\begin{equation*}
+ T_j(x)=\tanh(bx+hs_j),\qquad f_j(x)=xT_j(x),\qquad q_j(\theta)=1-T_j(\ell_j)\,.
+\end{equation*}
+Put
+\begin{align}
+ d_i(\theta)
+ &=2\ell_i-\frac12\sum_j
+ \bigl[f_j(\ell_j)-f_j(\ell_j-2K_{ij})\bigr],
+ \label{eq:candidate-d}\\
+ E_{ij}(\theta)
+ &=\frac12\bigl[T_j(\ell_j)-T_j(\ell_j-2K_{ij})\bigr],
+ \qquad e(\theta)=(I-E(\theta))s\,.
+ \label{eq:candidate-E}
+\end{align}
+Under a flip at $i$, both $s_i$ and $\ell_i$ change sign. Thus the selected site's nonlinear temperature term satisfies
+\begin{equation*}
+ (-\ell_i)\tanh(-b\ell_i-hs_i)=\ell_i\tanh(b\ell_i+hs_i),
+\end{equation*}
+while its field-score contribution changes by $2s_i$. The other signs are unchanged and their local fields change by $-2K_{ij}$. This proves that the candidate score difference is $2(d_i(\theta),e_i(\theta))^T$, and therefore
+\begin{equation}
+ V_N(\theta)=\frac1N
+ \begin{pmatrix}
+ (\ell\circ q(\theta))^Td(\theta)&(\ell\circ q(\theta))^Te(\theta)\\
+ (s\circ q(\theta))^Td(\theta)&(s\circ q(\theta))^Te(\theta)
+ \end{pmatrix}\,.
+ \label{eq:candidate-V-gauge}
+\end{equation}
+
+Uniformly in $j$, the signs, and $\theta\in\mathcal R$, the first two $x$ derivatives of $f_j$ and $T_j$ are bounded. The parameter derivatives are
+\begin{align*}
+ \partial_b f_j(x)&=x^2\sech^2(bx+hs_j),
+ &\partial_h f_j(x)&=s_jx\sech^2(bx+hs_j),\\
+ \partial_b T_j(x)&=x\sech^2(bx+hs_j),
+ &\partial_h T_j(x)&=s_j\sech^2(bx+hs_j)\,.
+\end{align*}
+These functions and their first two $x$ derivatives are bounded uniformly as well. These bounds follow from exponential decay of $\sech^2$ and the positive lower bound on $b$, as in Lemma~\ref{lem:parameter-curvature}.
+
+Taylor expansion of~\eqref{eq:candidate-d} gives
+\begin{equation*}
+ d(\theta)=2\ell-K(f_j'(\ell_j))_j+r(\theta),
+ \qquad |r_i(\theta)|\le C_{\mathcal R}\sum_jK_{ij}^2\,.
+\end{equation*}
+Applying the same expansion to either parameter derivative of $f_j$ gives
+\begin{equation*}
+ \|d(\theta)\|\le C_{\mathcal R}\sqrt N(B+B^2),
+ \qquad
+ \|\partial_\theta d(\theta)\|\le C_{\mathcal R}\sqrt N(B+B^2)\,.
+\end{equation*}
+Likewise, the expansions of $E(\theta)$ and $\partial_\theta E(\theta)$ have linear terms $K$ times a bounded diagonal matrix and remainders bounded entrywise by $C_{\mathcal R}K\circ K$. By~\eqref{eq:hadamard-bound},
+\begin{align*}
+ \|e(\theta)\|&\le C_{\mathcal R}\sqrt N(1+B+B^2),\\
+ \|\partial_\theta e(\theta)\|&\le C_{\mathcal R}\sqrt N(B+B^2)\,.
+\end{align*}
+Finally,
+\begin{equation*}
+ \|\ell\circ q(\theta)\|\le2B\sqrt N,
+ \qquad \|s\circ q(\theta)\|\le2\sqrt N\,.
+\end{equation*}
+Both parameter derivatives of these two vectors have norm at most $C_{\mathcal R}\sqrt N$, by the displayed formulas for $\partial_bT_j$ and $\partial_hT_j$. The product rule in~\eqref{eq:candidate-V-gauge} now gives~\eqref{eq:V-lipschitz}, entry by entry.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:studentized}]
+Choose a fixed compact rectangle containing $\theta_0$ in its interior. By~\eqref{eq:root-rate}, the fitted parameter belongs to this rectangle with probability tending to one. Lemma~\ref{lem:parameter-V}, $B=O_{\Pp}(1)$, and Proposition~\ref{prop:matrix-concentration} imply
+\begin{equation}
+ V_N(\widehat\theta_N)-\Sigma_N=o_{\Pp}(1),\qquad
+ A_N(\widehat\theta_N)-\overline A_N=o_{\Pp}(1)\,.
+ \label{eq:fitted-matrix-consistency}
+\end{equation}
+The second assertion uses Lemma~\ref{lem:parameter-curvature}. The eigenvalues of both deterministic matrices lie in a fixed compact subinterval of $(0,\infty)$. Hence, with probability tending to one, the fitted curvature is invertible and the symmetrized variance statistic has eigenvalues bounded away from zero. Its clipping at $N^{-1}$ is then inactive. Continuity of matrix inversion on this uniformly positive definite set proves~\eqref{eq:covariance-consistency}.
+
+The same eigenvalue bounds give
+\begin{equation*}
+ \widehat\Gamma_N^{-1/2}-\Gamma_N^{-1/2}=o_{\Pp}(1)\,.
+\end{equation*}
+Together with the tightness of $\sqrt N(\widehat\theta_N-\theta_0)$, this shows that feasible and deterministic studentization differ by $o_{\Pp}(1)$. Apply the conditional-remainder argument in~\eqref{eq:conditional-remainder} and the conditional estimator limit~\eqref{eq:estimator-quenched} to conclude~\eqref{eq:studentized-quenched}.
+\end{proof}
+
+\begin{remark}[The role of zero field]\label{rem:nonzero-field}
+At a nonzero true field $h$, the joint gauge density becomes
+\begin{equation*}
+ \Pp(K\in\dd K,\sigma=s)
+ =\gamma_N(\dd K)
+ \frac{\exp\{\beta\sum_{i<j}K_{ij}+h\sum_i s_i\}}
+ {\displaystyle\sum_{\tau}\exp\{\beta\sum_{i<j}K_{ij}\tau_i\tau_j+h\sum_i s_i\tau_i\}}\,.
+\end{equation*}
+The spins no longer separate from the transformed couplings. Conditional on $s$, the coupling potential is still $N$-strongly convex, but this does not control variation between the conditional laws. In fact the marginal law of $K$ need not be log-concave. For $N=2$, write $k=K_{12}$, $c=\cosh(2h)$, and $t=e^{2\beta k}$. Its density is proportional to
+\begin{equation*}
+ e^{-k^2}\left(\frac{ct}{ct+1}+\frac{t}{c+t}\right)\,.
+\end{equation*}
+The second derivative of its negative logarithm at $\beta=3$, $h=\tfrac12\operatorname{arcosh}(25)$, and $k=\tfrac16\log5$ is $-137377/2350089<0$. Thus a theorem at arbitrary nonzero true fields requires an additional concentration argument.
+\end{remark}
+
+\begin{thebibliography}{99}
+
+\bibitem{ALR1987}
+M.~Aizenman, J.~L.~Lebowitz, and D.~Ruelle,
+\emph{Some rigorous results on the Sherrington--Kirkpatrick spin glass model},
+Communications in Mathematical Physics \textbf{112} (1987), 3--20.
+\url{https://www.ihes.fr/~ruelle/PUBLICATIONS/[90].pdf}.
+
+\bibitem{Besag1974}
+J.~Besag,
+\emph{Spatial interaction and the statistical analysis of lattice systems},
+Journal of the Royal Statistical Society, Series B \textbf{36} (1974), no.~2, 192--225.
+\href{https://doi.org/10.1111/j.2517-6161.1974.tb00999.x}{doi:10.1111/j.2517-6161.1974.tb00999.x}.
+
+\bibitem{Besag1975}
+J.~Besag,
+\emph{Statistical analysis of non-lattice data},
+The Statistician \textbf{24} (1975), no.~3, 179--195.
+\href{https://doi.org/10.2307/2987782}{doi:10.2307/2987782}.
+
+\bibitem{BhattacharyaMukherjee2018}
+B.~B.~Bhattacharya and S.~Mukherjee,
+\emph{Inference in Ising models},
+Bernoulli \textbf{24} (2018), no.~1, 493--525.
+\href{https://doi.org/10.3150/16-BEJ886}{doi:10.3150/16-BEJ886}.
+
+\bibitem{Carlen2011}
+E.~A.~Carlen, D.~Cordero-Erausquin, and E.~H.~Lieb,
+\emph{Asymmetric covariance estimates of Brascamp--Lieb type and related inequalities for log-concave measures},
+Annales de l'Institut Henri Poincar\'e, Probabilit\'es et Statistiques
+\textbf{49} (2013), no.~1, 1--12.
+\href{https://doi.org/10.1214/11-AIHP462}{doi:10.1214/11-AIHP462}.
+
+\bibitem{Chatterjee2007}
+S.~Chatterjee,
+\emph{Estimation in spin glasses: A first step},
+Annals of Statistics \textbf{35} (2007), no.~5, 1931--1946.
+\url{https://arxiv.org/abs/math/0604634}.
+
+\bibitem{Chatterjee2008}
+S.~Chatterjee,
+\emph{A new method of normal approximation},
+Annals of Probability \textbf{36} (2008), no.~4, 1584--1610.
+\url{https://arxiv.org/abs/math/0611213}.
+
+\bibitem{ChenSenWu2024}
+W.-K.~Chen, A.~Sen, and Q.~Wu,
+\emph{Joint parameter estimations for spin glasses},
+Annals of Statistics, to appear.
+\href{https://arxiv.org/abs/2406.10760v2}{arXiv:2406.10760v2} (first version 2024).
+
+\bibitem{CometsJanzura1998}
+F.~Comets and M.~Jan\v{z}ura,
+\emph{A central limit theorem for conditionally centred random fields with an application to Markov fields},
+Journal of Applied Probability \textbf{35} (1998), no.~3, 608--621.
+\href{https://doi.org/10.1239/jap/1032265209}{doi:10.1239/jap/1032265209}.
+
+\bibitem{DaskalakisDikkalaPanageas2019}
+C.~Daskalakis, N.~Dikkala, and I.~Panageas,
+\emph{Regression from dependent observations},
+Proceedings of the 51st Annual ACM SIGACT Symposium on Theory of Computing,
+ACM, 2019, 881--889.
+\href{https://doi.org/10.1145/3313276.3316362}{doi:10.1145/3313276.3316362}.
+
+\bibitem{DaskalakisDikkalaPanageas2020}
+C.~Daskalakis, N.~Dikkala, and I.~Panageas,
+\emph{Logistic regression with peer-group effects via inference in higher-order Ising models},
+Proceedings of Machine Learning Research \textbf{108} (2020), 3653--3663.
+\url{https://proceedings.mlr.press/v108/daskalakis20a.html}.
+
+\bibitem{Deb2025}
+N.~Deb,
+\emph{Pivotal CLTs for pseudolikelihood via conditional centering in dependent random fields},
+arXiv:2510.04972 (2025).
+\href{https://arxiv.org/abs/2510.04972}{arXiv:2510.04972}.
+
+\bibitem{GhosalMukherjee2020}
+P.~Ghosal and S.~Mukherjee,
+\emph{Joint estimation of parameters in Ising model},
+Ann. Statist. \textbf{48} (2020), no.~2, 785--810.
+\href{https://doi.org/10.1214/19-AOS1822}{doi:10.1214/19-AOS1822}.
+
+\bibitem{Gidas1988}
+B.~Gidas,
+\emph{Consistency of maximum likelihood and pseudo-likelihood estimators for Gibbs distributions},
+in Stochastic Differential Systems, Stochastic Control Theory and Applications
+(W.~Fleming and P.-L.~Lions, eds.),
+IMA Volumes in Mathematics and Its Applications \textbf{10},
+Springer, New York, 1988, 129--145.
+\href{https://doi.org/10.1007/978-1-4613-8762-6_10}{doi:10.1007/978-1-4613-8762-6\_10}.
+
+\bibitem{GuyonKuensch1992}
+X.~Guyon and H.~R.~K\"unsch,
+\emph{Asymptotic comparison of estimators in the Ising model},
+in Stochastic Models, Statistical Methods, and Algorithms in Image Analysis
+(P.~Barone, A.~Frigessi, and M.~Piccioni, eds.),
+Lecture Notes in Statistics \textbf{74},
+Springer, New York, 1992, 177--198.
+\href{https://doi.org/10.1007/978-1-4612-2920-9_12}{doi:10.1007/978-1-4612-2920-9\_12}.
+
+\bibitem{JensenKuensch1994}
+J.~L.~Jensen and H.~R.~K\"unsch,
+\emph{On asymptotic normality of pseudo likelihood estimates for pairwise interaction processes},
+Annals of the Institute of Statistical Mathematics \textbf{46} (1994), no.~3, 475--486.
+\href{https://doi.org/10.1007/BF00773511}{doi:10.1007/BF00773511}.
+
+\bibitem{MukherjeeEtAl2024}
+S.~Mukherjee, Z.~Niu, S.~Halder, B.~B.~Bhattacharya, and G.~Michailidis,
+\emph{Logistic regression under network dependence},
+J. Mach. Learn. Res. \textbf{25} (2024), no.~411, 1--62.
+\url{https://jmlr.org/papers/v25/22-1040.html}.
+
+\bibitem{MukherjeeLiuBhattacharya2024}
+S.~Mukherjee, T.~Liu, and B.~B.~Bhattacharya,
+\emph{Moderate deviation and Berry--Esseen bounds in the $p$-spin Curie--Weiss model},
+arXiv:2403.14122 (2024).
+\href{https://arxiv.org/abs/2403.14122}{arXiv:2403.14122}.
+
+\bibitem{MukherjeeSenWu2026}
+S.~Mukherjee, A.~Sen, and Q.~Wu,
+\emph{Joint parameters estimation in cubic tensor model},
+arXiv:2607.29619 (2026).
+\href{https://arxiv.org/abs/2607.29619}{arXiv:2607.29619}.
+
+\bibitem{MukherjeeSonBhattacharya2022}
+S.~Mukherjee, J.~Son, and B.~B.~Bhattacharya,
+\emph{Estimation in tensor Ising models},
+Inf. Inference \textbf{11} (2022), no.~4, 1457--1500.
+\href{https://doi.org/10.1093/imaiai/iaac007}{doi:10.1093/imaiai/iaac007}.
+
+\bibitem{VarinReidFirth2011}
+C.~Varin, N.~Reid, and D.~Firth,
+\emph{An overview of composite likelihood methods},
+Statistica Sinica \textbf{21} (2011), no.~1, 5--42.
+\url{https://www3.stat.sinica.edu.tw/sstest/j21n1/J21N11/J21N11.html}.
+
+\bibitem{XuMukherjee2023}
+Y.~Xu and S.~Mukherjee,
+\emph{Inference in Ising models on dense regular graphs},
+Annals of Statistics \textbf{51} (2023), no.~3, 1183--1206.
+\href{https://doi.org/10.1214/23-AOS2286}{doi:10.1214/23-AOS2286}.
+
+\end{thebibliography}
+\end{document}
