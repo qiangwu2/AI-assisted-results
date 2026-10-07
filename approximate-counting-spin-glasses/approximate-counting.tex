@@ -1,0 +1,1411 @@
+% Presentation adapted from the user-supplied arXiv:2610.06724v1 source.
+% Relevant style definitions are inlined for a standalone editor document.
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{mathpazo,tgpagella}
+\usepackage{microtype}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{mathrsfs,bm}
+\usepackage{algorithm,algorithmicx,algpseudocode}
+\usepackage[shortlabels]{enumitem}
+\usepackage{thmtools,thm-restate}
+\usepackage{booktabs,longtable,array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,pdfpagemode=UseNone,citecolor=Magenta,
+  linkcolor=NavyBlue,urlcolor=Purple,pdfstartview=FitW,
+  pdftitle={Arbitrary-Accuracy Counting for Pure Ising Spin Glasses},
+  pdfauthor={Qiang Wu}}
+\usepackage[capitalize,nameinlink]{cleveref}
+\usepackage{xurl}
+\setlength{\emergencystretch}{2em}
+\setcounter{tocdepth}{2}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\emptyset}{\varnothing}
+\newcommand{\e}{\mathrm e}
+\newcommand{\leanname}[1]{\texttt{\small #1}}
+\title{Arbitrary-Accuracy Counting for\\Pure Ising Spin Glasses}
+\author{Qiang Wu\\{\normalsize\href{mailto:qiangw.math@gmail.com}{\texttt{qiangw.math@gmail.com}}}}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+We give polynomial-time counting algorithms for pure, zero-field Ising spin glasses below the graphical second-moment threshold. Fix the interaction order~$p\ge2$ and a temperature bound strictly below this threshold. For independent, identically distributed symmetric couplings of unit variance and finite fourth moment, the algorithm approximates the partition function to relative error~$\varepsilon$ in~$CN^C\varepsilon^{-C}$ exact operations, with probability~$1-o_N(1)$. The same vanishing failure bound works for every specified temperature and accuracy~$\varepsilon\in(0,1)$. The algorithm is deterministic for~$p\ge3$ and randomized for the Sherrington--Kirkpatrick model. More generally, under only a unit second moment, an additive~$\varepsilon$-approximation to the log partition function has failure probability at most~$\delta+\binom Np\mathbb P(|J_0|>cN^{(p-1)/2})$ and cost~$CN^C\varepsilon^{-C}\delta^{-C}$ for any~$\delta\in(0,1)$. These guarantees hold for~$N\ge p$, with constants depending only on the interaction order and temperature bound.
+
+The construction matches graphical truncation error to evaluation cost. For~$p\ge3$, local spin sums and inclusion--exclusion evaluate all even hypergraphs on a retained vertex support. For SK, color recurrences sum paths and cycles outside a small branching set, and a finite algebra assembles their signed contributions. Disorder orthogonality controls the mean-square error, while a restricted negative-moment estimate permits taking the logarithm. Exact enumeration covers the finest accuracies within the same polynomial bound. The operation count includes indexing, comparisons and actual random draws. We also describe possible extensions to finite mixtures and vanishing external fields, separating their proposed mechanisms from the theorems proved here.
+\end{abstract}
+
+\clearpage
+\tableofcontents
+\clearpage
+\section{Introduction}\label{sec:introduction}
+The partition function encodes equilibrium weights of a spin system and normalizes its Gibbs distribution. For a specified disorder realization, evaluating its sum over exponentially many configurations calls for an algorithm whose cost and error can both be controlled. In a spin glass, graphical expansions offer cancellations that can make such an approximation possible.
+
+We give counting algorithms for pure, zero-field Ising spin glasses below their graphical second-moment threshold. At every fixed distance below this threshold, the cost is polynomial in the number of spins and the inverse requested accuracy. For independent, identically distributed symmetric couplings with a finite fourth moment, the probability of failure tends to zero, uniformly as a bound for each specified accuracy and temperature. Higher-order interactions admit a deterministic algorithm; for the Sherrington--Kirkpatrick model the algorithm uses random colors. The proof keeps track of the disorder tail explicitly, giving a finite-size guarantee under only a unit second moment.
+
+\subsection{Model and main results}
+Fix an integer~$p\ge2$ and let~$N\ge p$. The interactions are the unordered sets of~$p$ distinct vertices,
+\begin{equation*}
+ \mathcal E_{N,p}=\binom{[N]}p,\qquad [N]=\{1,\ldots,N\},\qquad M=\binom Np\,.
+\end{equation*}
+For independent couplings with common law~$\mu$, write~$J_0\sim\mu$ and assume
+\begin{equation}\label{eq:disorder}
+ J_0\stackrel{\mathrm d}=-J_0,\qquad \mathbb E J_0^2=1<\infty\,.
+\end{equation}
+There is no external field. With~$\sigma_e=\prod_{i\in e}\sigma_i$, the Hamiltonian and partition function are
+\begin{align}
+ H_{N,p}(\sigma;J)&=N^{-(p-1)/2}\sum_{e\in\mathcal E_{N,p}}J_e\sigma_e,\label{eq:hamiltonian}\\
+ Z_N(\beta;J)&=\sum_{\sigma\in\{-1,1\}^N}e^{\beta H_{N,p}(\sigma;J)}\,.\label{eq:partition}
+\end{align}
+The model with~$p=2$ is the Sherrington--Kirkpatrick model, abbreviated SK. Define the sign entropy and the graphical second-moment threshold by
+\begin{equation*}
+ I(x)=\frac{1+x}{2}\log(1+x)+\frac{1-x}{2}\log(1-x),\qquad -1\le x\le1,
+\end{equation*}
+with~$0\log0=0$, and
+\begin{equation}\label{eq:threshold}
+ \beta_f(p)^2=\inf_{0<x\le1}\frac{p!I(x)}{x^p}\,.
+\end{equation}
+Throughout the paper the interaction order and the temperature margin are fixed:
+\begin{equation}\label{eq:temperature}
+ p\ge2,\qquad 0<B<\beta_f(p),\qquad \beta\in[0,B]\,.
+\end{equation}
+In particular, $\beta_f(2)=1$, because~$I(x)\ge x^2/2$ and~$I(x)/x^2\to1/2$ at zero. The input~$\beta$ and the requested accuracy are specified independently of the realized disorder and internal randomness.
+
+For the next theorem, assume in addition that~$\mathbb E|J_0|^4<\infty$. As in~\eqref{eq:temperature}, the interaction order~$p$ and temperature bound~$B<\beta_f(p)$ are fixed.
+\begin{theorem}[Polynomial-time counting]\label{cor:typical}
+There is an algorithm using~$(N/\varepsilon)^{O(1)}$ exact operations which, given~$N\ge p$, $J$, $\beta\in[0,B]$ and~$\varepsilon\in(0,1)$, outputs~$\widetilde Z_N>0$ such that
+\begin{equation}\label{eq:multiplicative-success}
+ \mathbb P\!\left[
+ \frac{\widetilde Z_N}{Z_N(\beta;J)}\in[1-\varepsilon,1+\varepsilon]
+ \right]\ge1-o_N(1)\,.
+\end{equation}
+\end{theorem}
+The algorithm is deterministic for~$p\ge3$ and randomized for SK. It and the constants in its running time depend only on~$p,B$. The probability is over~$J$ and, for SK, independent internal randomness. For each fixed disorder law, the same vanishing failure bound works for every specified~$\beta,\varepsilon$; it does not assert a simultaneous success event for all requests.
+
+The next theorem gives the finite-size estimate behind this conclusion. It requires only a second moment and allows a requested failure allowance~$\delta$. The remaining failure term bounds the probability that some coupling is exceptionally large.
+\begin{theorem}[Finite-size guarantee]\label{thm:main}
+Fix~$p,B$ as in~\eqref{eq:temperature}. There exist~$C,c>0$, depending only on~$p,B$, and one algorithm that, for every~$N\ge p$, specified~$\beta\in[0,B]$ and~$\varepsilon,\delta\in(0,1)$, returns~$\widehat F_N$ within
+\begin{equation}\label{eq:main-runtime}
+ CN^C\varepsilon^{-C}\delta^{-C}
+\end{equation}
+operations on every finite real coupling array~$J$ and every internal random outcome. If the couplings are independent with a common law satisfying~\eqref{eq:disorder}, its error obeys
+\begin{equation}\label{eq:main-error}
+ \mathbb P\bigl(|\widehat F_N-\log Z_N(\beta;J)|>\varepsilon\bigr)
+ \le\delta+\tau_N,\qquad
+ \tau_N=\binom Np\mathbb P\bigl(|J_0|>cN^{(p-1)/2}\bigr)\,.
+\end{equation}
+For~$p\ge3$ the algorithm is deterministic and the probability is over~$J$. For~$p=2$ it is randomized and the probability is over~$J$ and independent internal colors~$\xi$. The same~$C,c$ work for every disorder law satisfying~\eqref{eq:disorder} and every specified parameter in these ranges.
+\end{theorem}
+The same algorithm uses the original couplings throughout. In~\eqref{eq:main-error}, $\tau_N$ records the tail of that law; no input coupling is truncated. With a finite fourth moment, $\tau_N\to0$. Choosing~$\delta=1/(2N)$ and exponentiating a sufficiently accurate logarithmic estimate gives Theorem~\ref{cor:typical}; Section~\ref{sec:logarithm} gives the details. Higher moments give a polynomial rate for the failure probability.
+
+\begin{corollary}[Polynomial confidence]\label{cor:confidence}
+Assume~\eqref{eq:disorder} and~\eqref{eq:temperature}, and fix~$b>0$. If~$\mathbb E|J_0|^m<\infty$ for some real~$m>2(p+b)/(p-1)$, an algorithm of cost at most~$C_bN^{C_b}\varepsilon^{-C_b}$ estimates~$\log Z_N$ to additive error~$\varepsilon$ with failure probability at most~$N^{-b}$ for every specified~$\beta\in[0,B]$, $\varepsilon\in(0,1)$ and all sufficiently large~$N$. The runtime constants depend only on~$p,B,b$; the sufficient lower bound on~$N$ may depend on the disorder law but is uniform in~$\beta,\varepsilon$. The determinism and probability conventions are those of Theorem~\ref{thm:main}. For bounded symmetric disorder, $\tau_N=0$ for all sufficiently large~$N$.
+\end{corollary}
+The additional fourth- and higher-moment assumptions enter only through~$\tau_N$. For SK, the joint guarantee also implies high conditional success over the internal randomness on most disorder instances; see~\eqref{eq:conditional-success}.
+
+All runtime bounds hold for every finite real input array and every internal random outcome. We count exact real arithmetic, comparisons, elementary functions (including~$\exp$, $\log$ and~$\tanh$), finite index generation, register access, input lookup, and independent uniform draws from a finite color set. These are operation bounds, with no bit-complexity guarantee. Expectations with subscript~$J$ average over the couplings; the subscript~$\xi$ refers to independent computational colors. With no subscript we include all randomness present.
+
+\subsection{Related work and motivation}
+Approximate counting asks for information about a particular disorder realization at a prescribed resolution. This differs from identifying the thermodynamic limit of~$N^{-1}\log Z_N$: an error that vanishes after division by~$N$ can still produce a diverging multiplicative error in~$Z_N$. Even an asymptotic expansion with an unspecified~$o_N(1)$ remainder in~$\log Z_N$ does not by itself supply an algorithm for an accuracy~$\varepsilon$ given as input. Variational methods give another useful notion of approximation: Jain--Koehler--Mossel~\cite{JKM18} obtain algorithms for free energy with additive errors controlled by the size and Frobenius norm of the interaction matrix. Such guarantees address a different resolution from an arbitrary additive~$\varepsilon$ in the unnormalized logarithm. At the opposite extreme, Gamarnik--K\i z\i lda\u{g}~\cite{GK21} establish average-case hardness of exact evaluation in specified finite-precision and real-number formulations of SK. Their result is not a lower bound for the relative approximation problem considered here. These distinctions motivate keeping accuracy, disorder confidence and computational model explicit.
+
+The connection between counting and sampling is classical. Jerrum--Valiant--Vazirani~\cite[Section~6]{JVV86} relate randomized approximate counting and almost uniform generation for self-reducible families. The reduction uses algorithms on smaller conditional instances, together with sufficiently accurate estimates of successive ratios. For spin systems, conditioning introduces external fields and, for higher-order interactions, lower-order terms. A typical-instance counting theorem for pure zero-field models therefore needs additional uniformity and closure properties before it can be used as a sampling oracle. In the other direction, an asymptotically vanishing sampling error is not automatically small enough to estimate an extensive observable or a product of many ratios at a prescribed relative counting accuracy. These are quantitative issues in a reduction, rather than a separation between the two computational tasks.
+
+For ferromagnetic Ising models, Jerrum--Sinclair~\cite{JS93} gave an FPRAS for the partition function with nonnegative interactions and a uniform external field, without a high-temperature restriction. Their subgraph representation has nonnegative weights and supports a Markov-chain algorithm. This is an instructive predecessor for graphical counting. In a spin glass, the corresponding factors~$\tanh(\beta J_e/N^{(p-1)/2})$ have both signs, so the same graphical sum cannot directly serve as a probability measure. Aizenman--Lebowitz--Ruelle~\cite{ALR87} instead exploited the independence and symmetry of the SK disorder: after separating the product of hyperbolic cosines, distinct even-graph weights are orthogonal. Their Lemma~3.3 and the proof of Proposition~2.2 give exponential large-graph estimates and growing cutoffs. Dey--Wu~\cite{DW26} develop the analogous hypergraph analysis for distinct-index mixed~$p$-spin models, including weak fields. Their second-moment threshold specializes to~\eqref{eq:threshold}, and Lemma~4.1 and Proposition~4.3 of the cited arXiv version control the mass beyond a growing edge cutoff. The remaining algorithmic question is how to sum the retained signed terms at a cost matched to the error budget.
+
+Complex zeros provide a different route to deterministic counting. Barvinok~\cite{Bar17} approximates the logarithm of the partition function of a Boolean polynomial by Taylor expansion in a zero-free region. For~$f(\sigma)=\sum_I a_I\prod_{i\in I}\sigma_i$, his approximation range includes~$|\lambda|\le(2L(f)\sqrt{\deg f})^{-1}$ for~$\mathbb E_\sigma e^{\lambda f(\sigma)}$, where~$L(f)=\max_i\sum_{I\ni i}|a_I|$. Barvinok--Barvinok~\cite{BB21} sharpen the treatment of quadratic and cubic interactions; in the quadratic case, a fixed slack in~$\max_i\sum_{j\ne i}|a_{ij}|<1$ yields quasipolynomial relative approximation with unrestricted real fields. These are useful worst-case criteria, but the absolute incident interaction sum in Gaussian SK has order~$\sqrt N$ at a fixed positive inverse temperature. Thus these particular criteria do not capture the cancellations in the mean-field disorder.
+
+The cost of Taylor coefficients is itself an important part of the zero-free approach. Patel--Regts~\cite{PR17} give a framework for computing a logarithmic number of coefficients in polynomial time on graphs of bounded degree, using induced-subgraph counts. Combined with zero-freeness, this yields deterministic polynomial-time approximation in several models. Liu--Sinclair--Srivastava~\cite{LSS19} use this approach and Lee--Yang zeros to obtain an FPTAS for bounded-degree ferromagnetic Ising models with a fixed nonzero field. The degree bound and the field condition distinguish that result from dense, zero-field SK. In particular, the complexity of a zero-free algorithm should not be described as intrinsically quasipolynomial: it depends on both the zero-free region and the structure available for evaluating its coefficients.
+
+For Gaussian mean-field spin glasses, Bencs--Huang--Lee--Liu--Regts~\cite[Theorems~1.1--1.2]{BHL+25} prove zero-freeness using information specific to the disorder. Their finite mixtures include both Ising and spherical models. At a fixed margin below the second-moment threshold, their deterministic counting algorithm has cost~$N^{O(\log(N/\varepsilon))}$ and a disorder-failure bound tending to zero independently of the requested accuracy. In their Gaussian SK normalization the threshold is one. For this common model, Theorem~\ref{cor:typical} gives a randomized exact-operation bound~$N^{O(1)}\varepsilon^{-O(1)}$. Appendix~\ref{app:normalization} records the spin-measure normalization and diagonal correction. Their general ordered-index Gaussian mixtures have broader model scope: repeated higher-order indices can create fields and lower-order interactions, so a scalar normalization alone does not identify them with our pure distinct-index models.
+
+Disorder can also make counting easier through spatial decay. Helmuth--Lee--Perkins--Ravichandran--Wu~\cite{HLP+23} prove a high-probability FPTAS and an efficient sampler for bounded-degree random-field Ising models when the independent Gaussian fields have sufficiently large variance. Their conclusions allow signed interactions, and the analysis also handles boundary conditions. This gives a useful comparison with a deterministic algorithm that succeeds on most disorder instances. The mechanism and regime differ from ours: strong random fields on bounded-degree graphs suppress long-range influence, whereas we use symmetry and cancellation among many weak mean-field interactions. In particular, this result does not settle the vanishing-field extensions proposed in Section~\ref{sec:extensions}.
+
+For SK sampling, a sequence of spectral and functional-inequality results gives increasingly effective control of Glauber dynamics. Bauerschmidt--Bodineau~\cite{BB19} establish a log-Sobolev inequality under a spectral condition; Eldan--Koehler--Zeitouni~\cite{EKZ22} control the spectral gap for the natural Glauber dynamics, yielding polynomial mixing for Gaussian SK at~$\beta<1/4$. Anari--Jain--Koehler--Pham--Vuong~\cite{AJKPV22} obtain modified log-Sobolev inequalities and optimal-order mixing under the corresponding high-temperature spectral condition. Anari--Koehler--Vuong~\cite{AKV24} subsequently extend the SK range for~$O(N\log N)$ Glauber mixing to approximately~$0.295$. These thresholds use the SK normalization in this paper; they should not be read directly from an interaction matrix without accounting for the factor~$1/2$ in its quadratic form and the harmless diagonal shift.
+
+There are also sampling results for mixed interactions. Adhikari--Brennecke--Xu--Yau~\cite{ABXY24} prove spectral-gap estimates for mixed~$p$-spin models at sufficiently high temperature, allowing external fields. Anari--Jain--Koehler--Pham--Vuong~\cite{AJKPV24} strengthen this direction through approximate tensorization of entropy and a modified log-Sobolev inequality, with high probability over the Gaussian interactions. Their hypotheses impose smallness of a weighted sum of the interaction strengths. Such results show that algorithmic access to high-temperature mixtures is already established in other forms; the prospective mixed-model question here is specifically whether the graphical evaluator and its inverse-accuracy operation bound extend to the proposed regime.
+
+Stochastic localization also gives samplers. El Alaoui--Montanari--Sellke~\cite{AMS25} combine diffusion processes with approximate message passing and TAP free-energy optimization to sample mean-field Gibbs measures at high temperature in normalized Wasserstein distance. For SK, Celentano's local-convexity analysis of the TAP free energy~\cite{Cel24} extends the range of this Wasserstein sampling approach to~$\beta<1$. Normalized Wasserstein accuracy permits a small fraction of spin discrepancies and is weaker than total-variation accuracy, so it must be distinguished from the latter in a counting reduction. More recently, Lee--Sandhu--Shi~\cite[Theorem~1.1]{LSS26} obtain polynomial-time sampling with~$o_N(1)$ total-variation error for every fixed~$\beta<1$, at every fixed disorder confidence~$1-\delta$ for sufficiently large~$N$. Their stated theorem does not give a cost polynomial in the inverse of an arbitrary input tolerance. A quantitative comparison with counting would need control of accumulated error, for example in estimating and integrating~$\partial_\beta\log Z_N=\langle H_N\rangle_\beta$.
+
+A related example in a hierarchical disordered system is Lee--Wu's work on the continuous random energy model~\cite{LW25}. Their total-variation sampler uses quantitative approximation of normalized partition functions by truncation, and a change-of-measure argument controls the subtrees selected during sampling. This illustrates why a typical-disorder partition-function estimate needs further analysis when it is queried adaptively. The underlying binary-tree structure is different from the complete interaction hypergraph here, so its evaluator does not transfer directly, but the treatment of truncation error and conditional disorder is a useful methodological comparison.
+
+Our finite evaluation uses established combinatorial tools in a different probabilistic setting. Alon--Yuster--Zwick's color-coding method~\cite{AYZ95} makes small paths and cycles accessible by dynamic programming on color sets. Disjoint-set multiplication is also the operation underlying subset convolution; Bj\"orklund--Husfeldt--Kaski--Koivisto~\cite{BHKK07} give its fast ring-algebra implementation. The construction below uses explicit finite-algebra recurrences and their stated operation counts, without requiring that faster implementation. For~$p\ge3$, we retain complete vertex supports and sum all their even hypergraphs by local spin sums and inclusion--exclusion. For SK, long degree-two cycles retain substantial mass, so we enumerate only branching vertices and sum the remaining paths and cycles by color-set recurrences. Matching the support penalty to this enumeration cost gives polynomial dependence on inverse accuracy. A separate lower-tail argument converts absolute graphical error into logarithmic and relative accuracy.
+
+The comparison is therefore between specific guarantees, not a claim that counting, sampling or high-temperature expansions are new. Our algorithms are deterministic for higher pure orders and randomized for SK; their success guarantees average over the disorder and concern each request specified independently of that disorder. The cost counts exact operations, including indexing, comparisons and random draws, and does not establish bit complexity or numerical stability. Mixtures and vanishing fields motivate Section~\ref{sec:extensions}, whose estimates and evaluator constructions remain to be completed.
+
+\subsection{Proof strategy}
+
+Our starting point is to factor out the part of the partition function that is directly computable. With~$x_e=\beta J_e/N^{(p-1)/2}$, the remaining correction is
+\begin{equation}\label{eq:overview-graphical}
+ Z_N=\left(2^N\prod_e\cosh x_e\right)\hat Z_N,\qquad
+ \hat Z_N=\sum_{\Gamma\ \mathrm{even}}\prod_{e\in\Gamma}\tanh x_e\,.
+\end{equation}
+An even hypergraph has even degree at every vertex, and the empty graph contributes one. Although individual graph weights can be negative, distinct edge sets are orthogonal after averaging over the symmetric independent disorder. The mean-square error of discarding graphs is therefore exactly their omitted squared-weight mass. This permits a truncation chosen for its computational cost without bounding a signed sum term by term.
+
+The useful notion of support differs between the two interaction orders. When~$p\ge3$, an even hypergraph on~$v$ used vertices needs at least~$2v/p$ edges. The small squared weight of each edge then makes a large vertex support expensive in probability. For each retained support, a finite spin sum and inclusion--exclusion sum all even hypergraphs with precisely that support, including dense and disconnected ones. This avoids a separate enumeration of their edge sets.
+
+In SK, degree-two cycles can have nonvanishing total squared mass, so the same penalty in the full vertex support is unavailable. We instead enumerate the vertices of degree at least four. Once this branching set is fixed, the remaining graph breaks into paths between branching vertices, cycles attached to one branching vertex, and disjoint cycles, together with direct edges inside the branching set. Color-set recurrences, following the path and cycle method of Alon--Yuster--Zwick~\cite{AYZ95}, sum the pieces. A finite algebra then combines them: repeated colors are forbidden, edge count is recorded, and a six-state degree variable at each branching vertex tests even degree at least four. Each direct edge is optional and can be chosen at most once. The construction sums compatible collections without enumerating their orders or all subsets of direct edges.
+
+Random coloring keeps only collections whose outside vertices receive distinct colors. Dividing by their exact inclusion probabilities makes the resulting signed sum unbiased for every fixed coupling array. The variance estimate uses a different fact: the random graph coefficients are independent of the disorder, so orthogonality removes cross terms after averaging over~$J$. Coefficients of different graphs need not be independent. These two steps explain why the estimator remains useful with signed weights.
+
+In both models the mass penalty for a support of size~$k$ is exponential in a constant multiple of~$k\log(N/k)$, over the range where truncation is used. The work of enumerating the retained supports has the same scale. Selecting the first omitted size by its tail bound, and using minimality to bound the last retained size, gives polynomial cost in the inverse mean-square budget. In SK an additional edge cutoff limits path lengths and the algebra size. At exponentially fine requested accuracy, the algorithm switches to the exact spin sum, whose cost is then itself polynomial in inverse accuracy. Thus the construction covers all accuracies with one procedure.
+
+Finally, an absolute approximation to~$\hat Z_N$ does not control its logarithm if~$\hat Z_N$ is too small. Conditioning on coupling magnitudes lets us use a finite-cube reverse-hypercontractive inequality from Mossel--Oleszkiewicz--Sen~\cite{MOS13}. A restricted negative-moment estimate bounds the lower tail, with the large-coupling exception~$\tau_N$ kept under the original disorder law. We choose the threshold and the mean-square budget so that the controllable part of the lower-tail bound and the approximation-failure probability sum to at most~$\delta$, leaving~$\tau_N$ explicit.
+
+Section~\ref{sec:preliminaries} proves the truncation bounds and chooses the common support cutoff. Section~\ref{sec:sk-algebra} constructs the finite evaluators and proves their error and cost bounds. Section~\ref{sec:logarithm} takes the logarithm and derives the moment consequences. The appendix contains auxiliary proofs, complete operation counts, normalization details and the correspondence with the companion Lean~4 development.
+
+\section{Truncating the graphical expansion}\label{sec:preliminaries}
+The partition function contains a product that is easy to evaluate and a correction that is hard to sum. We isolate the correction first. Its terms can be negative, but their orthogonality turns the error of discarding graphs into a positive counting problem. The bounds in this section identify which vertices the algorithm can afford to enumerate.
+
+Put
+\begin{equation}\label{eq:weights}
+ x_e=\frac{\beta J_e}{N^{(p-1)/2}},\qquad w_e=\tanh x_e,
+\end{equation}
+and define
+\begin{equation*}
+ \bar Z_N=2^N\prod_{e\in\mathcal E_{N,p}}\cosh x_e,\qquad \hat Z_N=Z_N/\bar Z_N\,.
+\end{equation*}
+The logarithm of~$\bar Z_N$ costs~$O(N^p)$ operations. We shall approximate~$\hat Z_N$ and later control the error made by taking its logarithm.
+
+An edge set~$\Gamma\subseteq\mathcal E_{N,p}$ is \emph{even} if every vertex has even degree. Write~$\mathcal G_{N,p}$ for the even hypergraphs, including the empty graph, and set~$w(\Gamma)=\prod_{e\in\Gamma}w_e$. Let~$\mathbb E_0$ average independent uniform spins on the indicated vertex set.
+\begin{proposition}[Graphical expansion]\label{prop:graphical}
+For every finite real coupling array,
+\begin{equation}\label{eq:graphical}
+ \hat Z_N=\mathbb E_0\prod_{e\in\mathcal E_{N,p}}(1+w_e\sigma_e)
+ =\sum_{\Gamma\in\mathcal G_{N,p}}w(\Gamma)>0\,.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Apply~$e^{x\sigma}=\cosh x(1+\sigma\tanh x)$ to each interaction. In the expanded product, the spin~$\sigma_i$ occurs with exponent equal to the degree of~$i$. Averaging therefore keeps precisely the even edge sets, with coefficient one. Positivity holds before expansion: each factor~$1+w_e\sigma_e$ is positive because~$|w_e|<1$.
+\end{proof}
+
+Symmetry gives~$\mathbb E_Jw_e=0$. The second moment of one edge weight satisfies
+\begin{equation}\label{eq:rN}
+ r_N:=\mathbb E\tanh^2\!\left(\frac{\beta J_0}{N^{(p-1)/2}}\right)
+ \le\frac{\beta^2}{N^{p-1}}\le\frac{B^2}{N^{p-1}},
+\end{equation}
+since~$|\tanh x|\le|x|$. Distinct edge sets consequently have no cross terms after averaging over disorder.
+
+\begin{lemma}[Orthogonality]\label{lem:orthogonality}
+For~$\Gamma,\Gamma'\subseteq\mathcal E_{N,p}$,
+\begin{equation}\label{eq:orthogonality}
+ \mathbb E_J[w(\Gamma)w(\Gamma')]=\mathbf1_{\{\Gamma=\Gamma'\}}r_N^{|\Gamma|}\,.
+\end{equation}
+If a finite square-integrable coefficient array~$(c_\Gamma)$ is independent of the disorder, then
+\begin{equation}\label{eq:random-orthogonality}
+ \mathbb E\left|\sum_\Gamma c_\Gamma w(\Gamma)\right|^2
+ =\sum_\Gamma\mathbb E[c_\Gamma^2]r_N^{|\Gamma|}\,.
+\end{equation}
+The coefficients need not be independent of one another.
+\end{lemma}
+\begin{proof}
+An edge in~$\Gamma\mathbin{\triangle}\Gamma'$ appears to the first power in~$w(\Gamma)w(\Gamma')$. Its zero mean and independence from the other edges force the expectation to vanish. When the sets coincide, every factor is squared and independence gives~$r_N^{|\Gamma|}$. Conditioning on the coefficient array and expanding the finite square gives the second identity; square integrability justifies the expectations.
+\end{proof}
+Thus, for any deterministic retained family~$\mathcal R\subseteq\mathcal G_{N,p}$,
+\begin{equation}\label{eq:truncation-isometry}
+ \mathbb E_J\left|\hat Z_N-\sum_{\Gamma\in\mathcal R}w(\Gamma)\right|^2
+ =\sum_{\Gamma\in\mathcal G_{N,p}\setminus\mathcal R}r_N^{|\Gamma|}\,.
+\end{equation}
+We call the right-hand side the omitted squared mass. This is the quantity to make small; no assertion that the individual graph weights are positive is needed.
+
+\subsection{A bound on the total mass}
+A strict temperature margin gives exponential decay in the number of edges. Choose a larger temperature still below the threshold and record the ratio
+\begin{equation}\label{eq:inflation}
+ \beta_+=\frac{B+\beta_f(p)}2,\qquad v_+=\beta_+^2,\qquad
+ \theta=B/\beta_+,\qquad q=\theta^2\in(0,1)\,.
+\end{equation}
+The constants used below are
+\begin{equation}\label{eq:Cplus}
+ \Delta_p=\frac{\binom p2}{p!},\qquad \lambda_+=\frac{v_+}{\beta_f(p)^2},\qquad
+ C_+=e^{v_+\Delta_p}\left(1+\frac{2\lambda_+}{1-\lambda_+}\right)\,.
+\end{equation}
+They depend only on~$p,B$. Enlarging the squared edge weight to~$v_+/N^{p-1}$ leaves the total mass bounded; returning to~$r_N$ then earns a factor~$q$ per edge.
+
+\begin{proposition}[Mass and edge tail]\label{prop:mass}
+For every~$N\ge p$,
+\begin{equation}\label{eq:mass}
+ \sum_{\Gamma\in\mathcal G_{N,p}}\left(\frac{v_+}{N^{p-1}}\right)^{|\Gamma|}\le C_+\,.
+\end{equation}
+For every real~$t\ge0$,
+\begin{equation}\label{eq:edge-tail}
+ \sum_{\substack{\Gamma\in\mathcal G_{N,p}\\|\Gamma|>t}}r_N^{|\Gamma|}
+ \le C_+q^{\lfloor t\rfloor+1}\le C_+q^t\,.
+\end{equation}
+\end{proposition}
+\begin{proof}
+We first control an exponential moment of independent uniform signs~$X_1,\ldots,X_N$. Let
+\begin{equation*}
+ R_X=N^{-1}\sum_iX_i,\qquad Y_N=N^{-(p-1)}\sum_{e\in\mathcal E_{N,p}}\prod_{i\in e}X_i\,.
+\end{equation*}
+The ordered expansion of~$(\sum_iX_i)^p$ differs from~$p!\sum_e\prod_{i\in e}X_i$ only in tuples with a repeated index. There are at most~$\binom p2N^{p-1}$ such tuples: specify two equal positions and choose the remaining~$p-1$ indices. Since every sign product has absolute value one,
+\begin{equation*}
+ \left|Y_N-\frac{NR_X^p}{p!}\right|\le\Delta_p\,.
+\end{equation*}
+For any~$0\le v<\beta_f(p)^2$, put~$\lambda=v/\beta_f(p)^2$. The definition of the threshold gives~$vx^p/p!\le\lambda I(x)$ on~$[0,1]$. This holds on~$[-1,0]$ as well: use the evenness of~$I$ for even~$p$, and the nonpositivity of~$x^p$ for odd~$p$. Hence~$vY_N\le v\Delta_p+\lambda NI(R_X)$.
+
+The entropy cost of an empirical sign average provides the needed integrable bound. Indeed,
+\begin{equation*}
+ \mathbb P(R_X\ge x)\le\inf_{h\ge0}e^{-hNx}\cosh(h)^N=e^{-NI(x)}\qquad(0<x<1),
+\end{equation*}
+where the minimizer is~$h=\operatorname{arctanh}x$. The endpoints follow directly, and the same estimate applies to~$-R_X$. Monotonicity of~$I$ on~$[0,1]$ now gives~$\mathbb P(NI(R_X)>t)\le2e^{-t}$ for~$t\ge0$. Integrating this tail yields, for~$0<\lambda<1$,
+\begin{equation*}
+ \mathbb E e^{\lambda NI(R_X)}
+ =1+\lambda\int_0^\infty e^{\lambda t}\mathbb P(NI(R_X)>t)\,dt
+ \le1+\frac{2\lambda}{1-\lambda}\,.
+\end{equation*}
+The formula at~$\lambda=0$ is immediate. We have therefore proved the general auxiliary estimate
+\phantomsection\label{lem:exp-moment}
+\begin{equation}\label{eq:exp-moment}
+ \sup_{N\ge p}\mathbb E e^{vY_N}
+ \le e^{v\Delta_p}\left(1+\frac{2\lambda}{1-\lambda}\right),
+ \qquad 0\le v<\beta_f(p)^2,\quad\lambda=v/\beta_f(p)^2\,.
+\end{equation}
+
+To apply it to graphs, set~$z=v_+/N^{p-1}$. Evaluating the threshold infimum at one gives~$\beta_f(p)^2\le p!\log2$. Moreover~$p!=\prod_{j=2}^pj\le p^{p-1}$, so~$0<z<\log2<1$ for~$N\ge p$. Each factor in the following product is consequently positive, and parity expansion gives
+\begin{equation*}
+ \sum_{\Gamma\in\mathcal G_{N,p}}z^{|\Gamma|}
+ =\mathbb E_X\prod_e\left(1+z\prod_{i\in e}X_i\right)
+ \le\mathbb E_Xe^{v_+Y_N}\le C_+\,.
+\end{equation*}
+Here we multiplied~$1+y\le e^y$ only after checking positivity. Finally, $r_N\le qz$ by~\eqref{eq:rN}, and an integer edge count exceeding~$t$ is at least~$\lfloor t\rfloor+1$. Factoring out that many powers of~$q$ proves~\eqref{eq:edge-tail}.
+\end{proof}
+
+\subsection{Full support for higher-order interactions}\label{sec:higher-support}
+Assume~$p\ge3$, and let~$V(\Gamma)=\bigcup_{e\in\Gamma}e$ be the used vertex set. We retain every even hypergraph with at most~$V$ used vertices, with no restriction on its edge count:
+\begin{equation*}
+ T^P_{N,V}=\sum_{\substack{\Gamma\in\mathcal G_{N,p}\\|V(\Gamma)|\le V}}w(\Gamma)\,.
+\end{equation*}
+The gain from this choice comes from evenness. On~$v$ used vertices an even hypergraph has at least~$2v/p$ edges. Their small squared weights can compensate for the~$\binom Nv$ possible supports when~$p>2$.
+
+Write
+\begin{equation}\label{eq:tail-higher-mass-definition}
+ M^P_{N,v}=\sum_{\substack{\Gamma\in\mathcal G_{N,p}\\|V(\Gamma)|=v}}r_N^{|\Gamma|}\,.
+\end{equation}
+Set~$\kappa=(p-2)/p$, $d_0=B^2/p!$, and~$a_0=ed_0p/2$. The constants that result from the count are
+\begin{equation}\label{eq:tail-higher-constants}
+ A_p=\max\{1,e^{1+d_0}a_0^{2/p}\},\qquad a_p=A_p^{1/\kappa}\,.
+\end{equation}
+\begin{lemma}[Support mass]\label{lem:tail-higher-mass}
+If~$N\ge p$, $1\le v\le N$ is an integer, and~$a_0(v/N)^{p-1}\le1$, then
+\begin{equation}\label{eq:tail-higher-mass}
+ M^P_{N,v}\le\left[A_p(v/N)^\kappa\right]^v
+ =\exp\!\left\{-\kappa v\log\frac{N}{a_pv}\right\}\,.
+\end{equation}
+\end{lemma}
+\begin{proof}
+There is no nonempty hypergraph on~$v<p$ vertices. For~$v\ge p$, fix a support and let~$m_v=\lceil2v/p\rceil$. Dropping all degree restrictions except the resulting lower bound on the number of edges gives
+\begin{equation*}
+ M^P_{N,v}\le\binom Nv\sum_{k\ge m_v}\binom{\binom vp}{k}r_N^k
+ \le\binom Nv\sum_{k\ge m_v}\frac{\lambda_v^k}{k!},\qquad \lambda_v=r_N\binom vp\,.
+\end{equation*}
+For~$m\ge1$ and~$\lambda\ge0$, the inequalities~$(m+j)!\ge m!j!$ and~$m!\ge(m/e)^m$ bound the last tail by~$e^\lambda(e\lambda/m)^m$. Thus
+\begin{equation}\label{eq:tail-poisson-bound}
+ M^P_{N,v}\le\binom Nv e^{\lambda_v}\left(\frac{e\lambda_v}{m_v}\right)^{m_v}\,.
+\end{equation}
+When~$\lambda_v=0$ the desired claim already follows. Otherwise~\eqref{eq:rN} gives
+\begin{equation*}
+ \lambda_v\le d_0v(v/N)^{p-1},\qquad e\lambda_v/m_v\le a_0(v/N)^{p-1}\le1\,.
+\end{equation*}
+The base is at most one, so replacing the exponent~$m_v$ by~$2v/p$ increases the bound. Combining~$\binom Nv\le(eN/v)^v$ and~$e^{\lambda_v}\le e^{d_0v}$ now yields
+\begin{equation*}
+ M^P_{N,v}\le\left[e^{1+d_0}a_0^{2/p}(v/N)^{2(p-1)/p-1}\right]^v\,.
+\end{equation*}
+The exponent of~$v/N$ is~$\kappa$, which proves the assertion.
+\end{proof}
+
+Choose~$\alpha\in(0,1/4)$ such that
+\begin{equation}\label{eq:tail-higher-alpha}
+ a_0\alpha^{p-1}\le1,\qquad \kappa\left(\log\frac1{a_p\alpha}-1\right)\ge2\,.
+\end{equation}
+On~$0<t\le\alpha N$, the exponent~$\Phi_N(t)=\kappa t\log(N/(a_pt))$ then increases at rate at least two. This makes the support masses summable up to a small linear size. Larger supports will be handled by the edge tail, so no estimate outside this range is needed.
+\begin{proposition}[Higher-order truncation]\label{prop:tail-higher}
+If~$\lfloor\alpha N\rfloor\ge1$ and~$0\le V<\lfloor\alpha N\rfloor$ is an integer, then
+\begin{equation}\label{eq:tail-higher-truncation}
+ \mathbb E_J|\hat Z_N-T^P_{N,V}|^2
+ \le2e^{-\Phi_N(V+1)}+C_+e^{-c_pN},\qquad
+ c_p=\frac{2\alpha}{p}\log(1/q)>0\,.
+\end{equation}
+\end{proposition}
+\begin{proof}
+By~\eqref{eq:truncation-isometry}, the error is~$\sum_{v>V}M^P_{N,v}$. In the range through~$\lfloor\alpha N\rfloor$, the derivative bound and Lemma~\ref{lem:tail-higher-mass} imply
+\begin{equation*}
+ \sum_{v=V+1}^{\lfloor\alpha N\rfloor}M^P_{N,v}
+ \le e^{-\Phi_N(V+1)}\sum_{j\ge0}e^{-2j}
+ \le2e^{-\Phi_N(V+1)}\,.
+\end{equation*}
+For an integer~$v>\lfloor\alpha N\rfloor$ one has~$v>\alpha N$. Evenness then forces more than~$2\alpha N/p$ edges. Proposition~\ref{prop:mass}, with that real threshold, bounds the remaining mass by~$C_+q^{2\alpha N/p}=C_+e^{-c_pN}$.
+\end{proof}
+
+\subsection{Branching support in SK}\label{sec:sk-tails}
+For~$p=2$, the exponent~$(p-2)/p$ in the preceding support bound disappears. This reflects the contribution of cycles: at a fixed positive temperature, the total squared mass of cycles of any fixed length has a positive limit as~$N$ grows. For a fixed~$\ell\ge3$, their squared mass is~$(N)_\ell r_N^\ell/(2\ell)$, where~$(N)_\ell=N(N-1)\cdots(N-\ell+1)$. Dominated convergence applied to~$N\tanh^2(\beta J_0/\sqrt N)\le\beta^2J_0^2$ gives~$Nr_N\to\beta^2$, so the mass tends to~$\beta^{2\ell}/(2\ell)$. A support cutoff fixed independently of the requested accuracy therefore leaves an error that need not vanish. We separate degree-two vertices from the vertices where paths can meet.
+
+For an even simple graph, define its branching set and branching size by
+\begin{equation*}
+ B(\Gamma)=\{i:\deg_\Gamma(i)\ge4\},\qquad b(\Gamma)=|B(\Gamma)|\,.
+\end{equation*}
+The vertices outside~$B(\Gamma)$ have degree zero or two. For integers~$0\le D\le N$ and~$L\ge1$, retain
+\begin{equation}\label{eq:sk-target}
+ T^S_{N,D,L}=\sum_{\substack{\Gamma\in\mathcal G_{N,2}\\b(\Gamma)\le D,\ |\Gamma|\le L}}w(\Gamma)\,.
+\end{equation}
+The two cutoffs have different jobs: a union of cycles has no branching vertices, so its size is controlled only by~$L$.
+
+Throughout this subsection~$p=2$ and~$B<1$. Let
+\begin{equation}\label{eq:tail-sk-constants}
+ \begin{gathered}
+ M^S_{N,b}=\sum_{\substack{\Gamma\in\mathcal G_{N,2}\\b(\Gamma)=b}}r_N^{|\Gamma|},\qquad C_B=(1-B^2)^{-1/2},\\
+ A_B=\frac{2eB^4}{3(1-B^2)^2},\qquad a_B=\max\{1,A_B\}\,.
+ \end{gathered}
+\end{equation}
+\begin{lemma}[Branching mass]\label{lem:tail-sk-mass}
+For~$N\ge2$ and~$1\le b\le N$,
+\begin{equation}\label{eq:tail-sk-mass}
+ M^S_{N,b}\le C_B\left(\frac{A_Bb}{N}\right)^b
+ \le C_B\exp\!\left\{-b\log\frac{N}{a_Bb}\right\}\,.
+\end{equation}
+Also~$M^S_{N,0}\le C_B$.
+\end{lemma}
+\begin{proof}
+Count graphs with a prescribed branching set~$A$, of size~$b$, by their degree sequences. For total degree~$2k$, attach~$d_i$ distinguishable half-edges at vertex~$i$. There are~$(2k-1)!!$ pairings, where~$(-1)!!=1$. A simple graph with this degree sequence gives~$\prod_i d_i!$ distinct pairings by assigning its incident edges to those half-edges. The pairing determines the graph and the assignments, so the number of simple graphs is at most~$(2k-1)!!/\prod_i d_i!$. Loops and repeated edges are included only as overcounting.
+
+The allowed degrees are zero or two outside~$A$, and even and at least four on~$A$. We sum them with a finite polynomial. Put~$r=r_N$ and
+\begin{equation*}
+ H_K(x)=\sum_{j=0}^{K-1}\frac{x^{2j+4}}{(2j+4)!},\qquad K=N\,.
+\end{equation*}
+This range includes every possible branching degree of a simple graph. If~$g$ is an auxiliary standard Gaussian, its moments~$\mathbb E g^{2k}=(2k-1)!!$ encode the pairing count. Expanding a finite product and summing over the choices of~$A$ gives
+\begin{equation}\label{eq:tail-gaussian-pairing}
+ M^S_{N,b}\le\binom Nb\mathbb E\left[\left(1+\frac{rg^2}{2}\right)^{N-b}H_K(\sqrt r\,g)^b\right]\,.
+\end{equation}
+This Gaussian is a counting device; the disorder itself is still governed only by~\eqref{eq:disorder}.
+
+The factorial inequality~$(2j+4)!\ge24\,2^jj!$ yields
+\begin{equation*}
+ H_K(x)\le\frac{x^4}{24}e^{x^2/2},\qquad 1+x^2/2\le e^{x^2/2}\,.
+\end{equation*}
+Since~$Nr\le B^2<1$, the resulting Gaussian integral is finite. Rescaling its density by~$\sqrt{1-Nr}$ gives
+\begin{align}
+ M^S_{N,b}&\le\binom Nb\frac{r^{2b}}{24^b}\mathbb E[g^{4b}e^{Nrg^2/2}]\notag\\
+ &=\binom Nb\frac{r^{2b}(4b-1)!!}{24^b(1-Nr)^{2b+1/2}}\,.\label{eq:tail-sk-pairing-bound}
+\end{align}
+For~$b\ge1$, bound~$(4b-1)!!\le(4b)^{2b}$ and~$\binom Nb\le(eN/b)^b$, and use~$r\le B^2/N$. The result is~$C_B(A_Bb/N)^b$; increasing~$A_B$ to~$a_B$ gives the second displayed bound. For~$b=0$, the same integral is~$(1-Nr)^{-1/2}\le C_B$.
+\end{proof}
+
+Select~$\alpha\in(0,1/4)$ with
+\begin{equation}\label{eq:tail-sk-alpha}
+ \log\frac1{a_B\alpha}-1\ge2,
+\end{equation}
+and in this subsection write~$\Phi_N(t)=t\log(N/(a_Bt))$ and~$c_2=2\alpha\log(1/q)$.
+\begin{proposition}[SK truncation]\label{prop:tail-sk}
+For integers~$N\ge2$, $0\le D<\lfloor\alpha N\rfloor$, and~$L\ge1$, with~$\lfloor\alpha N\rfloor\ge1$,
+\begin{equation}\label{eq:tail-sk-truncation}
+ \mathbb E_J|\hat Z_N-T^S_{N,D,L}|^2
+ \le C_+q^{L+1}+2C_Be^{-\Phi_N(D+1)}+C_+e^{-c_2N}\,.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Orthogonality reduces the error to omitted mass. The graphs with more than~$L$ edges contribute at most~$C_+q^{L+1}$. To bound the graphs with too many branching vertices, first sum those with~$D<b\le\lfloor\alpha N\rfloor$. On this range~$\Phi_N'\ge2$, so Lemma~\ref{lem:tail-sk-mass} gives
+\begin{equation*}
+ \sum_{b=D+1}^{\lfloor\alpha N\rfloor}M^S_{N,b}
+ \le C_Be^{-\Phi_N(D+1)}\sum_{j\ge0}e^{-2j}
+ \le2C_Be^{-\Phi_N(D+1)}\,.
+\end{equation*}
+For the remaining graphs, $b>\lfloor\alpha N\rfloor$ implies~$b>\alpha N$, and~$2|\Gamma|=\sum_i\deg_\Gamma(i)\ge4b$. The real-threshold bound~\eqref{eq:edge-tail} therefore contributes at most~$C_+q^{2\alpha N}$. Adding these upper bounds is valid even when a graph violates both cutoffs.
+\end{proof}
+
+\subsection{Choosing the cutoff}\label{sec:uniform}
+Both truncations have the same useful shape: the omitted support mass is bounded by a constant times~$e^{-\Phi_N(k+1)}$, with an additional~$e^{-\omega N}$ remainder, where~$\Phi_N(k)$ grows like~$k\log(N/k)$. The evaluators in the next section will have a support cost proportional to~$\sum_{j\le k}\binom Nj t^j$ for a fixed~$t$. We now match these two quantities. Choosing the \emph{first omitted} size, rather than directly rounding a proposed retained size, will control both error and work.
+
+Use the following case-dependent constants:
+\begin{equation*}
+ (\kappa,a,K)=
+ \begin{cases}((p-2)/p,a_p,a_0),&p\ge3,\\(1,a_B,0),&p=2.\end{cases}
+\end{equation*}
+A single choice of the admissible support range is
+\begin{equation}\label{eq:uniform-alpha-choice}
+ \alpha=\min\left\{\frac18,\frac1{K+1},\frac{e^{-(1+2/\kappa)}}a\right\}\,.
+\end{equation}
+It gives~$0<\alpha\le1/8$ and
+\begin{equation}\label{eq:uniform-alpha}
+ \kappa\left(\log\frac1{a\alpha}-1\right)\ge2\,.
+\end{equation}
+For~$p\ge3$, it also gives~$a_0\alpha^{p-1}\le K\alpha\le K/(K+1)\le1$. Thus this~$\alpha$ is allowed in the relevant truncation proposition. Set~$\Phi_N(t)=\kappa t\log(N/(at))$ for~$t>0$ and~$\Phi_N(0)=0$.
+
+Let~$\omega$ denote the remainder rate, namely~$(2\alpha/p)\log(1/q)$ for~$p\ge3$ and~$2\alpha\log(1/q)$ for SK. We reserve a fixed fraction of this exponential scale for truncation by taking
+\begin{align}
+ h_0&=\frac{\kappa\alpha}{2}\log\frac2{a\alpha},&
+ \nu&=\frac14\min\{\omega,h_0,1\},\label{eq:uniform-nu}\\
+ N_0&=\left\lceil\max\{p,4,2/\alpha\}\right\rceil,&
+ H&=\begin{cases}8(2+C_+),&p\ge3,\\8(2C_B+3C_+),&p=2.\end{cases}\label{eq:uniform-H}
+\end{align}
+All are fixed once~$p,B$ are fixed. For a requested mean-square budget~$u\in(0,1)$, the algorithm will set~$\Lambda=\log(H/u)$. The factor~$H$ absorbs the constants in the error bounds; the next lemma applies before that substitution.
+
+\begin{lemma}[First omitted support]\label{lem:selection}
+If~$N\ge N_0$ and~$0<\Lambda<\nu N$, the set
+\begin{equation*}
+ \{m\in\mathbb Z:1\le m\le\lfloor\alpha N\rfloor,\ \Phi_N(m)\ge\Lambda\}
+\end{equation*}
+is nonempty. Let~$m$ be its least element and~$k=m-1$. Then
+\begin{equation}\label{eq:selection-error}
+ e^{-\Phi_N(k+1)}\le e^{-\Lambda},\qquad e^{-\omega N}\le e^{-4\Lambda}\,.
+\end{equation}
+For each fixed~$t\ge1$, a constant~$C_t>0$ independent of~$N,\Lambda$ satisfies
+\begin{equation}\label{eq:selection-cost}
+ \sum_{j=0}^{k}\binom Nj t^j\le(N+1)e^{C_t\Lambda}\,.
+\end{equation}
+The least~$m$ can be found in~$O(N)$ arithmetic operations and comparisons.
+\end{lemma}
+\begin{proof}
+The search succeeds within the admissible range because~$\Phi_N'\ge2$ there and~$\lfloor\alpha N\rfloor\ge\alpha N/2$. More precisely,
+\begin{equation*}
+ \Phi_N(\lfloor\alpha N\rfloor)\ge\Phi_N(\alpha N/2)=h_0N\ge4\nu N>\Lambda\,.
+\end{equation*}
+The first error inequality is the test passed by~$m$, and the second follows from~$\omega\ge4\nu$.
+
+For the cost, if~$k=0$ the sum equals one. Otherwise minimality gives~$\Phi_N(k)<\Lambda$. The function~$x\log(etN/x)$ increases on~$[1,N]$, so the binomial estimate implies
+\begin{equation*}
+ \sum_{j=0}^{k}\binom Nj t^j\le(k+1)\exp\!\left(k\log\frac{etN}{k}\right)\,.
+\end{equation*}
+Let~$d_* =\log(1/(a\alpha))>0$. Since~$k\le\alpha N$ and~$a,t\ge1$,
+\begin{equation*}
+ k\log\frac{etN}{k}
+ =k\log\frac{N}{ak}+k\log(e\,t\,a)
+ \le\frac1\kappa\left(1+\frac{\log(e\,t\,a)}{d_*}\right)\Phi_N(k)\,.
+\end{equation*}
+This proves~\eqref{eq:selection-cost} with~$C_t=\kappa^{-1}(1+\log(e\,t\,a)/d_*)$. Compute~$\lfloor\alpha N\rfloor$ by testing successive integers, then scan~$\Phi_N(1),\Phi_N(2),\ldots$ until the threshold is reached. Both scans have at most~$O(N)$ steps.
+\end{proof}
+The lemma uses neighboring sizes for different purposes: the omitted size~$k+1$ makes the error small, while minimality bounds the cost through~$k$. At~$\Lambda\ge\nu N$, the required accuracy is already exponentially fine in~$N$; direct spin enumeration will then cost only a fixed power of~$u^{-1}$.
+
+\section{Evaluating the retained graphs}\label{sec:sk-algebra}
+The truncation bounds are useful only if the retained signed sums can be evaluated at the corresponding cost. For higher-order interactions, a spin sum and inclusion--exclusion evaluate all graphs on one support together. In SK, we first sum the paths and cycles between branching vertices, then combine their weights without enumerating graph shapes. The shared cutoff from Lemma~\ref{lem:selection} will turn these constructions into the following approximation guarantee.
+
+\begin{theorem}[Graphical approximation]\label{thm:mean-square}
+Under~\eqref{eq:disorder} and~\eqref{eq:temperature}, there is a constant~$C$ depending only on~$p,B$ such that, for every~$N\ge p$, specified~$\beta\in[0,B]$, and~$u\in(0,1)$, Algorithm~\ref{alg:graphapprox} returns~$T$ with
+\begin{equation}\label{eq:mean-square}
+ \mathbb E|T-\hat Z_N|^2\le u,\qquad
+ \operatorname{Time}(\mathsf{GraphApprox})\le CN^Cu^{-C}\,.
+\end{equation}
+The operation bound includes input preparation, finite index operations, comparisons and random draws, and holds for every finite real input array and every realization of the internal randomness. The algorithm is deterministic for~$p\ge3$ and uses independent random colors for~$p=2$.
+\end{theorem}
+The theorem concerns absolute error in the graphical correction. Section~\ref{sec:logarithm} will convert it to the requested error in~$\log Z_N$.
+
+\subsection{Summing all graphs on a support}
+Assume first that~$p\ge3$. For a vertex set~$U$, consider the restricted spin average and its inclusion--exclusion transform
+\begin{equation}\label{eq:tail-support-transform}
+ \begin{aligned}
+ G(U)&=2^{-|U|}\sum_{\sigma\in\{-1,1\}^{U}}\prod_{e\in\binom Up}(1+w_e\sigma_e),\\
+ A(U)&=\sum_{S\subseteq U}(-1)^{|U|-|S|}G(S)\,.
+ \end{aligned}
+\end{equation}
+The weights still use the original system size~$N$. The spin average~$G(U)$ imposes evenness, while the alternating sum~$A(U)$ removes the graphs that use only a proper subset of~$U$.
+
+\begin{proposition}[Exact support evaluation]\label{prop:tail-support-evaluation}
+For every~$U\subseteq[N]$ and every real input array,
+\begin{equation}\label{eq:tail-exact-support}
+ A(U)=\sum_{\substack{\Gamma\in\mathcal G_{N,p}\\V(\Gamma)=U}}w(\Gamma)\,.
+\end{equation}
+Consequently, for an integer~$0\le V\le N$, Algorithm~\ref{alg:supportsum} computes~$T^P_{N,V}=\sum_{|U|\le V}A(U)$ exactly. Its arithmetic cost is at most
+\begin{equation}\label{eq:tail-support-cost}
+ C_p(N+1)^p\sum_{v=0}^{V}\binom Nv3^v,
+\end{equation}
+and its complete operation cost, including generation, comparisons and input lookup, is at most
+\begin{equation}\label{eq:tail-support-total-cost}
+ C_p(N+1)^{3p+2}\sum_{v=0}^{V}\binom Nv3^v\,.
+\end{equation}
+The constants depend only on~$p$.
+\end{proposition}
+\begin{proof}
+Expand~$G(S)$ as in Proposition~\ref{prop:graphical}. A graph of support~$W\subseteq U$ appears in~$A(U)$ with coefficient
+\begin{equation*}
+ \sum_{W\subseteq S\subseteq U}(-1)^{|U|-|S|}
+ =(1-1)^{|U\setminus W|}=\mathbf1_{\{W=U\}}\,.
+\end{equation*}
+The convention at~$W=U$ includes the empty support. This proves exactness without imposing any further restriction on the edges or connected components.
+
+For each~$S$, evaluate its~$2^{|S|}$ spin configurations using at most~$C_p(N+1)^p$ arithmetic operations each. For a fixed~$U$, the number of these terms across all subsets is~$\sum_{S\subseteq U}2^{|S|}=3^{|U|}$. Summing over the requested support layers proves~\eqref{eq:tail-support-cost}. The finite generation and lookup procedure in Appendix~\ref{app:higher-cost} contributes the polynomial overhead in~\eqref{eq:tail-support-total-cost}; it generates only the requested layers.
+\end{proof}
+
+\begin{algorithm}[htbp]
+\caption{\textsc{SupportSum}$(N,p,w,V)$}\label{alg:supportsum}
+\begin{algorithmic}[1]
+\Require Cached interaction weights; integer~$0\le V\le N$.
+\State $T\gets0$.
+\For{$v=0,\ldots,V$}
+ \For{each $v$-subset $U\subseteq[N]$, generated by a pruned recursion}
+  \State $a\gets0$.
+  \For{each $S\subseteq U$}
+   \State Evaluate the spin sum $G(S)$ in~\eqref{eq:tail-support-transform}.
+   \State $a\gets a+(-1)^{|U|-|S|}G(S)$.
+  \EndFor
+  \State $T\gets T+a$.
+ \EndFor
+\EndFor
+\State \Return $T$.
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Paths and cycles between branching vertices}
+In SK the retained family~\eqref{eq:sk-target} allows many degree-two vertices, so enumerating their sets would lose the desired cost bound. Fix only a proposed branching set~$A\subseteq[N]$ and write~$W=[N]\setminus A$. We use symmetric edge weights~$w_{ij}=w_{ji}=w_{\{i,j\}}$ for~$i\ne j$, with~$w_{ii}=0$.
+
+There are four kinds of pieces relative to~$A$: an edge within~$A$; a simple path between distinct vertices of~$A$ with a nonempty interior in~$W$; a simple cycle meeting~$A$ once; and a simple cycle contained in~$W$. A cycle meeting~$A$ once uses at least two outside vertices, and an outside cycle uses at least three. Pieces are undirected edge sets, so a path and its reverse represent the same piece.
+
+\begin{lemma}[Decomposition at branching vertices]\label{lem:sk-decomposition}
+An even simple graph with~$B(\Gamma)=A$ has a unique decomposition into these pieces. Pieces with outside vertices have disjoint outside vertex sets, and each direct edge inside~$A$ occurs at most once. Conversely, any collection satisfying these conditions whose union has even degree at least four at every vertex of~$A$ is an even simple graph with exact branching set~$A$.
+\end{lemma}
+\begin{proof}
+Inspect the subgraph induced by the used vertices outside~$A$. Each has total degree two, so the induced subgraph has maximum degree two. Its connected components are paths, cycles or single vertices. To see the classification, take a longest simple path in one component. Its interior vertices already have their two neighbors; maximality prevents an endpoint from having a neighbor outside the path. The only additional edge possible is between the endpoints. Connectedness then excludes any other vertex.
+
+A cycle component has no edges to~$A$. A path component with at least two vertices has one edge to~$A$ at each endpoint and none at its interior vertices. If the attachments in~$A$ differ, it gives an attached path; if they coincide, it gives a cycle through that attachment. A singleton component has two distinct neighbors in~$A$, by simplicity, and gives a path with one outside vertex. Together with the edges internal to~$A$, these components recover every edge of~$\Gamma$ and determine the decomposition uniquely.
+
+Conversely, outside pieces on disjoint outside sets cannot share an edge, since each of their edges has an outside endpoint. They cannot share an edge with a direct piece either. With no repeated direct edge the union is simple, and its used outside vertices have degree two. The stipulated degrees on~$A$ make the union even and make its branching set exactly~$A$.
+\end{proof}
+A high-degree branching vertex requires no choice of pairing among its incident edges: the outside components already determine the pieces. This prevents a factorial enumeration in the branching degrees.
+
+We compute the piece weights by color sets, following the path-recursion idea of Alon--Yuster--Zwick~\cite{AYZ95}. Fix~$L\ge1$ and~$\chi:W\to[L]$. A chain that uses each outside color at most once cannot revisit an outside vertex. Its state therefore needs only the used color set and its last vertex; it does not need to store the intervening vertex list.
+
+For~$a<c$ in~$A$, let~$p_{ac}(S)$ sum the weights of simple paths from~$a$ to~$c$ whose interior lies in~$W$ and has outside color set exactly~$S$, each color used once. Define~$q_a(S)$ in the same way for undirected cycles meeting~$A$ only at~$a$, and~$c(S)$ for undirected cycles contained in~$W$. Their ranges are respectively~$|S|\ge1$, $|S|\ge2$, and~$|S|\ge3$.
+
+To compute these sums, let~$P_a(S,j)$ record chains from~$a\in A$ to~$j\in W$. Set~$P_a(\{\chi(j)\},j)=w_{aj}$; set empty states and states with~$\chi(j)\notin S$ to zero. For~$|S|\ge2$ and~$\chi(j)\in S$, use
+\begin{equation}\label{eq:sk-path-dp}
+ P_a(S,j)=\sum_{\substack{i\in W\\\chi(i)\in S\setminus\{\chi(j)\}}}
+ P_a(S\setminus\{\chi(j)\},i)w_{ij}\,.
+\end{equation}
+Outside cycles require a root that itself has a color. For each~$r\in W$, initialize~$D_r(\{\chi(r)\},r)=1$, with every other singleton state zero. On a larger set~$S$, a state is allowed only if~$\chi(r)\in S$ and~$\chi(j)\in S\setminus\{\chi(r)\}$. Its update is
+\begin{equation}\label{eq:sk-cycle-dp}
+ D_r(S,j)=\sum_{\substack{i\in W\\\chi(i)\in S\setminus\{\chi(j)\}}}
+ D_r(S\setminus\{\chi(j)\},i)w_{ij}\,.
+\end{equation}
+Set every remaining state to zero. Thus~$P_a$ starts with an edge into~$W$, while~$D_r$ starts with an edgeless outside root; both recurrences then append one fresh-colored vertex.
+
+\begin{lemma}[Path and cycle coefficients]\label{lem:sk-primitive-tables}
+The tables~$P_a,D_r$ sum the stated chain weights with each outside color used once. The undirected piece sums are
+\begin{align}
+ p_{ac}(S)&=\sum_{j\in W}P_a(S,j)w_{jc},&&a<c,\ |S|\ge1,\label{eq:sk-path-close}\\
+ q_a(S)&=\frac12\sum_{j\in W}P_a(S,j)w_{ja},&&|S|\ge2,\label{eq:sk-return-close}\\
+ c(S)&=\frac1{2|S|}\sum_{\substack{r\in W\\\chi(r)\in S}}\sum_{j\in W}D_r(S,j)w_{jr},&&|S|\ge3\,.\label{eq:sk-cycle-close}
+\end{align}
+\end{lemma}
+\begin{proof}
+Delete the last vertex~$j$ of a nonsingleton chain. This leaves one predecessor~$i$ and the color set~$S\setminus\{\chi(j)\}$. Conversely, appending~$j$ to any chain in such a predecessor state introduces a new color and hence a new vertex, multiplying its weight by~$w_{ij}$. These inverse operations prove both recurrences by induction on~$|S|$, from their respective initial edge and edgeless-root states. The zero-state rules forbid omission or reuse of the outside root's color.
+
+Closing a chain introduces the final edge to the prescribed endpoint. A simple path with endpoints~$a<c$ has exactly one traversal starting at~$a$, because each subsequent edge is forced once the preceding edge is excluded. Thus the first closure counts its edge product once. A simple cycle through~$a$ has two traversals starting there, one for each of its two distinct neighbors. The resulting lists are reverses and are distinct when there are at least two outside vertices. Their equal edge-product weights explain the factor~$1/2$; the lower bound on~$|S|$ excludes the repeated-edge walk~$a-j-a$.
+
+An outside cycle has~$|S|$ possible roots and two traversal directions at each root. Since it has at least three vertices, these~$2|S|$ rooted lists are distinct. Each closure in the third formula is one of these lists, and every list has the cycle's edge-product weight. Dividing by~$2|S|$ gives the last formula, with the original signs retained.
+\end{proof}
+
+\subsection{Assembling the graph}
+The path and cycle tables determine the total weight of each kind of piece. They do not yet determine which pieces can occur together. Outside vertices must be disjoint, the total number of edges must be at most~$L$, and every vertex of the proposed branching set~$A$ must acquire even degree at least four. We impose these three conditions during multiplication.
+
+Fix a coloring~$\chi:W\to[L]$. A graph is \emph{outside-colorful} when its used vertices in~$W$ all have different colors. Attach a variable~$x_i$ to color~$i$ and impose~$x_i^2=0$. Thus, writing~$x_S=\prod_{i\in S}x_i$,
+\begin{equation}\label{eq:sk-color-product}
+ x_Sx_T=\begin{cases}x_{S\cup T},&S\cap T=\varnothing,\\0,&S\cap T\ne\varnothing.\end{cases}
+\end{equation}
+A surviving product cannot reuse an outside vertex. It can also reject vertex-disjoint pieces that happen to share a color; for now the computation deliberately sums only the colorful graphs. The known probability of being colorful will later recover the full retained sum in expectation.
+
+Edge count is additive, so it is recorded by a variable~$t$ with~$t^{L+1}=0$. Degree is also additive, but recording every possible degree at each~$a\in A$ would be unnecessary. Degrees zero through three must be distinguished. Once the degree reaches four, only its parity can affect whether a later addition is acceptable. We therefore use the six states
+\begin{equation}\label{eq:sk-degree-state}
+ \rho(d)=\begin{cases}d,&0\le d\le3,\\4,&d\ge4\text{ even},\\5,&d\ge5\text{ odd}.\end{cases}
+\end{equation}
+They satisfy~$\rho(\rho(d)+e)=\rho(d+e)$ for~$d,e\ge0$: below four no reduction occurs, and above four every later degree is still at least four with the same parity. This identity permits a degree to be reduced after each multiplication without changing the final test.
+
+These rules have the following algebraic realization:
+\begin{equation}\label{eq:sk-algebra}
+ \mathcal A_{A,L}=\mathbb R[t,x_1,\ldots,x_L,(y_a)_{a\in A}]
+ /\bigl(t^{L+1},(x_i^2)_{i\in[L]},(y_a^6-y_a^4)_{a\in A}\bigr)\,.
+\end{equation}
+Reduction by the monic relation in each separate variable gives a unique coefficient array indexed by
+\begin{equation}\label{eq:sk-basis}
+ t^kx_S\prod_{a\in A}y_a^{d_a},\qquad 0\le k\le L,\quad S\subseteq[L],\quad d_a\in\{0,1,2,3,4,5\}\,.
+\end{equation}
+The number of array entries is
+\begin{equation}\label{eq:sk-dimension}
+ K_{b,L}=(L+1)2^L6^b,\qquad b=|A|\,.
+\end{equation}
+A coefficient can therefore be stored and updated using only the edge count, the color subset and one of six states at each branching vertex.
+
+Let~$C(t,x)$ sum outside cycles, let~$P_{ac}(t,x)$ sum paths from~$a$ to~$c$ with~$a<c$, and let~$Q_a(t,x)$ sum cycles attached only at~$a$. In terms of the primitive sums just computed, these are
+\begin{align}
+ C(t,x)&=\sum_{\substack{S\subseteq[L]\\3\le|S|\le L}}c(S)t^{|S|}x_S,\label{eq:sk-cycle-poly}\\
+ P_{ac}(t,x)&=\sum_{\substack{S\subseteq[L]\\1\le|S|\le L-1}}p_{ac}(S)t^{|S|+1}x_S,\label{eq:sk-path-poly}\\
+ Q_a(t,x)&=\sum_{\substack{S\subseteq[L]\\2\le|S|\le L-1}}q_a(S)t^{|S|+1}x_S\,.\label{eq:sk-return-poly}
+\end{align}
+Each coefficient sums the weights of all undirected pieces with the specified endpoints and color set; the traversal multiplicities have already been divided out. An outside cycle has as many edges as outside vertices, whereas a piece attached to~$A$ has one more edge. This accounts for the powers of~$t$ and the ranges in the three sums. The polynomial of one outside piece, with its contribution to the degrees on~$A$, is
+\begin{equation}\label{eq:sk-primitive-sum}
+ S_A=C(t,x)+\sum_{a<c}P_{ac}(t,x)y_ay_c+\sum_{a\in A}Q_a(t,x)y_a^2\,.
+\end{equation}
+Every term of~$S_A$ uses a nonempty color set, so a product of~$L+1$ such terms vanishes. To form unordered collections of pieces, set
+\begin{equation}\label{eq:sk-finite-poly}
+ E_A=\sum_{j=0}^{L}\frac{S_A^j}{j!},\qquad
+ F_A=\prod_{a<c}(1+tw_{ac}y_ay_c)E_A\,.
+\end{equation}
+The factorial compensates for the orders in which distinct outside pieces can be chosen. Direct edges have no outside color to prevent reuse, so each has its own factor with two choices: omit the edge or include it once.
+
+For~$0\le k\le L$ and~$S\subseteq[L]$, extract the accepting degree state at every~$a\in A$:
+\begin{equation}\label{eq:sk-extraction}
+ f_A^\chi(k,S)=\left[t^kx_S\prod_{a\in A}y_a^4\right]F_A\,.
+\end{equation}
+Here exponent four represents any even degree at least four. It does not restrict a branching vertex to degree exactly four.
+
+\begin{proposition}[Colorful evaluation]\label{prop:sk-evaluation}
+For every real edge-weight array, every~$A\subseteq[N]$, every integer~$L\ge1$, and every~$\chi:W\to[L]$,
+\begin{equation}\label{eq:sk-exact-coefficient}
+ f_A^\chi(k,S)=\sum_{\substack{\Gamma\in\mathcal G_{N,2},\ B(\Gamma)=A,\ |\Gamma|=k\\
+ \chi\text{ injective on }V(\Gamma)\setminus A,\ \chi(V(\Gamma)\setminus A)=S}}w(\Gamma)\,.
+\end{equation}
+If~$U_{A,m}^\chi$ denotes the sum over these colorful graphs with at most~$L$ edges and exactly~$m$ outside vertices, then
+\begin{equation}\label{eq:sk-colorful-total}
+ U_{A,m}^\chi=\sum_{k=0}^{L}\sum_{\substack{S\subseteq[L]\\|S|=m}}f_A^\chi(k,S)\,.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Expand each primitive coefficient as a sum over undirected pieces. A nonzero term of~$S_A^j$ chooses pieces with pairwise disjoint outside color sets. Such pieces are distinct and have disjoint outside vertex sets. Each unordered collection has exactly~$j!$ orders, so it occurs once in~$E_A$. The normalization of the primitive coefficients has already removed any multiplicity from orienting a path or choosing a starting point on a cycle.
+
+Multiplying by the direct factors adds a subset of the edges within~$A$. By Lemma~\ref{lem:sk-decomposition}, the resulting union is simple and each used vertex outside~$A$ has degree two. The exponent of~$t$ counts its edges, and the powers of~$x$ specify its outside color set. At a vertex~$a\in A$, the state after all multiplications is~$\rho(\deg_\Gamma(a))$. Consequently the extraction in~\eqref{eq:sk-extraction} accepts exactly the even graphs whose branching set is~$A$ and whose edge count and color set are~$k,S$.
+
+Conversely, a graph in the sum in~\eqref{eq:sk-exact-coefficient} has a unique decomposition into direct edges and outside pieces. Its colorfulness makes the outside pieces compatible in the algebra. Every piece lies within the edge cutoff, and there are at most~$L$ outside pieces, since each uses a nonempty subset of~$[L]$ disjoint from the others. Hence the decomposition contributes to~$F_A$, and the preceding multiplicity calculation gives its weight exactly once. Summing the coefficients over~$k$ and~$|S|=m$ gives~\eqref{eq:sk-colorful-total}.
+\end{proof}
+
+To turn colorful evaluation into an estimator, sample each color independently and uniformly from~$[L]$. A fixed set of~$m\le L$ outside vertices is injectively colored with probability
+\begin{equation}\label{eq:sk-color-probability}
+ \pi_{m,L}=\frac{(L)_m}{L^m},\qquad (L)_m=L(L-1)\cdots(L-m+1),\qquad\pi_{0,L}=1\,.
+\end{equation}
+Every retained graph has at most~$L$ used vertices, because its minimum positive degree is two and it has at most~$L$ edges. The inclusion probabilities needed for all its outside vertices are therefore positive. Define one rescaled trial by
+\begin{equation}\label{eq:sk-rescaled-trial}
+ Y_A^\chi=\sum_{m=0}^{L}\frac{U_{A,m}^\chi}{\pi_{m,L}}\,.
+\end{equation}
+For each candidate~$A$ and trial~$r\in[R]$, draw a fresh coloring~$\chi_{A,r}$. All draws are independent of one another and of the disorder. The estimator is
+\begin{equation}\label{eq:sk-estimator}
+ \widetilde T^S_{N,D,L}=\sum_{\substack{A\subseteq[N]\\|A|\le D}}\frac1R\sum_{r=1}^{R}Y_A^{\chi_{A,r}}\,.
+\end{equation}
+
+The computation stores each path table and each completed algebra product. In particular, it constructs the final coefficient array once per trial and extracts all required coefficients in one pass. The finite exponential is accumulated recursively, and direct edges are processed by successive multiplications in the same coefficient space. These choices make the implementation cost exponential in~$L+b$, rather than in the number of possible edges inside~$A$.
+
+\begin{algorithm}[htbp]
+\caption{SK evaluation with cutoffs~$D,L$ and~$R$ trials}\label{alg:sk-estimator}
+\begin{algorithmic}[1]
+\Require Real edge weights; integers~$0\le D\le N$, $L,R\ge1$.
+\State Store the edge weights and compute~$\pi_{m,L}$ for~$0\le m\le L$; set~$T\gets0$.
+\For{each candidate~$A\subseteq[N]$ with~$|A|\le D$, generated by cardinality}
+ \State $W\gets[N]\setminus A$; $s\gets0$.
+ \For{$r=1,\ldots,R$}
+  \State Sample one independent uniform color for each vertex of~$W$.
+  \State Compute and save every~$P_a,D_j$ table in increasing color-set cardinality.
+  \State Assemble~$S_A$, checking the edge cutoff before computing a primitive closure.
+  \State $V\gets1$; $E\gets1$.
+  \For{$j=1,\ldots,L$}
+   \State $V\gets VS_A/j$; $E\gets E+V$, storing completed arrays.
+  \EndFor
+  \State $F\gets E$.
+  \For{each pair~$a<c$ in~$A$}
+   \State $F\gets F(1+tw_{ac}y_ay_c)$ in~$\mathcal A_{A,L}$.
+  \EndFor
+  \State Add~$\displaystyle\sum_{k=0}^{L}\sum_{S\subseteq[L]}\pi_{|S|,L}^{-1}
+    [t^kx_S\prod_{a\in A}y_a^4]F$ to~$s$ in one scan.
+ \EndFor
+ \State $T\gets T+s/R$.
+\EndFor
+\State \Return $T$.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{proposition}[Evaluation cost]\label{prop:sk-cost}
+For an absolute constant~$C_0$, one complete rescaled trial with~$b=|A|$ uses at most
+\begin{equation}\label{eq:sk-one-cost}
+ C_0(N+L+1)^6 4^L36^b
+\end{equation}
+operations. For~$0\le D\le N$ and~$L,R\ge1$, Algorithm~\ref{alg:sk-estimator} uses at most
+\begin{equation}\label{eq:sk-total-cost}
+ C_0R(N+L+1)^6 4^L\sum_{b=0}^{D}\binom Nb36^b\,.
+\end{equation}
+This includes preparation, candidate generation, comparisons, register indexing, weight lookups, color draws, rescaling and averaging.
+\end{proposition}
+The exponential factors have a simple origin: multiplying two arrays with~$K_{b,L}=(L+1)2^L6^b$ entries visits at most~$K_{b,L}^2$ pairs. The other loop indices cost a polynomial factor. Appendix~\ref{app:sk-cost} proves the full bound for this execution, including its generation and access operations. Enumerating the~$2^{\binom b2}$ possible subsets of direct edges would not give this bound; multiplying their optional factors does.
+
+\begin{proposition}[Unbiasedness and mean-square error]\label{prop:sk-color-error}
+For every fixed disorder array,
+\begin{equation}\label{eq:sk-unbiased}
+ \mathbb E_\xi[\widetilde T^S_{N,D,L}\mid J]=T^S_{N,D,L}\,.
+\end{equation}
+Under~\eqref{eq:disorder}, for integers~$N\ge2$, $0\le D\le N$, and~$L,R\ge1$,
+\begin{equation}\label{eq:sk-color-mse}
+ \mathbb E_{J,\xi}|\widetilde T^S_{N,D,L}-T^S_{N,D,L}|^2\le C_+e^L/R\,.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Track a single retained graph~$\Gamma$. Its branching set~$A=B(\Gamma)$ is the unique candidate at which it can appear. If~$m=|V(\Gamma)\setminus A|$, Proposition~\ref{prop:sk-evaluation} identifies its coefficient as
+\begin{equation*}
+ c_\Gamma=\frac1R\sum_{r=1}^{R}\frac{I_{A,r}(\Gamma)}{\pi_{m,L}},
+\end{equation*}
+where~$I_{A,r}(\Gamma)$ is the indicator that its outside vertices have distinct colors. For this fixed graph the indicators are independent, with mean~$\pi_{m,L}$, so~$\mathbb E_\xi c_\Gamma=1$ and
+\begin{equation}\label{eq:sk-coefficient-variance}
+ \mathbb E_\xi(c_\Gamma-1)^2=\frac{1-\pi_{m,L}}{R\pi_{m,L}}\le\frac{e^L}{R}\,.
+\end{equation}
+For the last inequality, observe that the probability decreases as~$m$ increases, and
+\begin{equation}\label{eq:sk-color-lower-bound}
+ \pi_{m,L}\ge\pi_{L,L}=L!/L^L\ge e^{-L}\,.
+\end{equation}
+Indeed, adding one vertex multiplies the probability by~$(L-m)/L$, and~$\log(L!)\ge\int_1^L\log x\,dx=L\log L-L+1$. For~$m=0$ the coefficient is identically one.
+
+Summing~$\mathbb E_\xi c_\Gamma=1$ against the fixed weights proves unbiasedness. For the mean-square estimate, the coefficients of different graphs may be dependent, since they may use the same colors. What matters is that their entire array is independent of~$J$. Lemma~\ref{lem:orthogonality} applied to
+\begin{equation*}
+ \widetilde T^S_{N,D,L}-T^S_{N,D,L}
+ =\sum_{\substack{\Gamma\in\mathcal G_{N,2}\\b(\Gamma)\le D,\ |\Gamma|\le L}}(c_\Gamma-1)w(\Gamma)
+\end{equation*}
+therefore gives the exact identity
+\begin{equation}\label{eq:sk-color-mse-exact}
+ \mathbb E_{J,\xi}|\widetilde T^S_{N,D,L}-T^S_{N,D,L}|^2
+ =\sum_{\substack{\Gamma\in\mathcal G_{N,2}\\b(\Gamma)\le D,\ |\Gamma|\le L}}
+ \frac{1-\pi_{m(\Gamma),L}}{R\pi_{m(\Gamma),L}}r_N^{|\Gamma|},
+\end{equation}
+where~$m(\Gamma)=|V(\Gamma)\setminus B(\Gamma)|$. Apply~\eqref{eq:sk-coefficient-variance} and the total mass bound~\eqref{eq:mass}. All graph and color spaces are finite and the edge weights bounded, so these expansions and expectations are legitimate.
+\end{proof}
+
+There is no factor of two when the coloring error is combined with truncation. Conditional on~$J$, the former has mean zero and the latter is fixed, so their cross term vanishes. For the parameters of Proposition~\ref{prop:tail-sk} and~$R\ge1$, this proves
+\phantomsection\label{prop:sk-complete-error}
+\begin{equation}\label{eq:sk-complete-error}
+ \mathbb E|\widetilde T^S_{N,D,L}-\hat Z_N|^2
+ \le C_+q^{L+1}+2C_Be^{-\Phi_N(D+1)}+C_+e^{-c_2N}+C_+e^L/R\,.
+\end{equation}
+The first three terms are the truncation errors from~\eqref{eq:tail-sk-truncation}; the fourth is the variance just proved. Increasing~$L$ reduces the edge tail but worsens its variance bound. The number of trials~$R$ will compensate for that cost.
+
+\subsection{Arbitrary precision}
+We can now specify one algorithm for all requested mean-square budgets. For moderate accuracy it retains the supports selected in Section~\ref{sec:uniform}. For exponentially fine accuracy it evaluates the entire spin sum. The latter branch is part of the polynomial bound in inverse accuracy, because the input budget is then exponentially small.
+
+Use the constants~\eqref{eq:uniform-alpha-choice}--\eqref{eq:uniform-H}. The formula for~$G(U)$ in~\eqref{eq:tail-support-transform} also makes sense when~$p=2$, and~$G([N])=\hat Z_N$ for every~$p\ge2$.
+
+\begin{algorithm}[htbp]
+\caption{\textsc{GraphApprox}$(N,\beta,J,u)$}\label{alg:graphapprox}
+\begin{algorithmic}[1]
+\Require Fixed~$p,B$; $N\ge p$, specified~$\beta\in[0,B]$, $u\in(0,1)$.
+\State Compute and store the weights~$w_e$; set~$\Lambda\gets\log(H/u)$.
+\If{$N<N_0$ or~$\Lambda\ge\nu N$}
+ \State \Return the exact spin average~$G([N])$.
+\EndIf
+\State Find the least~$1\le m\le\lfloor\alpha N\rfloor$ with~$\Phi_N(m)\ge\Lambda$; set~$k\gets m-1$.
+\If{$p\ge3$}
+ \State \Return \textsc{SupportSum}$(N,p,w,k)$.
+\Else
+ \State $D\gets k$; $L\gets\lceil\Lambda/\log(1/q)\rceil$; $R\gets\lceil e^{L+\Lambda}\rceil$.
+ \State \Return Algorithm~\ref{alg:sk-estimator} with these cutoffs and trials.
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+The integers in this description are computed by comparisons and increments. The cutoff search costs~$O(N)$; the SK ceiling searches add~$O(L+R)$. Appendix~\ref{app:rounding} records these costs explicitly.
+
+\begin{proof}[Proof of Theorem~\ref{thm:mean-square}]
+First suppose the algorithm uses truncation. Then~$N\ge N_0$, $0<\Lambda<\nu N$, and Lemma~\ref{lem:selection} provides~$k+1\le\lfloor\alpha N\rfloor$ with the two error bounds~\eqref{eq:selection-error}.
+
+For~$p\ge3$, exact support evaluation and Proposition~\ref{prop:tail-higher} give
+\begin{equation*}
+ \mathbb E_J|T^P_{N,k}-\hat Z_N|^2
+ \le2e^{-\Lambda}+C_+e^{-4\Lambda}
+ \le(2+C_+)e^{-\Lambda}=u/8\le u\,.
+\end{equation*}
+The complete cost of the support calculation is bounded by
+\begin{equation*}
+ C_p(N+1)^{3p+2}\sum_{j=0}^{k}\binom Nj3^j
+ \le C_p(N+1)^{3p+3}e^{C_3\Lambda}
+ =C_pH^{C_3}(N+1)^{3p+3}u^{-C_3}\,.
+\end{equation*}
+The preparation of the physical input and the cutoff scan add polynomial work.
+
+For SK, the chosen integers~$L,R$ are positive and satisfy
+\begin{equation*}
+ q^{L+1}\le e^{-\Lambda},\qquad e^L/R\le e^{-\Lambda}\,.
+\end{equation*}
+The combined error~\eqref{eq:sk-complete-error} is therefore at most
+\begin{equation*}
+ (2C_B+2C_+)e^{-\Lambda}+C_+e^{-4\Lambda}
+ \le(2C_B+3C_+)e^{-\Lambda}=u/8\le u\,.
+\end{equation*}
+Proposition~\ref{prop:sk-cost} and Lemma~\ref{lem:selection}, now with~$t=36$, bound the execution cost by
+\begin{equation*}
+ C_0(N+L+1)^6R4^L(N+1)e^{C_{36}\Lambda}
+ +\operatorname{poly}(N)+O(L+R)\,.
+\end{equation*}
+Here~$L\le1+\Lambda/\log(1/q)$ and~$R\le2e^{L+\Lambda}$. Consequently~$R4^Le^{C_{36}\Lambda}\le Ce^{C'\Lambda}$ for fixed constants depending only on~$B$. Also~$\Lambda<\nu N$ bounds~$N+L+1$ by a fixed multiple of~$N+1$. Substituting~$e^{C'\Lambda}=H^{C'}u^{-C'}$ gives the required polynomial cost, including the integer searches and all colors actually drawn.
+
+In the exact branch, Proposition~\ref{prop:graphical} gives zero error. A direct spin traversal costs at most~$C_p(N+1)^{c_p'}2^N$, including generation and input access, for a fixed exponent~$c_p'$. If~$N<N_0$, its exponential factor is bounded by a constant depending only on~$p,B$. In the other exact case,
+\begin{equation}\label{eq:exact-cost}
+ 2^N\le e^{(\log2/\nu)\Lambda}=H^{\log2/\nu}u^{-\log2/\nu}\,.
+\end{equation}
+One larger constant~$C$ covers the coefficients and exponents of all three branches. The constructed outputs are finite polynomials in bounded weights, with finite color spaces where used, so their square errors are integrable.
+\end{proof}
+
+\section{Logarithmic accuracy}\label{sec:logarithm}
+Theorem~\ref{thm:mean-square} gives an absolute approximation to~$\hat Z_N$. To take its logarithm we need relative accuracy, which can fail when the correction is small. We handle this by choosing a positive threshold: below it we pay a lower-tail probability, and above it a sufficiently small absolute error controls the logarithm. The remaining probabilistic task is therefore a lower-tail bound for the original disorder law.
+
+\subsection{A restricted negative moment}
+Conditioning on coupling magnitudes leaves independent signs. On that sign cube, a noise operator scales a monomial by a power of its degree. This allows us to express~$\hat Z_N$ as the noise average of a polynomial with enlarged coefficients and to use reverse hypercontractivity.
+
+For a function on~$\{-1,1\}^m$ and~$0\le\vartheta\le1$, define
+\begin{equation*}
+ (\mathsf N_\vartheta f)(\epsilon)
+ =\mathbb E_\zeta f(\epsilon_1\zeta_1,\ldots,\epsilon_m\zeta_m),
+ \qquad \mathbb P(\zeta_j=1)=(1+\vartheta)/2,
+\end{equation*}
+with independent~$\zeta_j$. For positive~$f$ and~$r\ne0$, write~$\|f\|_r=(\mathbb E f^r)^{1/r}$, where the latter expectation is uniform on the sign cube.
+\begin{lemma}[Reverse hypercontractivity]\label{lem:reverse}
+For~$0<r<1$, $t<0$, and~$0<\vartheta\le(1-r)/(1-t)$, every strictly positive function on a finite uniform sign cube satisfies
+\begin{equation}\label{eq:reverse}
+ \|\mathsf N_\vartheta f\|_t\ge\|f\|_r\,.
+\end{equation}
+\end{lemma}
+This is the finite-cube specialization of Mossel--Oleszkiewicz--Sen~\cite[Corollary~1.11]{MOS13}. Appendix~\ref{app:reverse-proof} gives a direct proof in the stated parameter range.
+
+Keep~$\theta$ from~\eqref{eq:inflation}, and set~$s=\theta^{-1/2}-1>0$. To ensure positivity after enlarging the coefficients, introduce the event
+\begin{equation}\label{eq:large-event}
+ c=\frac{\operatorname{arctanh}(\theta/2)}{B},\qquad
+ \mathcal B_N=\left\{\max_{e\in\mathcal E_{N,p}}|J_e|\le cN^{(p-1)/2}\right\}\,.
+\end{equation}
+For every specified~$\beta\in[0,B]$, it implies~$|w_e|\le\theta/2$. The complement has probability at most~$\tau_N=\binom Np\mathbb P(|J_0|>cN^{(p-1)/2})$. This event restricts the proof, not the input used by the algorithm.
+
+\begin{proposition}[Lower tail]\label{prop:lower-tail}
+For every~$N\ge p$ and specified~$\beta\in[0,B]$,
+\begin{equation}\label{eq:lower-tail}
+ \mathbb E_J[\hat Z_N^{-s}\mathbf1_{\mathcal B_N}]\le C_+,
+ \qquad \mathbb P_J(\hat Z_N<z)\le C_+z^s+\tau_N\quad(z>0)\,.
+\end{equation}
+The constants are the same for all such temperatures and all disorder laws satisfying~\eqref{eq:disorder}.
+\end{proposition}
+\begin{proof}
+Represent the couplings in distribution as~$J_e=\epsilon_e a_e$, with independent~$a_e$ of law~$|J_0|$ and independent uniform signs~$\epsilon_e$, also independent of the magnitudes. Symmetry justifies this representation even when~$J_0$ has an atom at zero. For fixed magnitudes let~$b_e=\tanh(\beta a_e/N^{(p-1)/2})$ and form
+\begin{equation}\label{eq:inflated-function}
+ f_a(\epsilon)=\mathbb E_0\prod_e\left(1+\frac{b_e}{\theta}\epsilon_e\sigma_e\right)
+ =\sum_{\Gamma\in\mathcal G_{N,p}}\prod_{e\in\Gamma}\frac{b_e\epsilon_e}{\theta}\,.
+\end{equation}
+On~$\mathcal B_N$, every product factor is at least~$1/2$, so~$f_a$ is strictly positive. Its sign mean is one, and its conditional second moment is
+\begin{equation}\label{eq:conditional-mass}
+ C(a):=\mathbb E_\epsilon f_a^2
+ =\sum_{\Gamma\in\mathcal G_{N,p}}\prod_{e\in\Gamma}\frac{b_e^2}{\theta^2}\,.
+\end{equation}
+The right-hand side is a nonnegative expression defined for every magnitude array. Noise multiplies a sign monomial indexed by~$\Gamma$ by~$\theta^{|\Gamma|}$, hence~$\mathsf N_\theta f_a=\hat Z_N(\epsilon a)$.
+
+We bound the negative moment in terms of~$C(a)$ with exponent exactly one, so it can be averaged over the magnitudes using the mass estimate. Take~$r=1-\sqrt\theta$. Then~$s=r/(1-r)$ and~$(1-r)/(1+s)=\theta$. For magnitudes in~$\mathcal B_N$, Lemma~\ref{lem:reverse} gives
+\begin{equation*}
+ \mathbb E_\epsilon\hat Z_N(\epsilon a)^{-s}
+ \le(\mathbb E_\epsilon f_a^r)^{-s/r}\,.
+\end{equation*}
+The mean-one identity supplies a lower bound on the positive moment on the right. H\"older's inequality, applied to~$f_a=(f_a^r)^{1/(2-r)}(f_a^2)^{(1-r)/(2-r)}$, yields
+\begin{equation*}
+ 1\le(\mathbb E_\epsilon f_a^r)^{1/(2-r)}C(a)^{(1-r)/(2-r)}\,.
+\end{equation*}
+Consequently~$\mathbb E_\epsilon f_a^r\ge C(a)^{-(1-r)}$, and on~$\mathcal B_N$,
+\begin{equation*}
+ \mathbb E_\epsilon\hat Z_N(\epsilon a)^{-s}\le C(a)^{s(1-r)/r}=C(a)\,.
+\end{equation*}
+
+Average this nonnegative inequality over the magnitudes. Tonelli's theorem applies without first assuming integrability of the inverse power. Independence and~$r_N/\theta^2\le v_+/N^{p-1}$ give
+\begin{equation*}
+ \mathbb E_J[\hat Z_N^{-s}\mathbf1_{\mathcal B_N}]
+ \le\mathbb E_a C(a)
+ =\sum_{\Gamma\in\mathcal G_{N,p}}(r_N/\theta^2)^{|\Gamma|}
+ \le C_+
+\end{equation*}
+by Proposition~\ref{prop:mass}. This also proves the required integrability on~$\mathcal B_N$. Markov's inequality on that event and the union bound for its complement now yield~\eqref{eq:lower-tail}. The argument includes~$\beta=0$, where~$\hat Z_N=1$.
+\end{proof}
+Only the exceptional probability remembers the raw disorder tail. No coupling is truncated, replaced or resampled in the computation.
+
+\subsection{Choosing the accuracy budget}
+The lower-tail exponent~$s$ determines how much absolute accuracy is needed for a requested logarithmic error. Choose
+\begin{equation}\label{eq:log-budgets}
+ z=\left(\frac{\delta}{2C_+}\right)^{1/s},\qquad
+ u=\frac{\delta\varepsilon^2z^2}{8}\,.
+\end{equation}
+The first choice makes the term~$C_+z^s$ in the lower-tail bound equal to~$\delta/2$; the second reserves the remaining~$\delta/2$ for the approximation error. Define the output on every input by
+\begin{equation}\label{eq:log-output}
+ F_N(T)=\log\bar Z_N+
+ \begin{cases}\log T,&T>0,\\0,&T\le0.\end{cases}
+\end{equation}
+The second branch makes the algorithm total even if the graphical approximation is nonpositive.
+
+\begin{algorithm}[htbp]
+\caption{Arbitrary-accuracy counting}\label{alg:counting}
+\begin{algorithmic}[1]
+\Require $N\ge p$, a finite array~$J$, specified~$\beta\in[0,B]$, and~$\varepsilon,\delta\in(0,1)$.
+\State Compute $\log\bar Z_N=N\log2+\sum_{e\in\mathcal E_{N,p}}\log\cosh x_e$.
+\State Compute $z$ and~$u$ from~\eqref{eq:log-budgets}.
+\State $T\gets\textsc{GraphApprox}(N,\beta,J,u)$.
+\State \Return $\widehat F_N=F_N(T)$.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Since~$C_+\ge1$ and~$s>0$, the parameters in~\eqref{eq:log-budgets} satisfy~$0<z<1$ and~$0<u<1/8$. Theorem~\ref{thm:mean-square} therefore applies to the call in Algorithm~\ref{alg:counting}.
+
+Consider an outcome for which~$\hat Z_N\ge z$ and~$|T-\hat Z_N|\le\varepsilon z/2$. It has~$T\ge z(1-\varepsilon/2)>0$ and
+\begin{equation*}
+ \left|\frac{T}{\hat Z_N}-1\right|\le\frac\varepsilon2<\frac12\,.
+\end{equation*}
+Using~$Z_N=\bar Z_N\hat Z_N$ and~$|\log(1+x)|\le2|x|$ for~$|x|\le1/2$, we obtain~$|F_N(T)-\log Z_N|\le\varepsilon$. Thus every failure belongs to the union of the lower-tail event and the absolute-error event. Proposition~\ref{prop:lower-tail} and Markov's inequality give
+\begin{align*}
+ \mathbb P(|F_N(T)-\log Z_N|>\varepsilon)
+ &\le \mathbb P(\hat Z_N<z)+\mathbb P(|T-\hat Z_N|>\varepsilon z/2)\\
+ &\le\tau_N+C_+z^s+\frac{4\mathbb E|T-\hat Z_N|^2}{\varepsilon^2z^2}\\
+ &\le\tau_N+\frac\delta2+\frac\delta2\,.
+\end{align*}
+For SK, the expectation and the second probability include the independent colors; for~$p\ge3$, all randomness comes from~$J$. No independence between~$T$ and~$\hat Z_N$ is used.
+
+It remains to check that the requested absolute accuracy is affordable. The identity
+\begin{equation*}
+ u^{-1}=8(2C_+)^{2/s}\varepsilon^{-2}\delta^{-(1+2/s)}
+\end{equation*}
+turns the polynomial bound of Theorem~\ref{thm:mean-square} into~$CN^C\varepsilon^{-C}\delta^{-C}$ after increasing~$C$. Computing the prefactor uses one term per physical interaction, and the remaining budget and output operations have polynomial cost. All constants used here depend only on~$p,B$. The procedure queries only the original~$p$-element interactions, so both the probability estimate and the all-input runtime bound apply to the input model of the theorem.
+\end{proof}
+
+\subsection{Moment assumptions and confidence}
+The theorem separates the requested confidence from the tail of the input law. Theorem~\ref{cor:typical} and Corollary~\ref{cor:confidence} follow by controlling that tail and using the same schedule,
+\begin{equation}\label{eq:confidence-schedule}
+ \delta_N=\tfrac12N^{-b},\qquad b>0\,.
+\end{equation}
+For fixed~$b$, substituting this schedule into~\eqref{eq:main-runtime} gives~$C2^CN^{(1+b)C}\varepsilon^{-C}$. In particular, requesting confidence that increases with~$N$ preserves polynomial cost at every accuracy.
+
+\begin{proof}[Proof of Theorem~\ref{cor:typical}]
+A finite fourth moment implies a little-oh tail estimate, which is needed at~$p=2$. Indeed,
+\begin{equation*}
+ t^4\mathbb P(|J_0|>t)
+ \le\mathbb E\bigl[|J_0|^4\mathbf1_{\{|J_0|>t\}}\bigr]\longrightarrow0
+ \qquad(t\longrightarrow\infty)
+\end{equation*}
+by dominated convergence. Evaluating the tail at~$cN^{(p-1)/2}$ yields
+\begin{equation*}
+ \tau_N=\binom Np\,o(N^{-2(p-1)})=o(N^{2-p})\longrightarrow0\,.
+\end{equation*}
+Use~\eqref{eq:confidence-schedule} with~$b=1$. The failure bound~$\tau_N+1/(2N)$ tends to zero and does not involve the specified~$\beta$ or~$\varepsilon$. In particular,
+\begin{equation}\label{eq:typical-success}
+ \sup_{\substack{\beta\in[0,B]\\0<\varepsilon<1}}
+ \mathbb P\bigl(|\widehat F_N(N,J,\beta,\varepsilon)-\log Z_N(\beta;J)|>\varepsilon\bigr)
+ \le\tau_N+\frac1{2N}\longrightarrow0\,.
+\end{equation}
+For the relative-error guarantee, take~$\eta=\log(1+\varepsilon)\in(0,1)$, run this logarithmic estimator at accuracy~$\eta$, and return~$\widetilde Z_N=\exp(\widehat F_N(N,J,\beta,\eta))$. On its success event,
+\begin{equation*}
+ 1-\varepsilon\le\frac1{1+\varepsilon}
+ =e^{-\eta}\le\frac{\widetilde Z_N}{Z_N(\beta;J)}
+ \le e^\eta=1+\varepsilon\,.
+\end{equation*}
+The uniform bound~\eqref{eq:typical-success} therefore proves~\eqref{eq:multiplicative-success}. Finally, $\eta=\int_0^\varepsilon(1+t)^{-1}\,dt\ge\varepsilon/2$, so the change of accuracy preserves the~$CN^C\varepsilon^{-C}$ operation bound after increasing~$C$. Computing~$\eta$ and the final exponential adds only a fixed number of exact operations. The algorithm and its runtime constants remain independent of the disorder law, while the vanishing failure bound may depend on that fixed law.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:confidence}]
+Let the real number~$m$ satisfy the stated strict inequality. Markov's inequality and~$\binom Np\le N^p/p!$ give
+\begin{equation*}
+ \tau_N\le\frac{c^{-m}\mathbb E|J_0|^m}{p!}\,
+ N^{p-m(p-1)/2}=o(N^{-b})\,.
+\end{equation*}
+Consequently~$\tau_N\le\tfrac12N^{-b}$ for all sufficiently large~$N$. Combining this estimate with~\eqref{eq:confidence-schedule} gives failure at most~$N^{-b}$. The runtime constants depend only on~$p,B,b$; the point from which the tail bound holds may also depend on the law and its moment. This sufficient lower bound on~$N$ does not depend on the specified~$\beta,\varepsilon$. For bounded disorder, the probability in~$\tau_N$ is zero once~$cN^{(p-1)/2}$ exceeds the bound on~$|J_0|$.
+\end{proof}
+
+The randomized SK conclusion can also be read conditionally on the instance. Write~$E_N=\{|\widehat F_N-\log Z_N|>\varepsilon\}$ for a specified request. If~$\mathbb P_{J,\xi}(E_N)\le\zeta_N$ with~$\zeta_N>0$, then Fubini's theorem followed by Markov's inequality gives
+\begin{equation}\label{eq:conditional-success}
+ \mathbb P_J\bigl(\mathbb P_\xi(E_N\mid J)>\sqrt{\zeta_N}\bigr)
+ \le\sqrt{\zeta_N}\,.
+\end{equation}
+When~$\zeta_N$ is small, this says that outside a small set of disorder instances, the colors succeed with high conditional probability. This conclusion still concerns each specified temperature and accuracy; it makes no assertion about one event on which all requests succeed simultaneously.
+
+\section{Possible extensions to mixtures and weak fields}\label{sec:extensions}
+This section describes routes to extending the algorithms. The results proved above remain the pure, zero-field statements of Theorems~\ref{cor:typical} and~\ref{thm:main}. We do not claim a counting theorem for any of the extensions below: the indicated support or branching estimates, evaluator identities and uniform operation bounds would have to be completed together. Throughout this discussion the maximum interaction order, coefficients and strict temperature margin are fixed independently of~$N$ and the requested accuracy.
+
+\subsection{Finite mixtures}
+Consider independent arrays of couplings, independent and identically distributed within each interaction order, with a symmetric unit-variance law at every order, and the distinct-index Hamiltonian
+\begin{equation}\label{eq:extension-mixture}
+ H_N(\sigma)=\sum_{p\in\mathcal S}a_pN^{-(p-1)/2}
+ \sum_{e\in\binom{[N]}p}J_e^{(p)}\sigma_e,
+ \qquad \xi(x)=\sum_{p\in\mathcal S}\frac{a_p^2x^p}{p!},
+\end{equation}
+where~$\mathcal S\subseteq\{2,\ldots,P\}$ is finite and nonempty, and all displayed coefficients are nonzero. A natural graphical range is
+\begin{equation}\label{eq:extension-mixture-margin}
+ B^2<\inf_{0<x\le1}\frac{I(x)}{\xi(x)}.
+\end{equation}
+The graphical expansion then uses one family of interactions of different sizes. Its orthogonality identity still holds, with an order-dependent second moment for each edge. Inflating all coefficients by one common factor while preserving~\eqref{eq:extension-mixture-margin} should give the total-mass and edge-tail bounds by the same entropy argument. The finite ordered-to-distinct correction becomes a sum over the finitely many orders; negative overlaps cause no new upper-bound difficulty because~$\xi(-x)\le\xi(x)$.
+
+When~$p_*:=\min\mathcal S\ge3$, the small-support estimate has a direct candidate replacement. For a nonempty support of size~$v$, set~$x=v/N$ and~$t=x^{-(p_*-1)/p_*}$. If~$r_p\le C_pN^{-(p-1)}$ are the inflated edge second moments, then
+\begin{equation}\label{eq:extension-incidence}
+ \sum_{p\in\mathcal S}\binom vp r_pt^p\le Cv,
+ \qquad \sum_{e\in\Gamma}|e|\ge2v
+ \quad\text{for an even graph of full support }v.
+\end{equation}
+Indeed, the term of order~$p$ in the first expression is at most~$C_pv x^{p/p_*-1}$. Bounding the edge generating function by the exponential of this expression and using the second inequality gives, for the total squared mass~$M_{N,v}$ summed over all supports of size~$v$, a bound of the form
+\begin{equation}\label{eq:extension-support}
+ M_{N,v}\le\left[C(v/N)^{1-2/p_*}\right]^v.
+\end{equation}
+The positive exponent supplies the same balance between error and enumeration cost as in the pure model. Large supports have at least~$2v/P$ edges and can be controlled by the inflated edge tail. In~\eqref{eq:tail-support-transform}, replace the product over~$p$-edges by the product over all permitted sizes; the inclusion--exclusion identity is unchanged and costs~$\operatorname{poly}(N)3^v$ for fixed~$P$. These observations give a direct route to a deterministic mixture algorithm when there is no two-spin term. A complete statement would also need the mixture version of the negative-moment argument, with exceptional probability bounded by
+\begin{equation*}
+ \sum_{p\in\mathcal S}\binom Np
+ \mathbb P\!\left(|J_0^{(p)}|>c_pN^{(p-1)/2}\right),
+\end{equation*}
+and a joint choice of constants and cutoffs. The constants~$c_p>0$ must account for the coefficients~$a_p$. Finite fourth moments at the finitely many orders make this displayed exceptional term tend to zero.
+
+If a two-spin term is present, long pair-interaction paths and cycles must be summed without enumerating all their vertices. One proposed core consists of every vertex incident to an interaction of order at least three, together with the remaining vertices of pair degree at least four. Outside this core, evenness forces pair degree zero or two, so the SK path-and-cycle decomposition applies. The essential new estimate is a bound on the joint mass of a core of size~$k$, of the form~$C\exp\{-c k\log(N/(Ck))\}$ in a small linear range, with an exponential remainder. The higher-order subgraph need not itself be even, so separate pure-model estimates do not establish this bound.
+
+For evaluation, separate the higher-edge support from the additional pair-branching vertices. On the former, store a parity bit and a flag recording whether a higher edge has used the vertex; on the latter, retain the six SK degree states. Multiply optional higher-edge and pair-edge factors within the core and color-code the outside pair paths and cycles. For fixed~$P$, this suggests an array of size exponential only in core size and edge cutoff, with polynomially many multiplication stages. Its exact coefficient identity and complete operation count remain to be proved. The prospective algorithm with a two-spin term is randomized; existence of a perfect-hash family alone would not justify the signed counting estimator's required coefficients.
+
+\subsection{A vanishing external field}
+Let deterministic fields~$h_i$ enter the exponent as~$\sum_i h_i\sigma_i$, and put~$m_i=\tanh h_i$. They are specified independently of the disorder and internal colors. For a mixed edge of order~$p$, write~$x_e=\beta a_pJ_e^{(p)}/N^{(p-1)/2}$; this agrees with the pure-model notation when its sole coefficient is one. Factoring the field terms gives the exact identity
+\begin{equation}\label{eq:extension-field}
+ Z_N=2^N\prod_i\cosh h_i\prod_e\cosh x_e\;\hat Z_{N,h},
+ \qquad
+ \hat Z_{N,h}=\sum_{\Gamma}w(\Gamma)
+              \prod_{i\in\partial\Gamma}m_i,
+\end{equation}
+where~$\partial\Gamma$ is the set of vertices of odd degree and the sum now includes all interaction-edge sets. Thus fields change the permitted graphs, not only the prefactor. Disorder orthogonality survives, and each graph's squared mass receives the factor~$\prod_{i\in\partial\Gamma}m_i^2$.
+
+A useful first regime is
+\begin{equation}\label{eq:extension-weak-field}
+ \max_i|h_i|\le\rho N^{-1/4},\qquad \rho<\infty\text{ fixed}.
+\end{equation}
+This includes the homogeneous scaling~$h_N=\rho N^{-\alpha}$ with~$\alpha\ge1/4$ studied for fluctuation questions in~\cite{DW26}. It does not include a fixed nonzero field. For total-mass control, the weaker condition~$\sum_i m_i^4=O(1)$ is natural: the replica-overlap signs have means~$m_i^2$ and density~$D(X)=\prod_i(1+m_i^2X_i)$ relative to uniform independent signs. For fixed~$q>1$,
+\begin{equation*}
+ \mathbb E_0D^q\le\exp\!\left(C_q\sum_i m_i^4\right).
+\end{equation*}
+H\"older's inequality can therefore reduce the field second moment to the zero-field entropy estimate, choosing the conjugate exponent~$r=q/(q-1)>1$ sufficiently close to one that~$r$ times the inflated squared inverse temperature remains below the threshold in~\eqref{eq:extension-mixture-margin}. The biased product-spin average is positive, so the sign-noise lower-tail mechanism also has a natural analogue once the inflated mass estimate is available.
+
+For mixtures with~$p_*\ge3$, one can retain the full-support evaluator but replace the uniform spin average by the product measure of means~$m_i$. To see why a support penalty remains plausible, let~$D$ be the number of incidences and~$o$ the number of odd-degree vertices on a used support of size~$v$. Then~$D+o\ge2v$, and there are at least~$v/P$ edges. With~$x=v/N$, assumption~\eqref{eq:extension-weak-field} bounds the squared odd-vertex factor by~$C^v x^{o/2}\le C^v x^{v-D/2}$. Tilting every edge weight by~$x^{-|e|/2}$ leaves a total single-edge mass at most~$Cv x^{(p_*-2)/2}$. A Poisson-tail bound with at least~$v/P$ edges suggests a positive support exponent~$(p_*-2)/(2P)$ for~$0<v/N\le\alpha$, where~$\alpha>0$ is a sufficiently small fixed constant. Completing its uniform constants and cutoff selection would give a concrete route to deterministic weak-field counting in this case.
+
+For SK, open paths have free degree-one endpoints. At the boundary scaling~$h\asymp N^{-1/4}$, a fixed-length path has total squared mass of order~$Nh^4=O(1)$, so these endpoints should be summed by the color recurrences rather than placed in an enumerated support. The primitive tables would include paths with zero, one or two attachments to the core, attaching~$m_i$ to each free endpoint. The core would use branching degree at least three; an odd accepted core degree also contributes its field factor. A new branching-mass estimate and a proof that this assembly counts each graph once are necessary. They are likewise necessary for weak-field mixtures containing a two-spin term. None of these proposals yields a sampling theorem by self-reduction, since conditioning spins can leave the proposed weak-field class.
+
+
+\appendix
+\section{Auxiliary proofs and verification}\label{app:consequences}
+
+\subsection{The finite-cube inequality}\label{app:reverse-proof}
+We prove Lemma~\ref{lem:reverse} through a two-point inequality, its bilinear tensorization, and a choice of dual function. All functions below are strictly positive, so negative powers and the divisions in the argument are well defined.
+
+\begin{proof}[Proof of Lemma~\ref{lem:reverse}]
+First, for~$0<r<1$ and~$a,b>0$, we claim
+\begin{equation}\label{eq:reverse-two-point}
+ \left(\frac{a^r+b^r}{2}\right)^{2/r}
+ \le\left(\frac{a+b}{2}\right)^2
+ -(1-r)^2\left(\frac{a-b}{2}\right)^2\,.
+\end{equation}
+By homogeneity it suffices to consider~$(a,b)=(x,1)$. Put~$A=(x^r+1)/2$, $M=(x+1)/2$, and~$Q_\eta=M^2-\eta^2(x-1)^2/4$ for~$0\le\eta\le1-r$. Direct differentiation gives
+\begin{equation*}
+ (A^{1/r})''=-\frac{1-r}{4}A^{1/r-2}x^{r-2},\qquad
+ (\sqrt{Q_\eta})''=-\frac{\eta^2}{4}Q_\eta^{-3/2}\,.
+\end{equation*}
+We show that~$\sqrt{Q_\eta}-A^{1/r}$ is convex. If~$r\le1/2$, the arithmetic--geometric mean inequality gives~$A\ge x^{r/2}$, while~$Q_\eta\ge x$. Since~$1/r-2\ge0$,
+\begin{equation*}
+ A^{1/r-2}x^{r-2}\ge x^{-3/2}\ge Q_\eta^{-3/2},\qquad
+ \eta^2\le1-r\,.
+\end{equation*}
+If~$r\ge1/2$, concavity gives~$A\le M^r$, and~$x\le M^2$. Both relevant exponents are nonpositive, so
+\begin{equation*}
+ A^{1/r-2}x^{r-2}\ge M^{1-2r}M^{2r-4}=M^{-3}\,.
+\end{equation*}
+Here~$\eta\le1/2$ implies~$Q_\eta\ge3M^2/4$; also~$(3/4)^{-3/2}\le2$ and~$2\eta^2\le1-r$. These bounds give the same comparison of second derivatives. The convex difference has value and derivative zero at~$x=1$, hence is nonnegative. Taking~$\eta=1-r$ proves~\eqref{eq:reverse-two-point}.
+
+Next let~$f(X)=m+dX$ and~$g(Y)=n+eY$ on two correlated uniform signs with~$\mathbb E[XY]=\vartheta$. For~$r,v\in(0,1)$ and~$0\le\vartheta\le(1-r)(1-v)$, the two-point bound implies
+\begin{equation*}
+ \|f\|_r\|g\|_v
+ \le\sqrt{m^2-(1-r)^2d^2}\sqrt{n^2-(1-v)^2e^2}
+ \le mn+\vartheta de=\mathbb E[f(X)g(Y)]\,.
+\end{equation*}
+For the second inequality, if~$de\ge0$, the product of square roots is at most~$mn$. If~$de<0$, it suffices to replace~$\vartheta$ on the right by~$(1-r)(1-v)$. That right-hand side is positive because~$|d|<m$ and~$|e|<n$. Its square minus the square of the product is
+\begin{equation*}
+ \bigl(m(1-v)e+n(1-r)d\bigr)^2\ge0\,.
+\end{equation*}
+
+Apply this one-coordinate inequality conditionally to the last pair of signs in a product of correlated sign pairs. It replaces the two functions by their conditional~$r$- and~$v$-means on the remaining coordinates. Induction applies to these positive functions, and their full~$r$- and~$v$-moments are exactly those of the original functions. Starting with the zero-coordinate identity proves, on every finite sign cube,
+\begin{equation}\label{eq:reverse-bilinear}
+ \mathbb E[f(X)g(Y)]\ge\|f\|_r\|g\|_v
+ \qquad\text{when }0\le\vartheta\le(1-r)(1-v)\,.
+\end{equation}
+
+Finally write~$t=-a$ with~$a>0$ and set~$v=a/(1+a)$. The hypothesis becomes~$\vartheta\le(1-r)(1-v)$. Let~$h=\mathsf N_\vartheta f$, $g=h^{-(1+a)}$, and~$D=\mathbb E h^{-a}>0$. By conditioning~$X$ on~$Y$, the left side of~\eqref{eq:reverse-bilinear} is~$\mathbb E[hg]=D$, whereas~$\|g\|_v=D^{(1+a)/a}$. Thus
+\begin{equation*}
+ D\ge\|f\|_rD^{(1+a)/a},\qquad
+ D\le\|f\|_r^{-a},\qquad
+ \|\mathsf N_\vartheta f\|_{-a}=D^{-1/a}\ge\|f\|_r\,.
+\end{equation*}
+This is~\eqref{eq:reverse}.
+\end{proof}
+
+\subsection{Complete operation counts}\label{app:operations}
+The arithmetic bounds in the main text must also pay for generating finite sets, addressing stored entries and preparing the random inputs. The following implementations use deliberately conservative data structures; the resulting polynomial factors suffice for the theorem.
+
+\phantomsection\label{app:higher-cost}
+\begin{proof}[Complete cost in Proposition~\ref{prop:tail-support-evaluation}]
+Generate the~$v$-subsets of~$[N]$ by deciding, in order, whether each vertex is included. Stop a branch once its target size is attained or cannot be attained with the remaining vertices. The recursion visits at most~$(2N+1)\binom Nv$ nodes. Charging for list construction gives at most~$4(N+1)^2\binom Nv$ elementary operations. Running it only for~$v\le V$ avoids constructing an ambient powerset before filtering.
+
+Store the~$M=\binom Np$ prepared edge weights in a list. A local spin evaluation can scan the physical edges, test whether an edge is contained in its current vertex set, form the spin product, and find its weight in the list. A membership or finite-key comparison scans at most~$N$ vertices. An allowance of~$40(N+1)^2(M+1)^2$ times the arithmetic bound covers these scans, all subset and spin generation, and input lookup, together with a fixed setup term. The arithmetic bound already counts the empty-support summand, so it also absorbs setup after its constant is enlarged. Using~$M+1\le2(N+1)^p$ in~\eqref{eq:tail-support-cost} gives~\eqref{eq:tail-support-total-cost}.
+\end{proof}
+
+\phantomsection\label{app:sk-cost}
+\begin{proof}[Proof of Proposition~\ref{prop:sk-cost}]
+Fix~$A$ and one trial. Write~$b=|A|$, $n=N-b$, $M'=N+L+1$ and~$K=K_{b,L}$. We charge every visit to a candidate state, including visits rejected by a color or edge test.
+
+There are~$b+n$ root tables. Each can be computed in~$L$ cardinality passes, scanning~$2^Ln$ coordinates per pass and at most~$n$ predecessors for each coordinate. Across all root tables, the scalar updates use at most~$2(b+n)L2^Ln^2$ operations in total. For the full execution, allow~$O((M')^3)$ operations per coordinate visit. This pays for color and cardinality tests, indexing, and a scan of the prepared edge list for every possible predecessor: the list has~$\binom N2$ entries and its two-vertex keys have constant-size comparisons. Initialization and control add the same order, giving
+\begin{equation*}
+ O\bigl((b+n)(1+L2^Ln(M')^3)\bigr)=O((M')^6 4^L36^b)\,.
+\end{equation*}
+These tables are saved, so later closures read existing entries.
+
+Primitive assembly has at most~$(1+b+b^2)2^L$ visits. At one visit a path or attached-cycle closure uses at most~$n$ endpoint entries, and an outside-cycle closure uses at most~$n^2$ root--endpoint pairs. An allowance of~$O((M')^4)$ per visit includes the weight-list scans, normalization, array insertion and their indices. Check the edge cutoff before forming a rejected closure. The total again fits~$O((M')^6 4^L36^b)$.
+
+For one algebra multiplication, clear an output array and visit all~$K^2$ pairs of input states. Add their edge counts, scan the color bits, and reject an incompatible pair. Otherwise form its output index by adding the~$b$ degree states and applying~$\rho$, then multiply and accumulate its coefficients. The comparisons, index construction and register operations cost at most~$O((b+L+1)^2)$ per pair. There are at most~$L+b^2$ product stages, and
+\begin{equation*}
+ K^2=(L+1)^24^L36^b\,.
+\end{equation*}
+Including array initialization, the divisions in the exponential recursion, array addition and the direct-factor construction, this costs~$O((M')^6 4^L36^b)$. The final scan over~$(k,S)$ reads the completed array and does not recompute it. Forming each~$\pi_{m,L}^{-1}=L^m/(L)_m$ with at most~$L$ factors and drawing the~$n$ outside colors also fit this bound. This proves the one-trial estimate.
+
+Finally generate the candidate sets in layers~$b=0,\ldots,D$ by the pruned recursion above. Their generation and index conversion cost~$O((N+1)^2\sum_{b\le D}\binom Nb)$. Summing the one-trial estimate over the generated candidates and~$R$ trials gives~\eqref{eq:sk-total-cost}. Preparation and setup have degree at most six in~$N+L+1$ and are absorbed by the~$b=0$ term and~$R\ge1$; the same applies to rescaling and averaging.
+\end{proof}
+
+The actual number of independent color draws is
+\begin{equation*}
+ R\sum_{b=0}^{D}\binom Nb(N-b)\,.
+\end{equation*}
+There is no need to sample colors for unvisited candidate sets. Restricting a finite product of uniform laws to the queried candidate--trial--outside-vertex coordinates gives exactly the product law of fresh draws at those coordinates. The estimator depends only on this restriction. Sampling in the traversal order of Algorithm~\ref{alg:sk-estimator} therefore has the law used in the error proof, with precisely the operation count above.
+
+\phantomsection\label{app:rounding}
+The remaining integer searches use the same computation model. For~$x\ge0$, incrementing an integer from zero until it is at least~$x$ computes~$\lceil x\rceil$ with~$2\lceil x\rceil+1$ comparisons and increments. Forming and testing successive candidates computes~$\lfloor x\rfloor$ with at most~$2\lfloor x\rfloor+2$ such operations, including the final rejected candidate. Including the formation of the real arguments, the variable rounding steps in Algorithm~\ref{alg:graphapprox} are bounded respectively by
+\begin{equation*}
+ 2N+2,\qquad 2L+4,\qquad 2R+3\,.
+\end{equation*}
+For the floor search, $\alpha\le1/8$ and~$N\ge2$ give~$\lfloor\alpha N\rfloor\le N-1$, which leaves room for forming~$\alpha N$ in the first bound. The integer~$N_0$ is fixed preprocessing depending only on~$p,B$. Real powers in the budget choices are computed through~$\exp$ and~$\log$. Thus the displayed floors, ceilings and powers introduce no uncounted oracle.
+
+\subsection{Normalization and computational scope}\label{app:normalization}
+To compare the SK conclusion with the Gaussian model in~\cite{BHL+25}, start with independent standard Gaussians~$G_{ij}$ and
+\begin{equation*}
+ H^G(\sigma)=\frac1{\sqrt{2N}}\sum_{i,j=1}^NG_{ij}\sigma_i\sigma_j\,.
+\end{equation*}
+For~$i<j$, set~$J_{ij}=(G_{ij}+G_{ji})/\sqrt2$, and write~$C_G=(2N)^{-1/2}\sum_iG_{ii}$. The~$J_{ij}$ are independent standard Gaussians: each uses a disjoint pair of input coordinates. Grouping off-diagonal terms and using~$\sigma_i^2=1$ gives
+\begin{equation}\label{eq:gaussian-normalization}
+ H^G(\sigma)=H_{N,2}(\sigma;J)+C_G,\qquad
+ Z^G_{\mathrm{prob}}(\beta)=2^{-N}e^{\beta C_G}Z_N(\beta;J)\,.
+\end{equation}
+Here~$Z^G_{\mathrm{prob}}$ uses uniform probability measure on the spin cube. It follows that~$\widehat F_N-N\log2+\beta C_G$ estimates~$\log Z^G_{\mathrm{prob}}$ with the same additive error. The conversion costs~$O(N^2)$ operations and preserves the common range~$B<1$. The resulting randomized polynomial bound and the deterministic quasipolynomial bound in~\cite[Theorem~1.1]{BHL+25} are therefore comparable for Gaussian SK. This comparison concerns upper bounds with different uses of randomness.
+
+For higher interaction orders, repeated indices have a different effect: for example, $\sigma_i\sigma_i\sigma_j=\sigma_j$ creates a field term. The pure distinct-index theorem consequently does not transfer by a scalar normalization to a general ordered-index model. Similarly, conditioning spins can create fields and lower-order interactions, so a sampling theorem does not follow from the counting result by conditioning. The present conclusions concern zero-field pure Ising models with fixed~$p$ and a strict margin below~$\beta_f(p)$; they do not assert results for mixtures, spherical spins, complex temperatures, the critical endpoint, or a larger thermodynamic high-temperature range. Section~\ref{sec:extensions} describes possible mixture and weak-field extensions without including them in the proved guarantees.
+
+The operation bounds include finite indexing, comparisons, searches, input access and actual random draws as well as exact arithmetic and elementary functions. They do not control input rounding or the propagation of numerical error through signed sums. A bit-complexity guarantee would require that additional analysis. The polynomial exponents have not been optimized, and the constants can grow as~$B$ approaches~$\beta_f(p)$; no practical running-time claim is intended.
+
+\subsection{Correspondence with the Lean development}\label{app:formalization}
+The companion Lean development provides formal counterparts of the pure, zero-field algorithms, error bounds and complete operation bounds. Its recorded full source-verification run is dated 6 October 2026. The present revision uses that same formal source snapshot and preserves the corresponding mathematical statements. The proposed extensions in Section~\ref{sec:extensions} are outside this formalization. The correspondence below identifies the preserved statements and definitions in the present organization.
+
+The final endpoints are~\path{SpinGlass.PhysicalInput.higher_end_to_end} and~\path{SpinGlass.PhysicalInput.sk_end_to_end}. Their input array is indexed by the unordered~$p$-element subsets of~$[N]$. They return an estimate of the logarithm of the exponential spin sum and prove its accuracy and total cost under the hypotheses of Theorem~\ref{thm:main}. The polynomial constant is chosen before the disorder law and the requested parameters. In particular, these endpoints do not assume graphical-mass bounds, evaluator correctness, a mean-square estimate, a lower-tail estimate, or a runtime guarantee; these are intermediate conclusions of the development.
+
+The four endpoints in~\path{SpinGlass.MainCorollaries}, named~\path{higher_fourth_end_to_end}, \path{higher_real_moment_end_to_end}, \path{sk_fourth_end_to_end} and~\path{sk_real_moment_end_to_end}, supply the logarithmic accuracy bound~\eqref{eq:typical-success} underlying Theorem~\ref{cor:typical}, and Corollary~\ref{cor:confidence}. The relative-error statement of Theorem~\ref{cor:typical} follows by the accuracy substitution and exponentiation in its proof. Their eventual bounds are uniform over each specified temperature and accuracy, with the same quantifier convention as the manuscript.
+
+\begin{center}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.34\linewidth}
+                  >{\raggedright\arraybackslash}p{.61\linewidth}@{}}
+\toprule
+Part of the argument & Principal modules or endpoints\\
+\midrule
+Graph expansion and mass &
+\path{Partition}, \path{DisorderSigns},\newline
+\path{UniformMass}\\[3pt]
+Support truncation and evaluation &
+\path{SupportMassTail}, \path{SupportEvaluation},\newline
+\path{HigherOrderAlgorithm}\\[3pt]
+SK truncation and evaluation &
+\path{SKBranchingTruncation},\newline
+\path{SKCoefficientCorrectness.estimator_eq_disorder},\newline
+\path{SKRandomMeanSquare}, \path{SKUniformAlgorithm}\\[3pt]
+Lower tail and logarithm &
+\path{ReverseHypercontractivity},\newline
+\path{DisorderNegativeMoment}, \path{DisorderUniform},\newline
+\path{CountingReduction}\\[3pt]
+Complete execution cost &
+\path{HigherOrderTotalCost.end_to_end},\newline
+\path{SKTotalCost.end_to_end}\\[3pt]
+Physical input and queried colors &
+\path{PhysicalInputTheorems}, \path{FiniteIndexCosts},\newline
+\path{SKLazySampling}, \path{RoundingExecution}\\[3pt]
+Conditional and Gaussian consequences &
+\path{ConditionalSuccess}, \path{OrderedSKGaussian},\newline
+\path{OrderedSKPreparation}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The exponential-moment calculation inside Proposition~\ref{prop:mass} corresponds to~\path{UniformMass.auxiliary_exponential_moment}. The error decomposition in~\eqref{eq:sk-complete-error} corresponds to~\path{SKRandomMeanSquare.mse_split} and~\path{physical_mse_four_terms} in that namespace. The queried-color law is identified with the appropriate product marginal by~\path{SKLazySampling.restrict_joint_law} and the physical-input refinements. These identifications connect the probability bound to the finite execution whose cost is counted, without allocating unused parts of an ambient input array or random tape.
+
+The archive~\path{Lean4_Formalization.zip} includes sources, verification logs, an axiom audit, and the earlier manuscript's~\path{COVERAGE.md} and~\path{SEMANTIC_AUDIT.txt}. Those last two records use the earlier manuscript and its numbering; the table here gives the correspondence for this organization. Source and configuration hashes, together with log hashes, are recorded in~\path{verification-status.json}. The archive's SHA-256 is
+\begin{center}
+\small\ttfamily c3eee020900060c606be30c986d626b350f2a55d56dc3387b7b5c491e79fff7c.
+\end{center}
+
+The recorded run used Lean~4.32.1 and mathlib commit
+\begin{center}
+\small\ttfamily 520045ab14e26149ee970e2e617ca04b09bde5d6.
+\end{center}
+It rebuilt 159 mathematical modules and audited all public and private declarations in the~\path{SpinGlass} namespace: 3,061 theorem declarations and 4,084 declarations in total, including generated declarations. The allowed axioms were~\path{propext}, \path{Classical.choice} and~\path{Quot.sound}. No unfinished proofs or added mathematical axioms remained; negative controls verified rejection of an added axiom and unfinished public and private proofs. For this revision, the archive hash, 162 formal source-file hashes, 10 configuration-file hashes and three recorded log hashes were checked against the preserved snapshot. On 7 October 2026, the physical-input theorem file and main-corollary file were freshly compiled against the cached pinned dependencies. The semantic checks, full namespace axiom audit and three negative-control tests also passed. These checks did not include a fresh rebuild of all 159 mathematical modules; the full rebuild reported above is the recorded 6 October run. The review checked the endpoint hypotheses and their correspondence with the physical-input statements, without treating compilation alone as a proof of that correspondence.
+
+For reproduction, restore the pinned dependencies with~\path{scripts/get_cache.sh}, then run~\path{verify.sh} and~\path{verify-audit.sh}. Dependency caches are omitted from the archive; restoration needs network access and storage. The certificate concerns the encoded exact-real computation and its probability and operation bounds. It does not certify finite-precision behavior, implementation speed, or bibliographical comparisons. Lean checks propositions relative to its foundations and trusted checker; their identification with the manuscript's model, algorithms and statements also uses the correspondence review described above.
+
+\begin{thebibliography}{BHL$^+$25}
+
+\bibitem[ABXY24]{ABXY24}
+A.~Adhikari, C.~Brennecke, C.~Xu, and H.-T.~Yau.
+\newblock Spectral gap estimates for mixed $p$-spin models at high temperature.
+\newblock \emph{Probability Theory and Related Fields}, 189:879--907, 2024.
+\newblock \href{https://doi.org/10.1007/s00440-024-01261-9}{doi:10.1007/s00440-024-01261-9}.
+
+\bibitem[AJKPV22]{AJKPV22}
+N.~Anari, V.~Jain, F.~Koehler, H.~T.~Pham, and T.-D.~Vuong.
+\newblock Entropic independence: optimal mixing of down-up random walks.
+\newblock In \emph{Proceedings of the 54th Annual ACM Symposium on Theory of Computing (STOC 2022)}, pages 1418--1430, 2022.
+\newblock \href{https://doi.org/10.1145/3519935.3520048}{doi:10.1145/3519935.3520048}.
+\newblock Full version of Part~I: \href{https://arxiv.org/abs/2106.04105}{arXiv:2106.04105}.
+
+\bibitem[AJKPV24]{AJKPV24}
+N.~Anari, V.~Jain, F.~Koehler, H.~T.~Pham, and T.-D.~Vuong.
+\newblock Universality of spectral independence with applications to fast mixing in spin glasses.
+\newblock In \emph{Proceedings of the 2024 Annual ACM-SIAM Symposium on Discrete Algorithms (SODA)}, pages 5029--5056, 2024.
+\newblock \href{https://doi.org/10.1137/1.9781611977912.181}{doi:10.1137/1.9781611977912.181}.
+\newblock Full version: \href{https://arxiv.org/abs/2307.10466}{arXiv:2307.10466}.
+
+\bibitem[AKV24]{AKV24}
+N.~Anari, F.~Koehler, and T.-D.~Vuong.
+\newblock Trickle-down in localization schemes and applications.
+\newblock In \emph{Proceedings of the 56th Annual ACM Symposium on Theory of Computing (STOC 2024)}, pages 1094--1105, 2024.
+\newblock \href{https://doi.org/10.1145/3618260.3649622}{doi:10.1145/3618260.3649622}.
+\newblock Full version: \href{https://arxiv.org/abs/2407.16104}{arXiv:2407.16104}.
+
+\bibitem[ALR87]{ALR87}
+M.~Aizenman, J.~L.~Lebowitz, and D.~Ruelle.
+\newblock Some rigorous results on the Sherrington--Kirkpatrick spin glass model.
+\newblock \emph{Communications in Mathematical Physics}, 112(1):3--20, 1987.
+\newblock \href{https://doi.org/10.1007/BF01217677}{doi:10.1007/BF01217677}.
+
+\bibitem[AMS25]{AMS25}
+A.~El Alaoui, A.~Montanari, and M.~Sellke.
+\newblock Sampling from mean-field Gibbs measures via diffusion processes.
+\newblock \emph{Probability and Mathematical Physics}, 6(3):961--1022, 2025.
+\newblock \href{https://doi.org/10.2140/pmp.2025.6.961}{doi:10.2140/pmp.2025.6.961}.
+\newblock Preprint: \href{https://arxiv.org/abs/2310.08912}{arXiv:2310.08912}.
+
+\bibitem[AYZ95]{AYZ95}
+N.~Alon, R.~Yuster, and U.~Zwick.
+\newblock Color-coding.
+\newblock \emph{Journal of the ACM}, 42(4):844--856, 1995.
+\newblock \href{https://doi.org/10.1145/210332.210337}{doi:10.1145/210332.210337}.
+
+\bibitem[BB19]{BB19}
+R.~Bauerschmidt and T.~Bodineau.
+\newblock A very simple proof of the LSI for high temperature spin systems.
+\newblock \emph{Journal of Functional Analysis}, 276(8):2582--2588, 2019.
+\newblock \href{https://doi.org/10.1016/j.jfa.2019.01.007}{doi:10.1016/j.jfa.2019.01.007}.
+
+\bibitem[BB21]{BB21}
+A.~Barvinok and N.~Barvinok.
+\newblock More on zeros and approximation of the Ising partition function.
+\newblock \emph{Forum of Mathematics, Sigma}, 9:e46, 2021.
+\newblock \href{https://doi.org/10.1017/fms.2021.40}{doi:10.1017/fms.2021.40}.
+
+\bibitem[BHKK07]{BHKK07}
+A.~Bj\"orklund, T.~Husfeldt, P.~Kaski, and M.~Koivisto.
+\newblock Fourier meets M\"obius: fast subset convolution.
+\newblock In \emph{Proceedings of the 39th Annual ACM Symposium on Theory of Computing (STOC 2007)}, pages 67--74, 2007.
+\newblock \href{https://doi.org/10.1145/1250790.1250801}{doi:10.1145/1250790.1250801}.
+
+\bibitem[BHL$^+$25]{BHL+25}
+F.~Bencs, B.~Huang, D.~Z.~Lee, K.~Liu, and G.~Regts.
+\newblock On zeros and algorithms for disordered systems: mean-field spin glasses.
+\newblock \href{https://arxiv.org/abs/2507.15616v2}{arXiv:2507.15616v2}, 2025.
+
+\bibitem[Bar17]{Bar17}
+A.~Barvinok.
+\newblock Computing the partition function of a polynomial on the Boolean cube.
+\newblock In M.~Loebl, J.~Ne\v{s}et\v{r}il, and R.~Thomas, editors, \emph{A Journey Through Discrete Mathematics}, pages 135--164. Springer, 2017.
+\newblock \href{https://doi.org/10.1007/978-3-319-44479-6_7}{doi:10.1007/978-3-319-44479-6\_7}.
+
+\bibitem[Cel24]{Cel24}
+M.~Celentano.
+\newblock Sudakov--Fernique post-AMP, and a new proof of the local convexity of the TAP free energy.
+\newblock \emph{The Annals of Probability}, 52(3):923--954, 2024.
+\newblock \href{https://doi.org/10.1214/23-AOP1675}{doi:10.1214/23-AOP1675}.
+
+\bibitem[DW26]{DW26}
+P.~S.~Dey and Q.~Wu.
+\newblock Hypergraph counting and fluctuations of mixed $p$-spin glass models at high temperature.
+\newblock \emph{Communications in Mathematical Physics}, 407, article 230, 2026.
+\newblock \href{https://doi.org/10.1007/s00220-026-05748-5}{doi:10.1007/s00220-026-05748-5}.
+\newblock Earlier version, titled \emph{Hypergraph counting and mixed $p$-spin glass models under replica symmetry}:
+\href{https://arxiv.org/abs/2212.14571v2}{arXiv:2212.14571v2}.
+
+\bibitem[EKZ22]{EKZ22}
+R.~Eldan, F.~Koehler, and O.~Zeitouni.
+\newblock A spectral condition for spectral gap: fast mixing in high-temperature Ising models.
+\newblock \emph{Probability Theory and Related Fields}, 182:1035--1051, 2022.
+\newblock \href{https://doi.org/10.1007/s00440-021-01085-x}{doi:10.1007/s00440-021-01085-x}.
+
+\bibitem[GK21]{GK21}
+D.~Gamarnik and E.~C.~K\i z\i lda\u{g}.
+\newblock Computing the partition function of the Sherrington--Kirkpatrick model is hard on average.
+\newblock \emph{The Annals of Applied Probability}, 31(3):1474--1504, 2021.
+\newblock \href{https://doi.org/10.1214/20-AAP1625}{doi:10.1214/20-AAP1625}.
+
+\bibitem[HLP$^+$23]{HLP+23}
+T.~Helmuth, H.~Lee, W.~Perkins, M.~Ravichandran, and Q.~Wu.
+\newblock Approximation algorithms for the random-field Ising model.
+\newblock \emph{SIAM Journal on Discrete Mathematics}, 37(3):1610--1629, 2023.
+\newblock \href{https://doi.org/10.1137/21M1467389}{doi:10.1137/21M1467389}.
+
+\bibitem[JKM18]{JKM18}
+V.~Jain, F.~Koehler, and E.~Mossel.
+\newblock The mean-field approximation: information inequalities, algorithms, and complexity.
+\newblock In \emph{Proceedings of the 31st Conference on Learning Theory}, volume~75 of \emph{Proceedings of Machine Learning Research}, pages 1326--1347, 2018.
+\newblock \url{https://proceedings.mlr.press/v75/jain18b.html}.
+
+\bibitem[JS93]{JS93}
+M.~Jerrum and A.~Sinclair.
+\newblock Polynomial-time approximation algorithms for the Ising model.
+\newblock \emph{SIAM Journal on Computing}, 22(5):1087--1116, 1993.
+\newblock \href{https://doi.org/10.1137/0222066}{doi:10.1137/0222066}.
+
+\bibitem[JVV86]{JVV86}
+M.~R.~Jerrum, L.~G.~Valiant, and V.~V.~Vazirani.
+\newblock Random generation of combinatorial structures from a uniform distribution.
+\newblock \emph{Theoretical Computer Science}, 43:169--188, 1986.
+\newblock \href{https://doi.org/10.1016/0304-3975(86)90174-X}{doi:10.1016/0304-3975(86)90174-X}.
+
+\bibitem[LSS19]{LSS19}
+J.~Liu, A.~Sinclair, and P.~Srivastava.
+\newblock The Ising partition function: zeros and deterministic approximation.
+\newblock \emph{Journal of Statistical Physics}, 174:287--315, 2019.
+\newblock \href{https://doi.org/10.1007/s10955-018-2199-2}{doi:10.1007/s10955-018-2199-2}.
+
+\bibitem[LSS26]{LSS26}
+H.~Lee, J.~S.~Sandhu, and J.~Shi.
+\newblock Potential Hessian ascent IV: sampling the Sherrington--Kirkpatrick model at~$\beta<1$.
+\newblock Preprint, \href{https://arxiv.org/abs/2609.30590v1}{arXiv:2609.30590v1}, 2026.
+
+\bibitem[LW25]{LW25}
+H.~Lee and Q.~Wu.
+\newblock Sampling from the continuous random energy model in total variation distance.
+\newblock To appear in \emph{The Annals of Applied Probability}.
+\newblock \href{https://arxiv.org/abs/2407.00868v2}{arXiv:2407.00868v2}, 2025.
+
+\bibitem[MOS13]{MOS13}
+E.~Mossel, K.~Oleszkiewicz, and A.~Sen.
+\newblock On reverse hypercontractivity.
+\newblock \emph{Geometric and Functional Analysis}, 23(3):1062--1097, 2013.
+\newblock \href{https://doi.org/10.1007/s00039-013-0229-4}{doi:10.1007/s00039-013-0229-4}.
+\newblock The cited numbering follows \href{https://arxiv.org/abs/1108.1210v5}{arXiv:1108.1210v5}.
+
+\bibitem[PR17]{PR17}
+V.~Patel and G.~Regts.
+\newblock Deterministic polynomial-time approximation algorithms for partition functions and graph polynomials.
+\newblock \emph{SIAM Journal on Computing}, 46(6):1893--1919, 2017.
+\newblock \href{https://doi.org/10.1137/16M1101003}{doi:10.1137/16M1101003}.
+
+\end{thebibliography}
+
+
+\end{document}
