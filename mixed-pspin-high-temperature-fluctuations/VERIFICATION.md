@@ -6,4 +6,4 @@ The revised proof includes the final independent-sum CLT derivation, the quantit
 
 The standalone source compiled successfully; citation resolution, internal references, author details and rendered pages were checked. The literature revision preserved the mathematical results. No Lean formalization of this revised manuscript is included, and compilation of LaTeX is not a proof verification.
 
-The attached PDF and source are identified by SHA256SUMS.txt. The verification description applies to this snapshot, not arbitrary future edits.
+The attached PDF is identified by SHA256SUMS.txt. The verification description applies to this snapshot, not arbitrary future edits.
