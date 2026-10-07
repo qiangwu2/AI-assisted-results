@@ -1,6 +1,6 @@
 # Joint pseudolikelihood fluctuations in the zero-field Sherrington–Kirkpatrick model
 
-[Read the manuscript](joint-mple-fluctuations.pdf) · [LaTeX source](joint-mple-fluctuations.tex) · [Verification scope](VERIFICATION.md)
+[Read the manuscript](joint-mple-fluctuations.pdf) · [Verification scope](VERIFICATION.md)
 
 **Author:** Qiang Wu  
 **Email:** qiangw.math@gmail.com  
@@ -20,12 +20,8 @@ The literature discussion includes Chen–Sen–Wu's *Joint parameter estimation
 
 The manuscript has undergone several rounds of AI review. No obvious substantive error or gap was identified in the stated result during those reviews. This is not a guarantee of complete correctness; readers should check the arguments and the stated scope independently. See [VERIFICATION.md](VERIFICATION.md) for the evidence and limitations.
 
-## Files and compilation
+## Files
 
-The PDF and standalone LaTeX source are included above. The bibliography is embedded in the source. With a suitable LaTeX distribution, compile using:
+The manuscript is provided as a PDF.
 
-```sh
-latexmk -pdf joint-mple-fluctuations.tex
-```
-
-[SHA256SUMS.txt](SHA256SUMS.txt) records the hashes of the distributed manuscript files and any formal companion.
+[SHA256SUMS.txt](SHA256SUMS.txt) records the hash of the distributed PDF.
