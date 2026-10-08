@@ -6,7 +6,7 @@ This repository collects manuscripts developed and revised with AI assistance. E
 
 ## Human contribution and AI assistance
 
-These works build, to varying degrees, on the author's previous research. The author contributed mathematical ideas and insights to guide the AI's proof development and checked the underlying proof ideas. This guidance and review give the author greater confidence in the correctness of the results, though some potential minor errors or gaps may remain.
+These works build, to varying degrees, on my previous research. I contributed mathematical ideas and insights to guide the AI's proof development and checked the underlying proof ideas. I am more confident about the correctness of these results, though potential minor errors or gaps may remain.
 
 ## Projects
 
