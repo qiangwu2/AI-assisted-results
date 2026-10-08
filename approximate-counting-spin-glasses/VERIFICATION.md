@@ -31,12 +31,14 @@ No new Lean check was performed while preparing this publication note. The full-
 
 ## Reproduction and limits
 
-The companion archive identified in Appendix A.4 is `Lean4_Formalization.zip`, SHA-256:
+The companion is available as the browsable [lean4-formalization/](lean4-formalization/) folder. Its 192 files were extracted byte for byte from the `Lean4_Formalization.zip` archive identified in Appendix A.4, whose SHA-256 was:
 
 ```text
 c3eee020900060c606be30c986d626b350f2a55d56dc3387b7b5c491e79fff7c
 ```
 
-Its manifest records source, configuration and log hashes. With the pinned dependencies restored using `scripts/get_cache.sh`, the documented commands are `verify.sh` and `verify-audit.sh`. Dependency restoration requires network access and storage.
+The ZIP has been replaced by the extracted folder; the original hash above identifies the preserved source snapshot. This packaging change does not constitute a new Lean build. [SHA256SUMS.txt](SHA256SUMS.txt) records hashes of the extracted files and the manuscript PDF, and the preserved [verification-status.json](lean4-formalization/verification-status.json) records source, configuration and log hashes from the verification run.
+
+From the `lean4-formalization/` directory, restore the pinned dependencies using `./scripts/get_cache.sh`, then run `./verify.sh` and `./verify-audit.sh`. See the [formalization README](lean4-formalization/README.md) for details. Dependency restoration requires network access and storage.
 
 Lean checks encoded propositions relative to its foundations and trusted checker. Connecting those propositions to the manuscript's definitions and claims additionally requires the correspondence review. The available evidence does not certify floating-point execution, an arbitrary later revision, or the proposed extensions.

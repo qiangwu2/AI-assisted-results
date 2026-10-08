@@ -18,7 +18,7 @@ The related-work section compares classical counting–sampling reductions, grap
 
 ## Formal companion
 
-[Lean4_Formalization.zip](Lean4_Formalization.zip) contains the existing pure-model formal development. Its exact coverage, pinned dependencies, recorded build and subsequent targeted checks are described in [VERIFICATION.md](VERIFICATION.md). The proposed extensions are outside this development.
+[Browse the Lean formalization](lean4-formalization/) directly in this repository. The folder contains the existing pure-model formal development, including its source files, pinned dependency versions, reproduction scripts and verification records. Its exact coverage, recorded build and subsequent targeted checks are described in [VERIFICATION.md](VERIFICATION.md). The proposed extensions are outside this development.
 
 ## Review status
 
@@ -28,4 +28,4 @@ The manuscript has undergone several rounds of AI review. No obvious substantive
 
 The manuscript is provided as a PDF.
 
-[SHA256SUMS.txt](SHA256SUMS.txt) records the hashes of the distributed PDF and Lean companion.
+[SHA256SUMS.txt](SHA256SUMS.txt) records the hashes of the PDF and each file in the Lean companion folder.

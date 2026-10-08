@@ -1,0 +1,281 @@
+FINAL SEMANTIC REVIEW RECORD
+
+The full-source rebuild and exhaustive namespace axiom audit are recorded in
+verification.log and verification-status.json. This file records independent
+manuscript-to-specification reviews, which complement kernel proof checking.
+Earlier partial-checkpoint reviews are preserved under history/.
+
+The core final statements require only the manuscript's physical, temperature,
+accuracy and probability hypotheses. They do not assume upstream MSE, lower-tail,
+graph classification, evaluator correctness or polynomial cost conclusions.
+The physical-input endpoints state the result directly on actual p-edge arrays.
+The finite oracle-operation model is explicit; no floating-point, bit-complexity,
+or Lean evaluator performance claim is made.
+
+
+================ final-semantic-audit-sk.txt ================
+
+Independent semantic audit: spin-glass formalization
+Auditor: SK algorithm agent; 2026-10-06.
+
+The actual SK value theorem is now closed: SKCoefficientCorrectness.estimator_eq_disorder identifies the literal saved-table/algebra evaluator with the original-disorder graph estimator. Its only extra input-size condition is L>0, supplied by the automatic algorithm. Axiom audit of this theorem, coefficient_eq_reference and SKColorfulGraphSum.evaluate_eq_graph_sum reports only propext, Classical.choice, Quot.sound.
+
+Checked mathematical fidelity:
+1. Physical couplings use distinct unordered p-subsets and tanh(beta*J/sqrt(N^(p-1))); no factorial normalization or Gaussian replacement is introduced. Extra ambient subset coordinates are ignored and DisorderRestriction proves restriction to the actual input-edge law.
+2. Symmetry is invariance under x -> -x. UnitSecondMoment includes integrability and integral J^2=1. Probability is over the actual iid disorder; SK uses the independent product with finite uniform color randomness. Uniformity means a single bound valid at every beta in [0,B], not one simultaneous adaptive event.
+3. The beta=0 endpoint is treated explicitly. Fixed-temperature upper-tail constants use B and its fixed inflated value. The claimed remainder is not silently set to zero for finite variance; moment assumptions are added only by the corresponding tail corollaries.
+4. Capped branch-degree state 4 accepts exactly even degrees at least four. Outside vertices must have degree zero or two. The empty graph survives as the ring unit, and the empty outside color support has coefficient one.
+5. Direct branch-to-branch edges occur as optional product factors, outside-supported primitives in the finite exponential. Canonical outside-connected block decomposition and uniqueness are proved, as are the path/return/cycle classification and its converse. No assumed decomposition bijection is used.
+6. Return normalization 1/2 and unrooted cycle normalization 1/(2|S|) are proved by complete actual unordered-edge fibers. Signed real edge weights are retained throughout. Primitive multiplicities and coefficient extraction are linked to the physical sum.
+7. Candidate supports and branch sets are enumerated by bounded cardinality layers, not an ambient powerset filter. Colors are shared exactly as specified by the graph estimator and inverse colorful probability is (L)_m/L^m. The finite-repetition normalization is R^-1.
+
+Runtime scope correction found and implemented:
+The initial operation counters counted arithmetic/elementary oracles and some tests, but did not count all finite comparisons, index generation, saved-edge lookup scans, or color draws. Thus those endpoints alone did not certify Section 1.2's complete model. HigherOrderControl and HigherOrderTotalCost add explicit finite schedules, including all input edges tested for every local spin, even when no edge is accepted. FiniteIndexCosts proves actual list membership/subset/key comparisons, cached lookup comparison bounds, pruned cardinality generators without duplicate output, and actual all-subset/spin generation costs. SKCountedAlgebra supplies actual saved arithmetic loops, exact compatibility-test visits, conservative array/pair-control schedules, and the bound 128*(N+L+1)^6*4^L*36^b. The other agents are integrating global saved memo tables, primitive insertions, extraction, colors, and bounded floor/ceiling searches.
+
+Interpretation boundary:
+These are mathematical exact-real finite-index/RAM algorithms with elementary-function oracles, as in the paper. They are not numerical floating-point error certificates, bit-complexity bounds, or performance bounds for Lean's evaluator/native compiler. Proved extensional identities allow the concrete finite generators and stored-register executions to replace Finset sums/function notation. Fixed p,B-dependent design constants are constants of the existential algorithm. The final README/theorem summary must cite the total-cost endpoints after integration, not promote older arithmetic-only endpoints as the complete cost model.
+
+No mathematical counterexample or unproved graph-decomposition/orientation assumption was found in the audited SK value chain. Remaining integration check at the time of this note: compile the final total-cost aggregate and inspect its assumption/axiom report, including the full color-generation and integer-rounding charges. This statement does not assert an unconditional 100 percent guarantee about the transcription, Lean kernel, hardware, or exact-real model.
+
+Final endpoint and integration update:
+- HigherOrderTotalCost.end_to_end is compiled/staged and axiom-audited; its hypotheses are only p>=3, 0<B<betaThreshold(p), N>=p, symmetry, integrable unit second moment, beta in [0,B], and epsilon,delta in (0,1). It does not assume an MSE bound, a lower-tail estimate, cutoff correctness, evaluator correctness, decomposition, or a runtime bound.
+- SKTotalCost.end_to_end is compiled/staged by root with the corresponding p=2 hypotheses. Its total output is exactly fastCount; the coefficient-correctness and original joint-disorder probability chains discharge its estimator semantics. No MSE/lower-tail/decomposition/runtime premise occurs in this final signature.
+- MainCorollaries now uses the actual total-cost outputs for both branches. higher_fourth_end_to_end, higher_real_moment_end_to_end, sk_fourth_end_to_end and sk_real_moment_end_to_end compiled and their axiom reports contain only the standard three axioms.
+- Concrete finite generation and cached-key comparison lemmas are now linked to the higher-p schedule. The floor search has a comparison/increment implementation and is paid by the setup budget. SKInputComparisons.pair_lookup_comparisons proves <=8N^2 actual vertex comparisons per prepared pair-weight lookup; this validates the cubic memo-cell and quartic primitive-cell allowances without silently treating full arbitrary-subset key equality as constant time.
+- The strict-evaluation audit identified that a rejected path/return target could construct its scalar closure before checking its edge cutoff. primitiveInstruction now checks S.card+1<=L before the scalar construction. This fix compiled and dependent counted modules were refreshed; output theorems and cost constants are unchanged. The averaging reciprocal was changed from an implicit real literal to an explicit counted divide; the additional operation compiled within the unchanged bound.
+- The mathematical full color tape is not sampled literally. SKLazySampling proves its restriction to queried candidate/repetition/outside coordinates has the product law of fresh uniform draws, and the evaluator depends only on that restriction. The unused exponential color domain has no sampling cost.
+- Ordered-Gaussian normalization and the paper's explicitly conditional result are being checked separately by the other agent. They must retain their own distributional/conditional assumptions and must not be confused with the unconditional iid symmetric pure-spin endpoints above.
+
+Whole-project clean rebuild and final aggregate manifest remain the parent's final validation step. This audit distinguishes exact mathematical finite-index operation semantics from execution speed of noncomputable Lean definitions; it does not promise a machine-executable floating-point implementation or a proof of Lean's metatheoretic consistency.
+
+Additional completed Section 9.1 check:
+ConditionalSuccess.conditional_markov proves the generic conditional failure bound on a genuine product probability space, including zeta=0. Its actual SK specialization proves the joint failure event measurable from the fixed-color finite graph polynomial and logarithmic output; no event-measurability assumption is retained. ConditionalSuccess.conditional_markov, measurable_sk_failure and sk_conditional_remainder were axiom-audited: only propext, Classical.choice, Quot.sound. ConditionalSuccess.sk_conditional_remainder proves that the disorder probability of color-conditional failure greater than sqrt(delta+tau) is at most sqrt(delta+tau), for the actual SKTotalCost.countedTotal output. Thus the fixed-instance claim is linked to the final algorithm, not merely stated for an arbitrary assumed measurable event.
+
+Read-only final verifier and physical-input review (frozen snapshot):
+Reviewed scripts/check_sources.py, scripts/check_sources.sh, verify.sh, Audit.lean, SemanticChecks.lean, PhysicalInput.lean, PhysicalObservables.lean and PhysicalInputTheorems.lean. No Lean source was edited for this review.
+
+Verifier checks:
+- There are exactly 159 project modules under SpinGlass/, all direct .lean files; no nested module or symlink exists. The aggregate imports each exactly once. Every actual local import is recognized by the script's parser, no local import is missing, no module imports the previously built aggregate SpinGlass, and the listed dependency order has no violation.
+- The public verify.sh enters lake env. Inspection of its actual LEAN_PATH found only one location containing SpinGlass: this project's .lake/build/lib/lean. Dependency package paths contain no competing SpinGlass module. There are no local .olean.private/.olean.server facets or native SpinGlass shared libraries that could supply an old implementation.
+- A module can be scheduled only after all local imported dependencies are in finished. finished is updated only after successful source compilation and replacement of both new .olean and .ilean files in the import directory. Thus, by induction through the checked dependency graph, a successful run on this frozen snapshot cannot substitute an old local dependency. A failed compile exits before the aggregate/audit success result; a restart starts with an empty finished set and recompiles all sources again.
+- The aggregate, SemanticChecks and Audit are checked only after every module succeeds. Source hashes are compared before/after and the final module set is checked. These conclusions concern the inspected frozen tree and verify.sh environment; the script should be revisited if the project is later reorganized into nested module directories or an externally shadowing LEAN_PATH is introduced.
+- Audit requires the principal total-cost, physical-input, moment, sampler, Gaussian-normalization and conditional endpoints to exist as theorems. It scans all public and private SpinGlass declarations (private names are normalized), collects their transitive axiom dependencies and rejects everything except propext, Classical.choice and Quot.sound. The invalid-fixture script specifically checks rejection of a custom axiom and both public/private sorry proofs.
+
+Physical-input checks:
+- Edge V p is precisely the subtype of distinct unordered p-subsets. extend/restrict are inverse on physical entries, and both prepareInput and the entire final Computation record are proved unchanged by extend(restrict J). This preserves the returned value, positivity branch and recorded cost, not merely an approximation.
+- The physical target is the original exponential partition function over the same spin cube, with incidence equal to the edge subtype's underlying set and scale beta/sqrt(N^(p-1)). physicalTarget_eq is an exact identity with the ambient target.
+- Restriction maps the actual ambient iid law to iid on the physical edge subtype, and product-law restriction preserves independence of SK colors. Measurable error events and physical-coordinate dependence are proved before exact probability transport is applied.
+- PhysicalInput.higher_end_to_end and sk_end_to_end retain the same fixed p/B-dependent constant, N>=p, admissible beta, positive epsilon/delta below one, symmetry and integrable unit second moment. They add no Gaussianity, boundedness, higher moment, MSE, decomposition, runtime or event-measurability premise. The disorder-tail remainder is unchanged.
+- The extension is a mathematical input adapter, not an instruction to allocate or enumerate an ambient exponential array. Actual preparation traverses only generated physical edges; the equality proof permits the physical subtype reads directly in that schedule.
+
+No concrete correctness, source-omission or stale-local-dependency issue was found for the inspected frozen verification configuration.
+
+
+================ final-disorder-audit.txt ================
+
+FINAL DISORDER / ORDERED-GAUSSIAN / CONDITIONAL-SUCCESS REVIEW
+
+Reviewer: disorder_model subagent
+Scope: read-only semantic review of the current four named Lean modules against
+manuscript Section 9.1 and Section 9.2. This is an additional review of the stated
+Lean propositions and their correspondence with the paper, not a substitute for
+the parent agent's full clean rebuild.
+
+Conclusion
+No mathematical error, normalization mismatch, missing independence hypothesis,
+or invalid zero-case argument was found in the reviewed statements. The concrete
+normalization and conditional-success results have the intended paper meanings.
+The exact-real unit-operation schedule is the computational model being counted;
+none of these files claims a bound for Lean's interpreter, compiler, or floating-
+point machine arithmetic.
+
+1. Ordered SK normalization
+The Hamiltonian uses 1/sqrt(2N), with the full ordered sum including diagonal
+entries. Each off-diagonal unordered coefficient is (G_ij+G_ji)/sqrt(2), and the
+main theorem uses beta/sqrt(N). Their product is beta*(G_ij+G_ji)/sqrt(2N), so both
+orientations have precisely the original coefficient. The diagonal is
+C_G=(sum_i G_ii)/sqrt(2N); spinSign_sq=1 makes this spin-independent.
+The probability-normalized partition is exactly
+2^(-N)*exp(beta*C_G)*Z_counting. Thus its log is
+log Z_counting - N*log 2 + beta*C_G. The signs and factors in finish_value and
+logarithmic_error_preserved agree. The additive correction cancels pathwise in
+the absolute error; no independence of the diagonal from transformed couplings is
+needed for this argument. N>0 is explicitly assumed where denominators are used;
+all main SK accuracy theorems already require N>=2.
+
+2. Gaussian law and mutual independence
+coordinate_injective sends Upper(N) x Bool to distinct ordered off-diagonal
+positions. This prevents orientation collisions and prevents sharing an original
+Gaussian between different unordered pairs. grouped_law is a complete product
+measure identity, rather than a pairwise-independence claim. mix_law adds two
+independent variance-one Gaussian variables and divides by sqrt(2), so the
+resulting variance is 2/(sqrt(2))^2=1. transformed_joint_law gives the full joint
+product law, and transformed_independent is mutual independence.
+The new upperEdge/edgeEquiv bridge is a bijection onto precisely the two-element
+physical edge type: injectivity uses the upper-triangle order to remove swapping,
+and surjectivity uses upperPairs_image. physical_joint_law and
+physical_joint_law_with_coins therefore put the exact coupled inputs under the
+same iid physical-edge law as PhysicalInput.sk_end_to_end. Gaussian symmetry,
+unit second moment, and finite fourth moment are independently proved from
+Mathlib's Gaussian measure results. No unproved Gaussian-law premise remains.
+
+3. Preprocessing and output correction
+pairSchedule is a concrete row-by-row schedule of length N^2, with a nodup proof.
+pairLoop tests the strict upper-triangle condition before forming a transformed
+value. prepare_entry identifies every stored value with the required coupling;
+prepare_keys_nodup proves that no transformed pair is stored twice. The diagonal
+is computed separately and sqrt(2) and sqrt(2N) are formed once.
+The operation proofs charge arithmetic, comparisons, schedule generation and
+storage. prepare_operations gives <=30N^2, finish_operations is exactly6, and
+transformation_operations gives <=36N^2 for N>0. These are genuine polynomial
+preprocessing bounds in the stated abstract model. The output correction is
+numerically identical to the paper and finish_error preserves the original error.
+
+4. Conditional fixed-instance success
+conditional_markov assumes an actual product of two probability measures and a
+measurable joint failure event. Its conditionalFailure is the color-section
+probability for a fixed disorder input, with the correct product-coordinate
+orientation. The proof uses the product-measure section integral, then Markov at
+sqrt(zeta). For zeta>0, the final division is justified by sqrt(zeta)>0.
+For zeta=0, the proof separately obtains zero total failure measure, hence zero
+section failure almost everywhere, and zero measure of the set where conditional
+failure is strictly positive. It does not divide by zero or discard this case.
+The strict bad-event inequality (>sqrt(zeta)) means the complement has conditional
+failure <=sqrt(zeta), as in the manuscript. There is deliberately no assertion for
+every adversarial fixed coupling array. zeta may exceed1; the theorem remains
+valid, though then uninformative. The specialized result uses zeta=delta+tau and
+retains tau rather than silently eliminating the disorder tail remainder.
+
+5. Kernel/axiom audit
+Checked OrderedSK.hamiltonian_split, OrderedSK.log_partition_reduction,
+OrderedSKGaussian.transformed_joint_law, transformed_independent,
+standard_unit_second_moment, physical_joint_law, physical_joint_law_with_coins,
+event_probability, OrderedSKPreparation.transformation_operations, finish_error,
+ConditionalSuccess.conditional_markov, sk_conditional_remainder.
+Every checked endpoint depends only on propext, Classical.choice, and Quot.sound.
+The preparation olean was initially older than its source, so its current source
+was checked independently in a temporary copy with appended #print axioms commands;
+that check succeeded. The current Gaussian source was similarly checked after its
+physical-edge-law bridge appeared. The parent clean rebuild remains the final
+aggregate freshness check.
+
+6. Related endpoint checks completed by this agent
+PhysicalInput.sk_end_to_end and higher_end_to_end, exact event probability
+transport, and prepareInput_extend_restrict all have only the standard three axioms.
+SKLazySampling.restrict_law, restrict_joint_law, generatedEstimator_complete,
+sampledEstimator_law, and queryList_nodup also have only the standard three axioms.
+RoundingExecution.ceilFrom_spec and SKUniformAlgorithm.rounding_search_cost have
+only the standard three axioms. The ceiling/floor searches use rounding only in
+erased termination proofs, not as free runtime oracles or precomputed search fuel.
+
+Source identities at review completion
+UTC 2026-10-06T09:18:39.326372+00:00
+26dea87817bb0526d46e710641316ca1091938b54506f5fe1a15c7c5c6f8782e  SpinGlass/OrderedSK.lean
+4be728b607f3d1d69dc9f13a9ddb2d282bb3960f3a18699b994e74fb97d73ba6  SpinGlass/OrderedSKGaussian.lean
+8e4f4ced69f9b39cacc3264aeb9a3deaf8c6207584cab03df58687759263cf6c  SpinGlass/OrderedSKPreparation.lean
+66e4f43d722b3c07188a5eeb992a988b3938b3387320b542a34edb65d45967a9  SpinGlass/ConditionalSuccess.lean
+
+
+================ final-uniform-audit.txt ================
+
+Final read-only semantic review — uniform_mass agent
+Date: 2026-10-06
+Project sources frozen; this note does not modify Lean project sources.
+
+Scope checked against work/audit/manuscript.txt: Lemma 4.2, Proposition 4.3,
+Lemma 5.2, Proposition 5.3, Corollaries 1.2–1.3, and Section 9.2.
+
+1. Exact threshold and uniform mass
+
+UniformMassEntropy uses the actual Ising rate function
+I(x)=((1+x)log(1+x)+(1-x)log(1-x))/2 and the infimum of
+p! I(x)/x^p for positive x through 1. It does not replace the threshold by
+a smaller quadratic-entropy temperature range. UniformMassOverlap proves
+the actual distinct-index auxiliary-energy error with Delta_p=choose(p,2)/p!.
+UniformMass.auxiliary_exponential_moment combines that error with the proved
+finite-sign Chernoff tail and finite tail integration. Its constant is exactly
+exp(v Delta_p)*(1+2 lambda/(1-lambda)), lambda=v/thresholdSquared p.
+
+UniformMass.uniform_graphical_mass bounds the complete even-p-hypergraph
+family, with the empty graph included, for every N>=p and 0<=v<threshold.
+Positivity/range of the product coefficient is proved through
+UniformMassParameter, not assumed as an additional high-temperature condition.
+graphical_edge_tail_real retains both the exact floor(t)+1 power and its
+real-threshold relaxation. The finite-cube entropy tail is proved even for a
+weak threshold >=t, which suffices for and strengthens the manuscript's >t
+tail integration. No central moment or mass estimate is a hypothesis.
+
+2. Support tails and physical mean-square error
+
+SupportMassCounting/SupportMassBound count the actual finite graph families
+and use the even-degree inequality 2*support.card<=p*edge.card. The finite
+Poisson bound, binomial bound, and factorial bound are proved lemmas.
+SupportMassTail.support_truncation_tail splits the omitted support family at
+floor(alpha*N): the first part is the proved Phi geometric sum, and the second
+uses the exact graph edge tail. The bound is the manuscript's
+2 exp(-Phi_N(k+1))+C_plus exp(-c_p*N).
+
+The auxiliary alpha smallness/derivative-gap hypotheses are design conditions;
+DesignConstants discharges them in the main theorem. They are not unproved
+tail assumptions. SupportMeanSquare.support_error_eq_tail proves equality to
+the actual normalized partition error under the iid disorder law.
+pure_support_mean_square requires symmetry and unit second moment, rather
+than Gaussianity or an extra high-moment condition.
+
+3. Moment corollaries
+
+DisorderTailCorollaries proves t^q P(|J|>t)->0 from the vanishing truncated
+q-th moment integral. This is the essential critical p=2 fourth-moment step;
+a mere O(t^-4) Markov bound would not suffice, and is not the proof used.
+The raw threshold is proved to be exactly artanh(theta/2)/B times
+N^((p-1)/2), with the same disorderTailRemainder as the main theorem.
+
+The real-moment exponent remains real throughout: m>2(p+b)/(p-1) yields
+eventual tau_N<=0.5*N^-b. Essentially bounded disorder yields eventual
+tau_N=0, with no arbitrary pointwise boundedness requirement. The event bounds
+in MainCorollaries are uniform over the specified beta and epsilon ranges;
+this means a common bound/threshold for each requested pair, not a claim of
+simultaneous success for every pair on one common sample. The formal confidence
+schedule 0.5*N^-b differs from the illustrative schedules in the manuscript's
+proof, while giving the same stated corollaries and polynomial runtime. The
+full cost wrappers are the separately proved HigherOrderTotalCost and
+SKTotalCost endpoints; arithmetic-only counters should not be relabeled as
+full cost without those wrappers.
+
+4. Ordered Gaussian normalization and efficient realization
+
+OrderedSK proves the literal ordered N-by-N Hamiltonian decomposition,
+including diagonal terms, the factor 2^-N for probability-normalized spins,
+and the exact log correction F-N*log(2)+beta*C_G. The error equality is
+pointwise for every real input matrix and requires N>0.
+
+OrderedSKGaussian.transformed_joint_law establishes full mutual independence
+and standard Gaussian marginals of (G_ij+G_ji)/sqrt(2), not merely covariance
+zero or pairwise independence. physical_joint_law transports this law directly
+to precisely PhysicalInput.Edge (Fin N) 2. The coin-product law and measurable
+event-probability identity are explicit. Standard Gaussian symmetry, unit
+second moment and finite fourth moment are also proved, so the already
+certified physical-input theorem and fourth-moment corollary apply.
+
+OrderedSK.coupling is a convenient finite-sum specification. The operation
+claim instead uses OrderedSKPreparation's actual row-major scan: cached sqrt
+constants, each upper-pair average computed once, unique stored keys, and a
+single diagonal sum. prepare_entry refines the scan to coupling_pair.
+prepare_operations<=30*N^2 includes arithmetic, comparisons, pair generation,
+and storage. The actual final correction uses six elementary operations, and
+transformation_operations<=36*N^2 for N>0. No quadratic claim is made about
+repeatedly evaluating the finite-sum coupling specification.
+
+5. Trust and remaining scope
+
+The new ordered-model axiom checks are in work/lean/ordered_sk_axioms.log.
+All ten inspected endpoints report only propext, Classical.choice, Quot.sound;
+none reports sorryAx or a project-specific axiom. Earlier uniform/moment
+endpoint audits have the same result. The parent is running the final frozen
+full-source rebuild, which is separate from this semantic review.
+
+No unresolved mathematical statement mismatch was found in this reviewed
+scope. The certified operation model remains the manuscript's real-arithmetic
+and elementary-oracle model, not a bit-complexity or numerical-stability
+theorem. Kernel checking certifies the formal statements; semantic review is
+the additional step relating their definitions to the original manuscript.

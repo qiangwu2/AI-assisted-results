@@ -1,0 +1,228 @@
+The attempted expansion to Mathlib.Probability.Independence.Integration failed while unpacking additional library artifacts. Existing dependencies were subsequently repaired and all delivered modules passed the final source check.
+
+/Users/qiangwu/.cache/mathlib/d30b5f1b3e1f60e0.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/a52e86c6a55580b2.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/9d210d80a69586fd.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Normed/Algebra/.tmpPV3YfN"
+/Users/qiangwu/.cache/mathlib/64dcebd47f18012b.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Instances/.tmpcFTRGM"
+/Users/qiangwu/.cache/mathlib/2581752408728620.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/.tmprLt1M7"
+/Users/qiangwu/.cache/mathlib/c3ef23032db98912.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/6af24bf2520c2864.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Matrix/.tmpMrv3xy"
+/Users/qiangwu/.cache/mathlib/124dd67ad99a12a3.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/2c1139259413db74.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/TensorProduct/.tmp1SKB8W"
+/Users/qiangwu/.cache/mathlib/a8cacb1a14321e98.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Order/Module/.tmpMzJPgm"
+/Users/qiangwu/.cache/mathlib/686a0a702fc3c294.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Convex/.tmpW6blDs"
+/Users/qiangwu/.cache/mathlib/33a71b9902959592.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Order/Filter/Germ/.tmpol3ROp"
+/Users/qiangwu/.cache/mathlib/84fc87da42928d3f.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/InnerProductSpace/Projection/.tmp9WG8OG"
+/Users/qiangwu/.cache/mathlib/415ec1e6837d6800.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/aa4c47529938727d.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/8f0981ba9ff822c5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Group/Pi/.tmpvIX4b4"
+/Users/qiangwu/.cache/mathlib/ebe67cc27892f677.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/.tmpMKF1pI"
+/Users/qiangwu/.cache/mathlib/ce28566930003810.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/InnerProductSpace/.tmpVl3dmT"
+/Users/qiangwu/.cache/mathlib/714301e4250b21e9.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/5248bff605eceef4.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/857f49dbd70e56a0.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/f348032ab0745cbe.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/bca03c4c6167ccb3.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/ea6fc871a451a4c0.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/5f2824be4d5a766c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/.tmpBMIVbf"
+/Users/qiangwu/.cache/mathlib/80dd37668ca7915d.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Polynomial/.tmpxSbtyy"
+/Users/qiangwu/.cache/mathlib/6b6c3f8fe88a44b6.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/f6a8727b688fd322.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/RCLike/.tmpsAWVxj"
+/Users/qiangwu/.cache/mathlib/188531bcac4629d3.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/TensorProduct/.tmpbExldc"
+/Users/qiangwu/.cache/mathlib/bc843773bc5335ed.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/ConditionalExpectation/.tmpTq8TZL"
+/Users/qiangwu/.cache/mathlib/d1a009409a71b846.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Eigenspace/.tmpxQ9DSU"
+/Users/qiangwu/.cache/mathlib/f2cca1326ffa9ee6.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/1c12c46bb2176b99.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Sets/.tmpAT4Lqj"
+/Users/qiangwu/.cache/mathlib/a1612c917349dd07.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Matrix/.tmpkSmW8E"
+/Users/qiangwu/.cache/mathlib/fe4dfb4201608408.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Probability/Kernel/Composition/.tmpQlcXOG"
+/Users/qiangwu/.cache/mathlib/1c513f51d23bbcbd.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Polynomial/.tmpv8fjx9"
+/Users/qiangwu/.cache/mathlib/7ecf7c4bf3c27e32.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/Minpoly/.tmpLrUhGY"
+/Users/qiangwu/.cache/mathlib/e84e7cc655b62ec9.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/acf8ad53f0fdeabb.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/.tmpTDql9l"
+/Users/qiangwu/.cache/mathlib/fd58d49d25c9b211.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/InnerProductSpace/.tmpnckWcf"
+/Users/qiangwu/.cache/mathlib/4a40b691232c2ee5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/.cache/mathlib/8c7cff9970d90c78.ltar: No space left on device (os error 28) at path "/Users/qiangwu/.cache/mathlib/b6a8adf3afd71125.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/OpenPartialHomeomorph/.tmpb9YoKA"
+
+thread '<unnamed>' (7078473) panicked at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library/std/src/io/stdio.rs:1165:9:
+failed printing to stderr: No space left on device (os error 28)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+/Users/qiangwu/.cache/mathlib/4935634733188975.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/.tmpp6fdy7"
+
+thread '<unnamed>' (7078474) panicked at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library/std/src/io/stdio.rs:1165:9:
+failed printing to stderr: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/984cbaf9899f8c5a.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Ideal/.tmpATryiA"
+/Users/qiangwu/.cache/mathlib/d3320bfd124a5c79.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/Minpoly/.tmp9xiBbz"
+/Users/qiangwu/.cache/mathlib/1b429a5bf1d576d9.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Measure/.tmpl7LQ71"
+/Users/qiangwu/.cache/mathlib/2e86536addee8ff5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/.tmpvGosMt"
+/Users/qiangwu/.cache/mathlib/60558a41105e3116.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Order/CompleteLattice/.tmp9UmpCu"
+/Users/qiangwu/.cache/mathlib/761d30a29f44153e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Integral/Bochner/.tmpkqMHTs"
+/Users/qiangwu/.cache/mathlib/4147bb5c0719b65b.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/InnerProductSpace/.tmpgT2iiG"
+/Users/qiangwu/.cache/mathlib/e65c127bcab0c8ae.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/3bbc0e37eaa72c79.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/0064812dfaa765ee.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/b7ef341291d492d4.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Order/Filter/.tmpA0cJMk"
+/Users/qiangwu/.cache/mathlib/fc8ad50a2165c593.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/BilinearForm/.tmpJEpZzt"
+/Users/qiangwu/.cache/mathlib/c3d34a07e1b70620.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/75cf4f06c303ef75.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/03a70bf7b8348d6a.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/d7988aa2257e1a29.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/ab0adebf8f983d7b.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/a3191b3d17f0b85c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Order/Module/.tmpKf5pSu"
+/Users/qiangwu/.cache/mathlib/09ca07d19b02c9fe.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/ea99383b8a1c5750.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Probability/Kernel/Composition/.tmp4LOytx"
+/Users/qiangwu/.cache/mathlib/66d1214ea05f7bc5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Probability/Kernel/Composition/.tmpH9Cfjz"
+/Users/qiangwu/.cache/mathlib/bf815eaaf3fd12f6.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/82b8111ab7420aa2.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/e2749dac8d98bfd5.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/7919cf4f29c37f4a.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/027864fc1bec1b71.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Matrix/.tmp3AmfqG"
+/Users/qiangwu/.cache/mathlib/55327ad96920bce7.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/3212e4cf1ffea321.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Module/.tmpvp5Dm8"
+/Users/qiangwu/.cache/mathlib/89e4646820f19167.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/0848b9709250d962.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Normed/Module/RCLike/.tmpFGQiFG"
+/Users/qiangwu/.cache/mathlib/e7bce0b8fd403c91.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Matrix/.tmpLs2fsN"
+/Users/qiangwu/.cache/mathlib/930bee41b63437d9.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Algebraic/.tmpx6cQ3q"
+/Users/qiangwu/.cache/mathlib/1bfacb2b2bf38ed5.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/ff4922363d627410.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/97432bf32d23fa7d.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Probability/Independence/.tmpMLYV56"
+/Users/qiangwu/.cache/mathlib/462b2983ffe49e3c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Matrix/Charpoly/.tmpeKi8Va"
+/Users/qiangwu/.cache/mathlib/9fdff5bdbd93a7ba.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/86257ffd80d83758.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Integral/.tmp3viMpl"
+/Users/qiangwu/.cache/mathlib/c47fe417c1a8d6f5.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/7bde0d59236d1a59.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/80c77f07b27a4426.ltar: No space left on device (os error 28) at path "/Users/qiangwu/.cache/mathlib/188fe82ec2fdf544.ltar: No space left on device (os error 28)
+
+thread '<unnamed>' (7078478) panicked at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library/std/src/io/stdio.rs:1165:9:
+failed printing to stderr: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/433315bf4cb3557e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Calculus/ContDiff/.tmpaAnlRg"
+/Users/qiangwu/.cache/mathlib/faf3c9da52294ba7.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Algebra/.tmpe9nzP5"
+/Users/qiangwu/.cache/mathlib/32929b3a14081383.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/ContinuousMap/.tmpVswy52"
+/Users/qiangwu/.cache/mathlib/1974b5c7f25214cb.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/.tmpI3E5jw"
+/Users/qiangwu/.cache/mathlib/a355b66acdc6eb8e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/ConditionalExpectation/.tmpmRfZnu"
+/Users/qiangwu/.cache/mathlib/def4e36f7c8ab4c0.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/UniqueFactorizationDomain/.tmpk0e3f9"
+/Users/qiangwu/.cache/mathlib/028dd30a8d4a165e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Localization/.tmpUWJ9I8"
+/Users/qiangwu/.cache/mathlib/8eac9efc86758d1b.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Polynomial/.tmpUD4rAV"
+/Users/qiangwu/.cache/mathlib/612efa81220a5723.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/ContinuousMap/Bounded/.tmpgwr1J5"
+/Users/qiangwu/.cache/mathlib/53d748122046cb0a.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/.tmp25fBXO"
+/Users/qiangwu/.cache/mathlib/a6f5496e2a0149a7.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Ideal/.tmpW1ZQ06"
+/Users/qiangwu/.cache/mathlib/f72df0ab8df9ab57.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/58b337f1ea888184.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/60b304cb4ce278ea.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Dimension/.tmpzUVW8x"
+/Users/qiangwu/.cache/mathlib/5f4c70508c717c0c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Polynomial/.tmpAlLk3C"
+/Users/qiangwu/.cache/mathlib/bca1807e0611c4fb.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/f91946dfa55c1ec5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Charpoly/.tmpvooApd"
+/Users/qiangwu/.cache/mathlib/ae457b0148dce214.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Algebra/IsUniformGroup/.tmpIdIc98"
+/Users/qiangwu/.cache/mathlib/89c8973553ec79f1.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/FreeModule/Finite/.tmpuhQLWz"
+/Users/qiangwu/.cache/mathlib/35a8b17400823d1a.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Matrix/Charpoly/.tmpGYHRX3"
+/Users/qiangwu/.cache/mathlib/dde70a8b5f088807.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Algebra/.tmp3GqYXm"
+/Users/qiangwu/.cache/mathlib/40aa70039661ef51.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Calculus/FDeriv/.tmp2AMeUm"
+/Users/qiangwu/.cache/mathlib/8e59a48ebb18720d.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Ideal/Quotient/.tmpAeuNrz"
+/Users/qiangwu/.cache/mathlib/7f17fd847e2a0c42.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/e0a779eb11df2f66.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Polynomial/.tmpLdMH2X"
+/Users/qiangwu/.cache/mathlib/ff47412464dfbbdf.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Normed/Lp/.tmpQ5A1Rf"
+/Users/qiangwu/.cache/mathlib/fd9e6c8f42809a08.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Order/.tmpyvLbec"
+/Users/qiangwu/.cache/mathlib/fd197e282d0131ee.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/70d81ce360a33a1d.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/586041c0b40547c4.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/2242af4b793bde58.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Algebra/Spectrum/.tmpSnPBA2"
+/Users/qiangwu/.cache/mathlib/cb82f20f63df5316.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/809f909e4361e3b9.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/3bf32588b55d6c58.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/d5154b54e5f0a486.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/875b178ec8fa49b2.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/06115f88e94a51ff.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/16f2dafb2caedb21.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/Eigenspace/.tmp2O87qS"
+/Users/qiangwu/.cache/mathlib/3038099ca379c751.ltar: No space left on device (os error 28)/Users/qiangwu/.cache/mathlib/cef8beee83f4312c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/IsAlgClosed/.tmpoNrEFE"
+
+thread '<unnamed>' (7078469) panicked at /rustc/4a4ef493e3a1488c6e321570238084b38948f6db/library/std/src/io/stdio.rs:1165:9:
+failed printing to stderr: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/a95c16766d9aae06.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Spectrum/Prime/.tmpNVWJgF"
+/Users/qiangwu/.cache/mathlib/066ffd1f762a1909.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/ff88e7b51c0c79c9.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Integral/.tmpmn7Ss8"
+/Users/qiangwu/.cache/mathlib/abde91b06b8c9824.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/.tmp3VZq6h"
+/Users/qiangwu/.cache/mathlib/f029b63fb2d8692d.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/.tmpt4FMpO"
+/Users/qiangwu/.cache/mathlib/cd673962efa55b3a.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Ring/Action/.tmpAchWpe"
+/Users/qiangwu/.cache/mathlib/665626838c68bd0c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Data/Matrix/.tmpXznTXr"
+/Users/qiangwu/.cache/mathlib/ab31fffa1c7ef65b.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/CStarAlgebra/.tmpetV93t"
+/Users/qiangwu/.cache/mathlib/6879e62dbd5df2fe.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Algebra/.tmpyfWr4Q"
+/Users/qiangwu/.cache/mathlib/68ece9785d8c91bf.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/4aa6e7305040200a.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/LocallyConvex/.tmpk2BwdS"
+/Users/qiangwu/.cache/mathlib/10f82e27b1dedcc1.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/65d12329a9803184.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/InnerProductSpace/.tmpbr6pNN"
+/Users/qiangwu/.cache/mathlib/1b7307956534d33c.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/664fa940bb9f80a6.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/e01adad838b7894f.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/5db42cd8f372d65b.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/f86239f23c1f7efe.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Algebra/Module/Spaces/.tmpAecgSb"
+/Users/qiangwu/.cache/mathlib/f9463b08c0f5b00a.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/9d2684fe4550d3f6.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/821060a6b130287c.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/f6eca59c0d57056c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/IntermediateField/.tmpuNM1nt"
+/Users/qiangwu/.cache/mathlib/9e9c07bf8ee14fc1.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/80a98e68c68aa0a4.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/3e2f1be1d12b7c00.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/e967c38a18d87784.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/41b2dcd5172c88ae.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/9d4ea8bb7b64fae4.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/6b0593d5a8b3a037.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/3cbe7bb72fb9bc90.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Calculus/.tmpChCLcv"
+/Users/qiangwu/.cache/mathlib/f9868be3c1ae16b7.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/89f551cfe73db474.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/.tmpx3oyT4"
+/Users/qiangwu/.cache/mathlib/30fdf872c73eace4.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/183c889f1dedc22b.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/263926cc44bfd611.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/.tmp9dSFvP"
+/Users/qiangwu/.cache/mathlib/2f8681b2e30ee8f2.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Ring/Action/.tmpjfgP8z"
+/Users/qiangwu/.cache/mathlib/9e9cf3c2d8f49fe0.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/3c87d6bb0274f922.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Algebraic/.tmpiU2FOY"
+/Users/qiangwu/.cache/mathlib/a10a22747ebd50b9.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Measure/Haar/.tmpL2g9wz"
+/Users/qiangwu/.cache/mathlib/09b538a41993d3b1.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Polynomial/.tmpafSQFX"
+/Users/qiangwu/.cache/mathlib/6c7c822bf1cd94e0.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Probability/Independence/Kernel/.tmpHck7Lc"
+/Users/qiangwu/.cache/mathlib/7198af7ead807a73.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/602d1b836b0173d1.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/ConditionalExpectation/.tmpDjj4eN"
+/Users/qiangwu/.cache/mathlib/9fe547f290039614.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Polynomial/.tmpH0PEwj"
+/Users/qiangwu/.cache/mathlib/0e72bb61e9289c5b.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Polynomial/.tmp9s07jL"
+/Users/qiangwu/.cache/mathlib/daef6d562ce26804.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/SpecialFunctions/.tmpHH79bp"
+/Users/qiangwu/.cache/mathlib/2f5c90179e5bc2f2.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Probability/Kernel/Composition/.tmp7xAuXA"
+/Users/qiangwu/.cache/mathlib/fab554cd8654a02e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/LinearAlgebra/BilinearForm/.tmpikKMrp"
+/Users/qiangwu/.cache/mathlib/52387d0aef519c67.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Util/.tmpnzjVKq"
+/Users/qiangwu/.cache/mathlib/2187bbb6db4b014e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/.tmpTZhm0i"
+/Users/qiangwu/.cache/mathlib/28164766a18aaa47.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Normed/Group/.tmprDX96I"
+/Users/qiangwu/.cache/mathlib/39efc5c8189279b8.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/RingTheory/Nilpotent/.tmpHouDGo"
+/Users/qiangwu/.cache/mathlib/5d63589b73bdd5e6.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Star/.tmp1tf2cl"
+/Users/qiangwu/.cache/mathlib/159433a8ade513df.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/.tmp65Ka6g"
+/Users/qiangwu/.cache/mathlib/7e4f38fc29f32b02.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/19d4100084c33cf4.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/c1e4034d2778e38c.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Convex/.tmpKi0TUY"
+/Users/qiangwu/.cache/mathlib/b62f392cab210695.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Topology/Algebra/Module/.tmpAfJlH9"
+/Users/qiangwu/.cache/mathlib/6d88da158e139338.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/0d9f1a2ea175ed7e.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/2575546e2380bded.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/c1c8bb5b1e6eb563.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/0390b969e93eed4f.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/4ff254c6a09b0994.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/ConditionalExpectation/.tmphmktcE"
+/Users/qiangwu/.cache/mathlib/33ce687240ac84fb.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/beb83f9fd64edbc8.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/776b187c0ca62e2f.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/FieldTheory/SplittingField/.tmp8nBQlu"
+/Users/qiangwu/.cache/mathlib/eee14558bc37ae85.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/.tmpDnGL5K"
+/Users/qiangwu/.cache/mathlib/fe707b0077e12406.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/15e7525b9153496f.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/59acf8236ea6c041.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/2703d2b637d0bd8f.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/7dd9cd7262dd8a7a.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/c293262a90d4caf6.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/c18bde84907f55d3.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/f3b3ecdc25151818.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Normed/Lp/.tmpOC4Qaf"
+/Users/qiangwu/.cache/mathlib/c91765b34d41f8e5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/LpSpace/.tmpTtKN7a"
+/Users/qiangwu/.cache/mathlib/1c24795dd2ca8d2f.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Function/LpSpace/.tmpm1MuSy"
+/Users/qiangwu/.cache/mathlib/700afa1354924501.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/Matrix/.tmpLxc03m"
+/Users/qiangwu/.cache/mathlib/81538f073c5603a3.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Polynomial/.tmpdyWi8N"
+/Users/qiangwu/.cache/mathlib/be2164c15d3e2e3e.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Algebra/Central/.tmpm3atzw"
+/Users/qiangwu/.cache/mathlib/e78a243f7cf1b2b5.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/MeasureTheory/Integral/.tmpXjvsNp"
+/Users/qiangwu/.cache/mathlib/ad439c6af1606f69.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/LocallyConvex/.tmpjI5gcU"
+/Users/qiangwu/.cache/mathlib/56805a734fc5c6e5.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/59e854842615c610.ltar: No space left on device (os error 28)
+/Users/qiangwu/.cache/mathlib/c8af596d05113bcf.ltar: No space left on device (os error 28) at path "/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/packages/mathlib/./.lake/build/lib/lean/Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/.tmpaONjBi"
+/Users/qiangwu/.cache/mathlib/fad0b19e0796d573.ltar: No space left on device (os error 28) at path "Decompression of already-cached files failed (exit code 101)
+Current branch: HEAD
+Using cache from origin: (some leanprover-community/mathlib4)
+Decompressing 358 already-cached file(s) (2541 already decompressed)
+No files to download

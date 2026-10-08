@@ -1,0 +1,56 @@
+SpinGlass.ConditionalSpinGlass.normalizedPartition_eq_graphPolynomial.{u_1, u_2} {V : Type u_1} {E : Type u_2}
+  [Fintype V] [DecidableEq V] (incidence : E → Finset V) (edges : Finset E) (x : E → ℝ) (η : E → Bool) :
+  (SpinGlass.Partition.normalizedPartition incidence edges fun e => x e * SpinGlass.Expansion.spinSign (η e)) =
+    SpinGlass.ConditionalSpinGlass.graphPolynomial incidence edges (fun e => Real.tanh (x e)) η
+SpinGlass.ConditionalSpinGlass.normalizedPartition_negative_moment.{u_1, u_2} {V : Type u_1} {E : Type u_2} [Fintype V]
+  [DecidableEq V] [Fintype E] [DecidableEq E] (incidence : E → Finset V) (edges : Finset E) {θ : ℝ} (hθ : 0 < θ)
+  (hθ1 : θ < 1) (x : E → ℝ) (hbound : ∀ e ∈ edges, |Real.tanh (x e) / θ| ≤ 1 / 2) :
+  (SpinGlass.Expansion.spinMean fun η =>
+      (SpinGlass.Partition.normalizedPartition incidence edges fun e => x e * SpinGlass.Expansion.spinSign (η e)) ^
+        (-((1 - √θ) / √θ))) ≤
+    SpinGlass.ConditionalSpinGlass.inflatedMass incidence edges θ fun e => Real.tanh (x e)
+SpinGlass.ConditionalSpinGlass.normalizedPartition_lower_tail.{u_1, u_2} {V : Type u_1} {E : Type u_2} [Fintype V]
+  [DecidableEq V] [Fintype E] [DecidableEq E] (incidence : E → Finset V) (edges : Finset E) {θ z : ℝ} (hθ : 0 < θ)
+  (hθ1 : θ < 1) (hz : 0 < z) (x : E → ℝ) (hbound : ∀ e ∈ edges, |Real.tanh (x e) / θ| ≤ 1 / 2) :
+  ↑{η |
+            (SpinGlass.Partition.normalizedPartition incidence edges fun e =>
+                x e * SpinGlass.Expansion.spinSign (η e)) <
+              z}.card /
+      2 ^ Fintype.card E ≤
+    (SpinGlass.ConditionalSpinGlass.inflatedMass incidence edges θ fun e => Real.tanh (x e)) * z ^ ((1 - √θ) / √θ)
+SpinGlass.RandomCoefficient.polynomial_error_second_moment.{u_1} {E : Type u_1} [Fintype E] [DecidableEq E]
+  (A : Finset (Finset E)) (c d : Finset E → ℝ) :
+  (SpinGlass.Expansion.spinMean fun η =>
+      (∑ Γ ∈ A, c Γ * SpinGlass.Expansion.spinCharacter Γ η - ∑ Γ ∈ A, d Γ * SpinGlass.Expansion.spinCharacter Γ η) ^
+        2) =
+    ∑ Γ ∈ A, (c Γ - d Γ) ^ 2
+SpinGlass.RandomCoefficient.integrated_polynomial_error_second_moment.{u_1, u_2} {E : Type u_1} [Fintype E]
+  [DecidableEq E] {Ω : Type u_2} [MeasurableSpace Ω] (μ : MeasureTheory.Measure Ω) (A : Finset (Finset E))
+  (c d : Ω → Finset E → ℝ) (hint : ∀ Γ ∈ A, MeasureTheory.Integrable (fun ω => (c ω Γ - d ω Γ) ^ 2) μ) :
+  ∫ (ω : Ω),
+      SpinGlass.Expansion.spinMean fun η =>
+        (∑ Γ ∈ A, c ω Γ * SpinGlass.Expansion.spinCharacter Γ η -
+            ∑ Γ ∈ A, d ω Γ * SpinGlass.Expansion.spinCharacter Γ η) ^
+          2 ∂μ =
+    ∑ Γ ∈ A, ∫ (ω : Ω), (c ω Γ - d ω Γ) ^ 2 ∂μ
+SpinGlass.RandomCoefficient.retained_family_error.{u_1} {E : Type u_1} [Fintype E] [DecidableEq E]
+  (A : Finset (Finset E)) (a : Finset E → ℝ) (keep : Finset E → Prop) [DecidablePred keep] :
+  (SpinGlass.Expansion.spinMean fun η =>
+      (∑ Γ ∈ A, a Γ * SpinGlass.Expansion.spinCharacter Γ η -
+          ∑ Γ ∈ A with keep Γ, a Γ * SpinGlass.Expansion.spinCharacter Γ η) ^
+        2) =
+    ∑ Γ ∈ A with ¬keep Γ, a Γ ^ 2
+'SpinGlass.ConditionalSpinGlass.normalizedPartition_eq_graphPolynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.ConditionalSpinGlass.normalizedPartition_negative_moment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.ConditionalSpinGlass.normalizedPartition_lower_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.RandomCoefficient.polynomial_error_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.RandomCoefficient.integrated_polynomial_error_second_moment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.RandomCoefficient.retained_family_error' depends on axioms: [propext, Classical.choice, Quot.sound]

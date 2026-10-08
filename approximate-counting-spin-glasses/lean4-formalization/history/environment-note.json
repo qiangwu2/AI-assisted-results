@@ -1,0 +1,19 @@
+{
+  "additional_probability_dependency_unpack_failed": "No space left on device (os error 28)",
+  "final_delivered_source_check": "passed before cleanup",
+  "cleanup": "Removed only generated dependency build directories inside this task project after verification; retained source, manifests, logs, and the pre-existing global compressed cache.",
+  "dependency_build_directories_removed": [
+    "plausible",
+    "LeanSearchClient",
+    "importGraph",
+    "proofwidgets",
+    "aesop",
+    "Qq",
+    "batteries",
+    "mathlib"
+  ],
+  "free_disk_bytes_before_cleanup": 169603072,
+  "free_disk_bytes_after_cleanup": 2225664000,
+  "restore_command": "./scripts/get_cache.sh",
+  "continuation_requirement": "More free disk space is needed to restore and extend the Lean dependencies. Mathematical and algorithmic proof obligations are listed separately in COVERAGE.md."
+}

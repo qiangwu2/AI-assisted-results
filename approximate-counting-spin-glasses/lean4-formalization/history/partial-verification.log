@@ -1,0 +1,528 @@
+Lean (version 4.32.1, arm64-apple-darwin24.6.0, commit f054605aea4b840552cca2e725580bffd1e1b704, Release)
+Checking SpinGlass.Degree
+Checking SpinGlass.Support
+Checking SpinGlass.Algebra
+Checking SpinGlass.Expansion
+'SpinGlass.Expansion.mean_character' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.graphical_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.graphical_sum_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.pure_p_spin_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.character_orthogonality' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.polynomial_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.edge_subset_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.Expansion.edge_subset_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking SpinGlass.Mobius
+Checking SpinGlass.Partition
+Checking SpinGlass.LowerTail
+Checking SpinGlass.Noise
+Checking SpinGlass.ErrorReduction
+Checking SpinGlass.AccuracyBudget
+Checking SpinGlass.ReverseHypercontractivityIngredients
+SpinGlass/ReverseHypercontractivityIngredients.lean:152:41: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Checking SpinGlass.ReverseHypercontractivityTwoPoint
+Checking SpinGlass.Tensorization
+Checking SpinGlass.ReverseHolder
+Checking SpinGlass.NoiseKernel
+Checking SpinGlass.NoiseMomentReduction
+Checking SpinGlass.BilinearTwoPoint
+Checking SpinGlass.ReverseHypercontractivity
+Checking SpinGlass.FiniteLowerTail
+Checking SpinGlass.ConditionalSpinGlass
+Checking SpinGlass.LocalCube
+Checking SpinGlass.RandomCoefficient
+Checking SpinGlass.GraphicalMass
+SpinGlass.ConditionalSpinGlass.normalizedPartition_eq_graphPolynomial.{u_1, u_2} {V : Type u_1} {E : Type u_2}
+  [Fintype V] [DecidableEq V] (incidence : E → Finset V) (edges : Finset E) (x : E → ℝ) (η : E → Bool) :
+  (SpinGlass.Partition.normalizedPartition incidence edges fun e => x e * SpinGlass.Expansion.spinSign (η e)) =
+    SpinGlass.ConditionalSpinGlass.graphPolynomial incidence edges (fun e => Real.tanh (x e)) η
+SpinGlass.ConditionalSpinGlass.normalizedPartition_negative_moment.{u_1, u_2} {V : Type u_1} {E : Type u_2} [Fintype V]
+  [DecidableEq V] [Fintype E] [DecidableEq E] (incidence : E → Finset V) (edges : Finset E) {θ : ℝ} (hθ : 0 < θ)
+  (hθ1 : θ < 1) (x : E → ℝ) (hbound : ∀ e ∈ edges, |Real.tanh (x e) / θ| ≤ 1 / 2) :
+  (SpinGlass.Expansion.spinMean fun η =>
+      (SpinGlass.Partition.normalizedPartition incidence edges fun e => x e * SpinGlass.Expansion.spinSign (η e)) ^
+        (-((1 - √θ) / √θ))) ≤
+    SpinGlass.ConditionalSpinGlass.inflatedMass incidence edges θ fun e => Real.tanh (x e)
+SpinGlass.ConditionalSpinGlass.normalizedPartition_lower_tail.{u_1, u_2} {V : Type u_1} {E : Type u_2} [Fintype V]
+  [DecidableEq V] [Fintype E] [DecidableEq E] (incidence : E → Finset V) (edges : Finset E) {θ z : ℝ} (hθ : 0 < θ)
+  (hθ1 : θ < 1) (hz : 0 < z) (x : E → ℝ) (hbound : ∀ e ∈ edges, |Real.tanh (x e) / θ| ≤ 1 / 2) :
+  ↑{η |
+            (SpinGlass.Partition.normalizedPartition incidence edges fun e =>
+                x e * SpinGlass.Expansion.spinSign (η e)) <
+              z}.card /
+      2 ^ Fintype.card E ≤
+    (SpinGlass.ConditionalSpinGlass.inflatedMass incidence edges θ fun e => Real.tanh (x e)) * z ^ ((1 - √θ) / √θ)
+SpinGlass.RandomCoefficient.polynomial_error_second_moment.{u_1} {E : Type u_1} [Fintype E] [DecidableEq E]
+  (A : Finset (Finset E)) (c d : Finset E → ℝ) :
+  (SpinGlass.Expansion.spinMean fun η =>
+      (∑ Γ ∈ A, c Γ * SpinGlass.Expansion.spinCharacter Γ η - ∑ Γ ∈ A, d Γ * SpinGlass.Expansion.spinCharacter Γ η) ^
+        2) =
+    ∑ Γ ∈ A, (c Γ - d Γ) ^ 2
+SpinGlass.RandomCoefficient.integrated_polynomial_error_second_moment.{u_1, u_2} {E : Type u_1} [Fintype E]
+  [DecidableEq E] {Ω : Type u_2} [MeasurableSpace Ω] (μ : MeasureTheory.Measure Ω) (A : Finset (Finset E))
+  (c d : Ω → Finset E → ℝ) (hint : ∀ Γ ∈ A, MeasureTheory.Integrable (fun ω => (c ω Γ - d ω Γ) ^ 2) μ) :
+  ∫ (ω : Ω),
+      SpinGlass.Expansion.spinMean fun η =>
+        (∑ Γ ∈ A, c ω Γ * SpinGlass.Expansion.spinCharacter Γ η -
+            ∑ Γ ∈ A, d ω Γ * SpinGlass.Expansion.spinCharacter Γ η) ^
+          2 ∂μ =
+    ∑ Γ ∈ A, ∫ (ω : Ω), (c ω Γ - d ω Γ) ^ 2 ∂μ
+SpinGlass.RandomCoefficient.retained_family_error.{u_1} {E : Type u_1} [Fintype E] [DecidableEq E]
+  (A : Finset (Finset E)) (a : Finset E → ℝ) (keep : Finset E → Prop) [DecidablePred keep] :
+  (SpinGlass.Expansion.spinMean fun η =>
+      (∑ Γ ∈ A, a Γ * SpinGlass.Expansion.spinCharacter Γ η -
+          ∑ Γ ∈ A with keep Γ, a Γ * SpinGlass.Expansion.spinCharacter Γ η) ^
+        2) =
+    ∑ Γ ∈ A with ¬keep Γ, a Γ ^ 2
+'SpinGlass.ConditionalSpinGlass.normalizedPartition_eq_graphPolynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.ConditionalSpinGlass.normalizedPartition_negative_moment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.ConditionalSpinGlass.normalizedPartition_lower_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.RandomCoefficient.polynomial_error_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SpinGlass.RandomCoefficient.integrated_polynomial_error_second_moment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SpinGlass.RandomCoefficient.retained_family_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.abs_error_probability; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.accuracyMSEBudget_lt_one; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.accuracyMSEBudget_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.accuracyThreshold_lt_one; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.accuracyThreshold_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.accuracyThreshold_rpow; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.four_le_rho_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.logOutput_bad_event_subset; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.logOutput_error; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.logOutput_probability; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.logOutput_probability_of_budgets; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.logOutput_probability_with_paper_parameters; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.log_error_of_absolute; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.log_error_of_relative; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_add_both; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_left; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_right; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_six_eq_add_four; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_eq_five_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_four_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_small_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_five; axioms = []
+CHECKED SpinGlass.rho_formula; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_four; axioms = []
+CHECKED SpinGlass.rho_idempotent; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_lt_six; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_mod_two; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_of_lt_six; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_one; axioms = []
+CHECKED SpinGlass.rho_six; axioms = []
+CHECKED SpinGlass.rho_three; axioms = []
+CHECKED SpinGlass.rho_two; axioms = []
+CHECKED SpinGlass.rho_zero; axioms = []
+CHECKED SpinGlass.BilinearTwoPoint.bit_reverse_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.BilinearTwoPoint.contrast_bilinear_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.BilinearTwoPoint.reverse_cauchy; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.BilinearTwoPoint.scalar_bilinear; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.BilinearTwoPoint.scaled_contrast_abs_le_mean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.CappedDegree.add_assoc; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.add_comm; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.add_zero; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.card_eq_six; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.CappedDegree.ext_val; axioms = []
+CHECKED SpinGlass.CappedDegree.isLt; axioms = []
+CHECKED SpinGlass.CappedDegree.ofNat_add; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.ofNat_val; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.val_add; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.val_ofNat; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.val_zero; axioms = []
+CHECKED SpinGlass.CappedDegree.zero_add; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.ColorSupport.disjoint_images_implies_disjoint; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.empty_mul; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_assoc; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_comm; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_empty; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_none; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_of_disjoint; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_of_not_disjoint; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.none_mul; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod_eq_none_at_L_succ; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod_eq_none_of_length_gt; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod_some_card_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.singleton_square_zero; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.empty_mem_evenGraphs; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.fixed_magnitude_lower_tail; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.fixed_magnitude_negative_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.graphPolynomial_mean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.graphPolynomial_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedMass_nonneg; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedPolynomial_mean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedPolynomial_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedPolynomial_second_moment; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.noise_inflatedPolynomial; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.normalizedPartition_eq_graphPolynomial; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.normalizedPartition_lower_tail; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.normalizedPartition_negative_moment; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.one_le_inflatedMass; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.tanh_mul_spinSign; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.abs_edgeCharacter; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.abs_spinSign; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.character_eq_degree; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.character_orthogonality; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.edge_subset_mean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.edge_subset_second_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.graphical_expansion; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.graphical_expansion_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.graphical_sum_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.mean_character; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.mean_spinCharacter; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.polynomial_second_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.pure_p_spin_expansion; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.spinMean_mul_left; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.spinMean_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.spinSign_sq; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.sum_character; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.sum_spinSign_pow; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.FiniteLowerTail.finite_markov_lower_tail; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.FiniteLowerTail.lower_tail_indicator_le; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.FiniteLowerTail.noisy_lower_tail_le_second_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.FiniteLowerTail.noisy_negative_moment_le_second_moment; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.FiniteLowerTail.spinMean_interpolation; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.FiniteLowerTail.spinMean_mono; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.graphicalMass_eq_spinMean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.graphicalMass_le_exp_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.pure_p_spin_mass_le_exp_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.sign_second_moment_eq_spinMean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.spin_product_le_exp_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.squared_graph_weights_eq_spinMean; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.uniform_mass_le_exp_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.degree_pos_of_mem_support; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.four_times_branch_le_uniform_edge_count; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.mem_support_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.sk_branch_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.sk_twice_branch_le_edges; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.sum_degrees; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.threshold_card_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.twice_support_le_uniform_edge_count; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Incidence.four_times_branch_le_uniform_edge_count; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.positive_count_bound; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.sk_branch_bound; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.sumOver_add; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.sumOver_cons; axioms = [propext]
+CHECKED SpinGlass.Incidence.sumOver_eq_const; axioms = [propext]
+CHECKED SpinGlass.Incidence.sumOver_nil; axioms = [propext]
+CHECKED SpinGlass.Incidence.sumOver_swap; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.sumOver_zero; axioms = [propext]
+CHECKED SpinGlass.Incidence.sum_degrees_eq_sum_edgeSizes; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.sum_degrees_of_uniform; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.threshold_count_bound; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.twice_support_le_uniform_edge_count; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.LocalCube.Gspin_eq_localGspin; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LocalCube.cube_size_split; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LocalCube.edgeCharacter_restrict; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LocalCube.spinMean_restrict; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LocalCube.sum_restrict; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.convexOn_rpow_nonpos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.fractionalExponent_lt_one; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.fractionalExponent_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.interpolation_negative_power_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.momentExponent_identity; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.moment_interpolation; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.negativeExponent_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.negativeExponent_rpow; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.weighted_moment_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.A_eq_exact_support; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.Gspin_eq_G; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.alternating_powerset_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.even_induced_family; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.subset_cancellation; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.subset_induced_iff; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.superset_alternating_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.transform_Gspin_eq_exact_support; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.transform_containedSum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise_character; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise_inflated_polynomial; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise_mul_left; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise_polynomial; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.inflated_graphical_polynomial_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noiseWeight_nonneg; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noiseWeight_normalization; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noiseWeight_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noiseWeight_sign_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noiseWeight_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noise_character_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.spinCharacter_eq_full_product; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.spinCharacter_xor; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.spinSign_xor; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.cubeKernel_symmetric; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.cubeNoise_eq_kernel_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.cubeNoise_self_adjoint; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.cubeNoise_self_adjoint_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.jointKernel_bilinear_eq; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.jointKernel_bilinear_eq_reverse; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.uniform_product_weights_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseMomentReduction.negative_moment_of_cube_bilinear; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.Partition.exp_spin_factor; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.log_partition_decomposition; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.normalizedPartition_eq_even_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.normalizedPartition_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.partition_eq_prefactor_mul_even_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.partition_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.prefactor_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.RandomCoefficient.integrated_polynomial_error_second_moment; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.RandomCoefficient.polynomial_error_second_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.RandomCoefficient.retained_family_error; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.dualExponent_inverse_identity; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.dualExponent_lt_one; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.dualExponent_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.dualExponent_power_identity; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.negative_moment_of_bilinear; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.negative_moment_of_power_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHolder.weighted_rpow_sum_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivity.spinMean_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivity.uniform_weighted_sum; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.curvature_comparison; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.curvature_factor_lower_large; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.curvature_factor_lower_small; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.geometric_le_power_average; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.noisyProduct_ge_arithmetic; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.noisyProduct_ge_input; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.power_average_le_arithmetic_power; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.power_average_pos; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.three_quarters_negative_power_bound; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.base_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.hasDerivAt_noisyMean; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.hasDerivAt_noisyMeanDeriv; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.hasDerivAt_noisyProduct; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.hasDerivAt_noisyProductDeriv; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.hasDerivAt_powerMean; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.hasDerivAt_powerMeanDeriv; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.homogeneous_two_point_sq; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.normalized_two_point; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.two_point_powerMean_pos; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.Tensorization.bilinear_bitJoint; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.bilinear_product; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.bool_cube_reverse_bound; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.bool_cube_reverse_bound_fintype; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.powerMean_bool; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.powerMean_pos; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.powerMean_product; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.powerMean_rpow; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.accuracyMSEBudget._proof_1; axioms = [propext]
+CHECKED SpinGlass.accuracyThreshold._proof_1; axioms = [propext]
+CHECKED SpinGlass.four_le_rho_iff._proof_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.four_le_rho_iff._proof_1_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.logOutput.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_add_left._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_left._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_left._proof_1_3; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_left._proof_1_4; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_left._proof_1_5; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_six_eq_add_four._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_six_eq_add_four._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_add_six_eq_add_four._proof_1_3; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_eq_five_iff._proof_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_five_iff._proof_1_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_four_iff._proof_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_four_iff._proof_1_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_iff._proof_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_iff._proof_1_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_iff._proof_1_3; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_iff._proof_1_4; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_small_iff._proof_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_eq_small_iff._proof_1_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.rho_formula._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_formula._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_formula._proof_1_3; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_formula._proof_1_4; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_formula._proof_1_5; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_lt_six._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_lt_six._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_mod_two._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_mod_two._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_of_lt_six._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.rho_of_lt_six._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED _private.SpinGlass.Expansion.0.SpinGlass.Expansion.even_pair_iff; axioms = [propext,
+ Classical.choice,
+ Quot.sound]
+CHECKED SpinGlass.CappedDegree.equivFin._proof_1; axioms = []
+CHECKED SpinGlass.CappedDegree.equivFin._proof_2; axioms = []
+CHECKED SpinGlass.CappedDegree.instAddCommMonoid._proof_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.instAddCommMonoid._proof_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.CappedDegree.instZero._proof_1; axioms = []
+CHECKED SpinGlass.CappedDegree.mk.inj; axioms = []
+CHECKED SpinGlass.CappedDegree.mk.injEq; axioms = [propext]
+CHECKED SpinGlass.CappedDegree.mk.sizeOf_spec; axioms = []
+CHECKED SpinGlass.ColorSupport.mul.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul.eq_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_assoc._simp_1_4; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_assoc._simp_1_5; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.mul_comm._simp_1_4; axioms = [propext]
+CHECKED SpinGlass.ColorSupport.prod.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod.eq_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod.eq_def; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod_eq_none_of_length_gt._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.ColorSupport.prod_some_card_bound._proof_1_7; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.evenGraphs.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.evenGraphs.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.graphPolynomial.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.graphPolynomial.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedMass.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedMass.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedPolynomial.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ConditionalSpinGlass.inflatedPolynomial.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.IsEven.congr_simp; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Expansion.IsEven.eq_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Expansion.character_orthogonality._simp_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.degree.congr_simp; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Expansion.degree.eq_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Expansion.edgeCharacter.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.graphical_expansion_sum._simp_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Expansion.spinCharacter.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.spinMean._proof_1; axioms = [propext]
+CHECKED SpinGlass.Expansion.spinMean.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.spinMean.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Expansion.spinSign.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.graphicalMass.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.GraphicalMass.uniform_mass_le_exp_moment._simp_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Hypergraph.sk_twice_branch_le_edges._proof_1_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.sum_degrees._simp_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Hypergraph.support.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Hypergraph.twice_support_le_uniform_edge_count._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.positive_count_bound._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.positive_count_bound._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.sumOver.eq_1; axioms = [propext]
+CHECKED SpinGlass.Incidence.sumOver_add._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.threshold_count_bound._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.threshold_count_bound._proof_1_2; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Incidence.twice_support_le_uniform_edge_count._proof_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_1; axioms = [propext]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_2; axioms = [propext]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_3; axioms = [propext]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_4; axioms = [propext]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_5; axioms = [propext]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_6; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.moment_interpolation._simp_1_7; axioms = [propext]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_1; axioms = [propext]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_2; axioms = [propext]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_3; axioms = [propext]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_4; axioms = [propext]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_5; axioms = [propext]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_6; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.negativeExponent_eq._simp_1_7; axioms = [propext]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_1; axioms = [propext]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_2; axioms = [propext]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_3; axioms = [propext]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_4; axioms = [propext]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_5; axioms = [propext]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_6; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.LowerTail.noiseParameter_identity._simp_1_7; axioms = [propext]
+CHECKED SpinGlass.Mobius.even_induced_family._simp_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Mobius.even_induced_family._simp_1_2; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Mobius.even_induced_family._simp_1_3; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.cubeNoise.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.inflated_graphical_polynomial_pos._simp_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.Noise.noiseWeight._proof_1; axioms = [propext]
+CHECKED SpinGlass.Noise.noiseWeight.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Noise.noise_character_moment._simp_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.cubeKernel.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.NoiseKernel.xorTranslation._proof_1; axioms = [Quot.sound]
+CHECKED SpinGlass.Partition.normalizedPartition.congr_simp; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.normalizedPartition.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Partition.prefactor._proof_1; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_1; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_2; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_3; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_4; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_5; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_6; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivity.negative_moment._simp_1_7; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_1; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_2; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_3; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_4; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_5; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_6; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivity.reverse_norm._simp_1_7; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivity.uniform_weighted_sum._simp_1_1; axioms = [propext, Quot.sound]
+CHECKED SpinGlass.ReverseHypercontractivityIngredients.noisyProduct._proof_1; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.noisyMeanDeriv2._proof_1; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.powerMean._proof_1; axioms = [propext]
+CHECKED SpinGlass.ReverseHypercontractivityTwoPoint.powerMeanDeriv2._proof_1; axioms = [propext]
+CHECKED SpinGlass.Tensorization.HasReverseBound.finite_product; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.HasReverseBound.fintype_product; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.HasReverseBound.of_equiv; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.HasReverseBound.product; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.bilinear.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.bitJoint._proof_1; axioms = [propext]
+CHECKED SpinGlass.Tensorization.bitJoint.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.powerMean.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.productKernel.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.Tensorization.productWeight.eq_1; axioms = [propext, Classical.choice, Quot.sound]
+CHECKED SpinGlass.instDecidableEqCappedDegree.decEq._proof_1; axioms = []
+CHECKED SpinGlass.instDecidableEqCappedDegree.decEq._proof_2; axioms = []
+CHECKED SpinGlass.ColorSupport.mul._sparseCasesOn_1.else_eq; axioms = [propext]
+CHECKED _private.SpinGlass.Algebra.0.SpinGlass.ColorSupport.mul.match_1.eq_1; axioms = [propext, Quot.sound]
+CHECKED _private.SpinGlass.Algebra.0.SpinGlass.ColorSupport.mul.match_1.eq_2; axioms = [propext, Quot.sound]
+CHECKED _private.SpinGlass.Algebra.0.SpinGlass.ColorSupport.prod.match_1.eq_1; axioms = [propext, Quot.sound]
+CHECKED _private.SpinGlass.Algebra.0.SpinGlass.ColorSupport.prod.match_1.eq_2; axioms = [propext, Quot.sound]
+AXIOM AUDIT PASSED: 385 theorem declarations; 476 total declarations.
+STATUS: PARTIAL FORMALIZATION. The paper's main algorithmic theorem is not proved.

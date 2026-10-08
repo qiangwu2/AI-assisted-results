@@ -1,0 +1,53 @@
+Independent semantic audit: ConditionalSpinGlass.lean and RandomCoefficient.lean
+Date: 2026-10-06
+Verdict: No semantic defect or hidden goal-equivalent assumption found in the reviewed scope.
+
+FINAL SOURCE / KERNEL CHECK
+Reviewed the final sources after parent confirmation. Imported their final compiled modules in
+work/lean/additional-audit/Audit.lean; direct `lake env lean` completed with exit 0. Exact types
+and transitive axiom lists are saved in work/lean/additional-audit/final-types-axioms.txt.
+The three normalizedPartition endpoints and all three RandomCoefficient endpoints depend only
+on propext, Classical.choice, and Quot.sound. No sorryAx or project-specific axiom occurs.
+No reviewed source was edited.
+
+CONDITIONAL SPIN-GLASS BRIDGE
+- normalizedPartition_eq_graphPolynomial starts from the actual exponential partition function
+  divided by the positive 2^|V| product-of-cosh prefactor. Oddness of tanh transports each explicit
+  edge sign into its monomial. It is an equality, not an assumed partition representation.
+- The negative moment and lower tail are over uniform independent signs on E, with denominator
+  2^card(E). Unused edge-sign coordinates duplicate every configuration equally and do not bias
+  this average. The exponent is exactly s=(1-sqrt(theta))/sqrt(theta)>0 for 0<theta<1.
+- The sole array restriction is the explicit pointwise cutoff |tanh(x_e)/theta|<=1/2 on retained
+  edges. The code proves positivity of the inflated polynomial, mean one, noise cancellation,
+  and its exact second moment. No assumed lower-tail estimate, RH premise, or upper bound on
+  the graph mass is smuggled into these endpoint types.
+- The right-hand side remains the actual inflated even-graph mass. Thus these theorems do not
+  yet yield a deterministic disorder-averaged constant or the manuscript's final failure bound.
+
+RANDOM-COEFFICIENT BRIDGE
+- Parseval applies to the actual difference of two finite sign polynomials. Squared coefficient
+  differences are exactly the error mass; no unbiasedness or coefficientwise independence is
+  assumed or needed. The retained-family result uses literal membership filtering.
+- The integrated statement permits an arbitrary outer measure and assumes integrability of
+  each squared coefficient difference. This suffices for finite-sum integration; separate
+  measurability/integrability of c and d is unnecessary when their difference cancels.
+- Coefficients depend on omega, not on the inner sign variable eta. Consequently the statement
+  describes an iterated average with fresh uniform signs. It does not establish that an
+  arbitrary symmetric disorder model, or sign-dependent algorithm, has this representation.
+  The module documentation states that remaining obligation correctly.
+
+EDGE CASES
+- Lean-checked specializations show graphPolynomial(incidence, empty edges)=1,
+  inflatedMass(incidence, empty edges)=1, normalizedPartition(incidence, empty edges)=1,
+  and empty-family polynomial error=0. These checks occur in Audit.lean.
+- Empty ambient or edge types are allowed: their Boolean cube still has its unique empty
+  assignment. Neither endpoint silently requires a nonempty vertex or edge type.
+- Zero coefficients satisfy the cutoff; no division by a coefficient occurs. Theta=0 is
+  excluded by the moment/tail endpoints, avoiding misuse of totalized division. Signed x or b
+  are permitted because the cutoff is absolute; the term “magnitude” does not impose a hidden
+  nonnegativity condition.
+
+SCOPE LIMIT
+This audit verifies the finite sign and iterated-error bridges, not the remaining construction
+of the disorder sign/magnitude law, graph-mass estimates, algorithm-specific coefficients,
+coloring/runtime analysis, or the complete paper theorem.

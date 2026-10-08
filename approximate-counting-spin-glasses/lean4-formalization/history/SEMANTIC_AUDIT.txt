@@ -1,0 +1,495 @@
+INDEPENDENT SEMANTIC AUDIT OF THE LEAN FORMALIZATION
+
+CURRENT STATUS NOTE (2026-10-06): This is a chronological review record. The
+later dated RH review supersedes the initial RH-gap findings: finite-cube
+reverse hypercontractivity, its exact reverse-norm form, and the normalized
+finite-cube lower-tail consequence are now proved and independently audited.
+The full paper's disorder, mass, algorithm, and runtime chain remains incomplete.
+Other initial snapshot findings should be compared with the current coverage
+manifest rather than treated as a fresh audit of subsequently added modules.
+
+Scope and verdict
+
+I read the Lean source modules Degree, Algebra, Support, Expansion, Partition,
+Noise, LowerTail, and ErrorReduction; the audit and source-checking scripts;
+the corresponding statements and arguments in Spin_Glasses_Rewritten.tex; and
+the original manuscript's model and main theorem. This is an adversarial
+statement-level audit, not an independent full rebuild. Sources were still
+being completed during review. The final source rebuild and axiom-audit result
+must be recorded separately by the integrating agent.
+
+The project is a PARTIAL formalization of genuine ingredients. It does not
+formalize or certify the paper's main arbitrary-accuracy counting theorem,
+the uniform mean-square algorithm theorem, or their runtime claims. I found
+no hidden assumed conclusion in the finite graphical identities and no
+contradictory typeclass instance in the current degree wrapper. The missing
+results below are mathematical and algorithmic work, not merely packaging.
+
+1. CRITICAL COVERAGE GAP: THE MAIN CONCLUSION IS NOT A LEAN THEOREM
+
+The original manuscript's Theorem 1.1 and the rewritten thm:main quantify over
+a symmetric variance-one disorder law, model parameters, every N and requested
+accuracy/confidence, and a single algorithm with a uniform polynomial operation
+bound. None of the inspected declarations constructs that algorithm, defines
+its operational cost, or proves the quantified guarantee.
+
+ErrorReduction.logOutput_probability_of_budgets (ErrorReduction.lean:129)
+assumes BOTH
+  hlower: P(Z < threshold) <= tau + delta/2,
+  hmse: E[(T-Z)^2] <= delta * epsilon^2 * threshold^2 / 8.
+It then proves the correct elementary probability reduction. This is a useful,
+noncircular conditional lemma; it is not a proof of either input estimate or
+of an estimator that satisfies them. The source comment correctly discloses
+these hypotheses. Describing it as the paper's main theorem would turn the
+two principal open obligations into assumed premises. Repair: retain the
+conditional label, and eventually instantiate it with a proved algorithm,
+proved lower-tail estimate, and proved MSE estimate.
+
+The final logarithmic target in ErrorReduction is an abstract expression
+base + log Z. Partition.log_partition_decomposition supplies the appropriate
+finite mathematical identity, but the probability theorem must still be
+instantiated with the physical partition function and an actual algorithmic
+output. There is no inherent flaw in this separation; it is an unfinished
+end-to-end connection.
+
+2. PROBABILISTIC MODEL AND ORTHOGONALITY ARE ONLY PARTIALLY CONNECTED
+
+Expansion.spinMean is the exact uniform average over a finite Boolean cube.
+Its normalization 2^(-card V) is correct. The character orthogonality and
+edge_subset_second_moment theorems are exact finite identities with fixed
+coefficients or edge magnitudes. They establish the sign-averaging part of the
+argument, not the full manuscript lem:orthogonality for arbitrary independent
+symmetric real disorder.
+
+Still absent are: constructing independent magnitudes and fair signs with the
+required disorder law (including an atom at zero); integrating the conditional
+identity over magnitudes to obtain r_N^|Gamma|; the independent random-coefficient
+variant needed for shared coloring trials; the tanh second-moment bound; and
+the required measurability/integrability and independence connections.
+
+There is no wrong indexing trick: Expansion's use of V as the edge-sign index
+in edge_subset_second_moment is mathematically legitimate. Its generic indexed
+incidence family may contain repeated interaction supports, but the graphical
+identity remains valid in that generality. pure_p_spin_expansion specializes to
+the actual set of p-element subsets, so the finite identity can model the
+paper's distinct-index interactions without adding duplicate hyperedges.
+
+3. THE LOWER-TAIL ESTIMATE IS NOT FORMALIZED
+
+LowerTail proves a real finite weighted moment interpolation inequality and
+the exponent arithmetic. Its hypotheses do not smuggle in the interpolation
+conclusion. In particular, normalization of the size-biased weights is exactly
+hmean = 1; a separate assumption that the original weights sum to one is not
+needed for this stronger finite statement. Strict positivity and hmean also
+exclude an empty or all-zero-weight degenerate instance.
+
+Noise implements independent coordinate sign noise via the actual product
+weights (1 +/- theta)/2, with Boolean xor as sign multiplication. The diagonal
+character action and undoing coefficient inflation are faithful. The bound
+|b/theta| <= 1/2 is sufficient for inflated graphical positivity. Its absence
+of theta != 0 is not unsound: the positivity statement is still true for Lean's
+totalized division, while the inflation-cancellation theorem separately requires
+theta != 0.
+
+Reverse hypercontractivity, even as a formally imported established theorem,
+is absent. The restricted negative moment, integration over magnitudes, the
+large-coupling event implication, and the union/Markov tail bound for that event
+are absent. Thus LowerTail's module name must not be read as a completed proof
+of rewritten prop:lower-tail. The comments currently disclose the RH omission.
+
+Minor documentation precision: Noise.noiseWeight_normalization is algebraic
+normalization for every real theta. Calling these weights a probability
+distribution additionally needs -1 <= theta <= 1. The separate nonnegativity
+lemma supplies precisely that fact; no theorem is false. Qualify the comment
+if it is presented without that nearby context.
+
+4. SUPPORT COUNTING IS CORRECT BUT FAR SHORT OF THE UNIFORM TAILS
+
+Support contains both list-incidence statements and direct finite simple
+hypergraph statements. The latter define support as the union of actual edge
+sets and degree as the number of edges containing a vertex. The handshake and
+threshold-count arguments are proved, not assumed. Parity plus positive degree
+really yields the factor-two support bound; degree >= 4 really yields the
+branching bound. These statements need no hidden nonemptiness or injectivity
+assumption. The list version explicitly allows multiplicities and should not
+be confused with the finite simple graph specialization.
+
+These bounds are only starting ingredients. Missing are exact-support
+inclusion-exclusion (rewritten prop:tail-support-evaluation), enumeration of
+support families, binomial/Poisson mass estimates, uniform exponential mass
+and edge tails, Gaussian pairing enumeration for the SK branching mass, and
+the resulting higher-order and SK truncation estimates. A support-cardinality
+bound by itself does not establish an exponentially small omitted mass.
+
+The finite Hypergraph.degree parity convention (% 2 = 0) and Expansion.IsEven
+(Even of the indexed incidence degree) agree mathematically on the physical
+specialization, but the inspected code does not provide that explicit bridge.
+It will be needed when the finite counting facts are assembled with Parseval.
+
+5. THE FINITE SK ALGEBRA AND ITS ALGORITHM ARE NOT FORMALIZED AS A WHOLE
+
+Degree.rho faithfully implements y^6 = y^4: low degrees are preserved, high
+degrees preserve parity, and rho(d+e) agrees with intermediate reductions.
+The current CappedDegree is a distinct wrapper around Fin 6. Its addition is
+rho of ordinary exponent addition, not Fin 6 modular addition. The declared
+AddCommMonoid uses that same operation; I found no incompatible inherited
+semiring/group instance or vacuous algebraic hypothesis.
+
+Algebra proves associative square-zero multiplication of COLOR MONOMIALS,
+cardinality of the degree state space, and the fact that L+1 nonempty color
+supports annihilate. This correctly captures monomial compatibility. It does
+not construct the real coefficient algebra, prove a unique basis of dimension
+(L+1)*2^L*6^b, or prove nilpotence of a general sum in its color ideal. Those
+extensions require distributivity/linear-combination arguments beyond the
+monomial theorem. The module header correctly limits the claim.
+
+Absent: decomposition of each simple graph into the claimed primitive pieces;
+path/cycle recurrences and symmetry factors; coefficient extraction; unique
+counting after factorial cancellation; exact colorful evaluation; color
+injectivity probabilities and rescaling; unbiasedness and variance; full
+truncation-plus-coloring MSE; and the arithmetic-operation cost. A theorem about
+six degree states is not a proof of the finite algebra evaluation proposition.
+
+6. PARAMETER SELECTION, COST, AND ASYMPTOTIC CONSEQUENCES ARE MISSING
+
+No inspected source proves the first-omitted-support selection lemma, bounds
+the weighted subset-enumeration cost, defines the support/exact/SK branches of
+GraphApprox, bounds the cost of exact enumeration at fine accuracy, or proves
+one uniform polynomial exponent over the full accuracy range. No operation
+semantics or costed program is present. Noncomputable real-valued definitions
+of the finite mathematical quantities are appropriate specifications, but do
+not alone supply the paper's arithmetic algorithm or complexity theorem.
+
+The fourth-moment and higher-moment consequences, and uniformity in specified
+temperature/accuracy, are also not formalized. Supplying additional elementary
+accuracy-budget identities will not discharge these upstream obligations.
+
+7. AXIOM AUDIT: APPROPRIATE TRUST CHECK, NOT A COVERAGE CERTIFICATE
+
+Audit.lean enumerates imported constants with prefix SpinGlass and uses Lean's
+collectAxioms. The inspected Lean 4.32.1 implementation collects transitive
+dependencies through types, definitions, theorem bodies, and opaque bodies.
+The exact allowlist propext / Classical.choice / Quot.sound rejects sorryAx,
+custom logical axioms, and compiler-trust axioms if they occur in a checked
+declaration's dependency graph. This is materially stronger than a text search.
+
+My source scan found no actual declaration of sorry, admit, axiom, unsafe,
+native_decide, extern, or implemented_by in the inspected project sources.
+The private even_pair_iff helper is used by public checked results, so its
+dependencies are included transitively. The audit is scoped to loaded
+SpinGlass declarations; it does not certify unused declarations elsewhere,
+paper correspondence, absence of circular theorem hypotheses, algorithmic
+coverage, or correctness of every dependency's informal interpretation.
+
+At the early review snapshot SpinGlass.lean contained only a header. The
+integrating agent confirmed that imports were deliberately pending, with a
+final rebuild planned. The theoremCount > 0 guard rejects a completely empty
+import, but would not detect importing only one of the intended modules.
+Recommendation: check an explicit required declaration/module list in addition
+to the axiom allowlist, or make the source verification manifest authoritative.
+This is a coverage-hardening recommendation, not a detected logical exploit.
+
+The inspected verify.sh/check_sources.sh rebuilds each listed source to fresh
+oleans in dependency order, then rebuilds the entry point and runs Audit.lean.
+That addresses stale project proof objects PROVIDED the manifest and imports
+are completed, every final source change is included, and the command exits
+successfully. Audit.lean run alone only checks whichever compiled imports it
+loads. I did not run a conflicting rebuild while other agents were editing.
+
+Final assessment
+
+No substantive semantic defect was found in the local theorem statements I
+read. Their strongest verified significance is a collection of finite
+identities, counting inequalities, degree/color compatibility facts, moment
+interpolation, and a conditional logarithmic-error transfer. The paper's main
+probability estimates and algorithm/runtime chain remain unformalized. The
+user's full-paper formalization requirement therefore remains UNMET; neither
+a clean compile nor a passed axiom audit can change that assessment without
+the missing mathematical developments.
+
+ADDENDUM: INDEPENDENT CHECK OF A PROPOSED ELEMENTARY RH ARGUMENT
+
+The integrating agent subsequently requested a challenge of a new proof sketch
+from lean_reverse_hypercontractivity_attempt. I independently rederived its
+curvature formulas and checked its tensorization. This is a paper-level
+mathematical check only. No Lean formal proof of this argument was checked,
+and the formal-coverage assessment above does not change on that basis.
+
+Assume 0 < r < 1, s > 0, and 0 < theta <= (1-r)/(1+s). For positive a,b let
+M_p(a,b) = ((a^p+b^p)/2)^(1/p), with p != 0. Put alpha=(1+theta)/2,
+beta=(1-theta)/2, u=alpha*a+beta*b, v=beta*a+alpha*b, and m=(a+b)/2.
+
+The checked derivatives, with b fixed, are exactly
+  d^2/da^2 M_p(a,b)
+    = (p-1)*b^2/4 * M_p(a,b)^(1-2p) * (ab)^(p-2),
+  d^2/da^2 M_q(u,v)
+    = (q-1)*theta^2*b^2/4 * M_q(u,v)^(1-2q) * (uv)^(q-2).
+For the second identity the homogeneous mean has Hessian proportional to
+[[v^2,-uv],[-uv,u^2]], and alpha*v-beta*u=theta*b. This confirms that the
+theta^2 factor and the surviving b^2 factor are correct.
+
+Set q=-s. The arithmetic-geometric mean inequality applied to negative powers
+gives M_q(u,v) <= sqrt(uv). Since 1+2s > 0, the absolute value of the noisy
+curvature is at most
+  (1+s)*theta^2*b^2/4 * (uv)^(-3/2).
+
+For r <= 1/2, M_r(a,b) >= sqrt(ab) and 1-2r >= 0 give absolute input curvature
+at least (1-r)*b^2/4*(ab)^(-3/2). Also uv >= ab and
+(1+s)*theta^2 <= 1-r. Thus the noisy curvature's magnitude is no larger.
+
+For r > 1/2, concavity of x^r gives M_r(a,b) <= m. Both 1-2r and r-2 are
+negative, while ab <= m^2. These inequalities give absolute input curvature
+at least (1-r)*b^2/4*m^(-3). The parameter assumption implies theta < 1/2;
+uv = m^2-theta^2*((a-b)/2)^2 >= (1-theta^2)*m^2 >= 3*m^2/4. Therefore noisy
+curvature has magnitude at most 2*(1+s)*theta^2*b^2/4*m^(-3), since
+(4/3)^(3/2) < 2. Finally,
+  2*(1+s)*theta^2 <= 2*theta*(1-r) <= 1-r.
+The claimed domination holds with slack. No exponent direction is reversed
+incorrectly in either case.
+
+Consequently H(a)=M_{-s}(u,v)-M_r(a,b) has nonnegative second derivative on
+(0,infinity). At a=b both means are b and their a-derivatives are 1/2, so
+H(b)=H'(b)=0. Convexity gives H(a)>=0. All quantities differentiated are
+strictly positive, and theta<1 guarantees positive u,v, so there is no hidden
+boundary singularity. The two-point reverse hypercontractive inequality follows.
+
+Tensorization is valid through the following precise bilinear route. Put
+t=s/(1+s), so 0<t<1. For positive finite arrays h,g, reverse Holder says
+  E[hg] >= (E[h^(-s)])^(-1/s) * (E[g^t])^(1/t).
+One direct proof sets A=E[h^(-s)] and changes to probability weights
+proportional to h^(-s). Concavity of z^t applied to X=h^(s+1)*g yields
+E[g^t] <= A^(1-t)*(E[hg])^t, which is exactly the claimed inequality after
+positive powers and division. There is no need to invoke a mixed-norm theorem.
+
+Combining this inequality with the two-point result proves
+  B_theta(f,g)=E[(T_theta f)g] >= ||f||_r * ||g||_t
+on one coordinate. Interpret B using the symmetric uniform pair kernel with
+diagonal probabilities (1+theta)/4 and off-diagonal probabilities
+(1-theta)/4. This kernel is a probability distribution, and its product over
+coordinates is the finite independent noise operator.
+
+For the induction step, condition on all but one coordinate and apply the
+one-coordinate inequality to the corresponding positive slices. The new
+functions are F(x')=||f(.,x')||_r and G(y')=||g(.,y')||_t. Apply the induction
+hypothesis to E[F(X')G(Y')]. The nested r means and nested t means collapse
+exactly to the full means. No interchange of unequal mixed norms is used.
+
+Finally let h=T_theta f>0 and g=h^(-s-1), and set A=E[h^(-s)]. Symmetry of the
+uniform noise kernel identifies B_theta(f,g) with E[hg]=A. Since
+(-s-1)*t=-s, ||g||_t=A^((s+1)/s). The tensorized bilinear inequality becomes
+A >= ||f||_r*A^((s+1)/s), hence A^(-1/s) >= ||f||_r, which is the desired
+negative-exponent inequality. This also explicitly checks the inequality
+direction in the final negative-power step.
+
+Verdict on this sketch: no mathematical defect found after independent
+derivation. It is a valid route at the paper's stated, nonsharp parameter
+restriction. Formalization still needs the real-power calculus, the convex
+tangent implication, the weighted reverse-Holder lemma, the finite-product
+bilinear induction, and the noise-kernel identification. An unformalized
+sketch is not a replacement for any of those Lean obligations.
+
+2026-10-06: SUPERSEDING REVIEW OF THE IMPLEMENTED RH PROOF CHAIN
+
+Current conclusion: the finite-cube reverse-hypercontractivity gap identified
+in the initial review is now CLOSED for the compiled negative_moment endpoint.
+This explicitly supersedes the earlier statements that RH was unformalized
+or available only as an unformalized sketch. The paper as a whole is still not
+certified. This follow-up reviews the RH chain only, and does not re-audit all
+other modules added since the original snapshot.
+
+Sources independently read in full:
+  ReverseHypercontractivityIngredients.lean
+  ReverseHypercontractivityTwoPoint.lean
+  BilinearTwoPoint.lean
+  Tensorization.lean
+  ReverseHolder.lean
+  NoiseKernel.lean
+  NoiseMomentReduction.lean
+  ReverseHypercontractivity.lean
+I also rechecked the actual Noise.cubeNoise and Expansion.spinMean definitions
+and the corresponding reverse-hypercontractivity statement in the rewritten
+paper. No proof sources were edited by this audit.
+
+Exact endpoint and absence of concealed hypotheses
+
+I independently asked Lean to print the elaborated type of
+SpinGlass.ReverseHypercontractivity.negative_moment. Its complete hypotheses
+are an arbitrary finite coordinate type with decidable equality, real parameters
+0<r<1, s>0, theta>0, theta<=(1-r)/(1+s), an arbitrary real-valued function on
+that finite Boolean cube, and strict positivity of that function at every
+cube point. There is NO remaining scalar inequality, bilinear estimate,
+HasReverseBound instance, RH premise, mean-one condition, special graphical
+form, bounded-dimension restriction, or second-moment assumption.
+
+Its conclusion is precisely
+  E[(cubeNoise theta f)^(-s)] <= (E[f^r])^(-s/r),
+with both expectations being the uniform spinMean. Positivity of the noise
+output and its moment follows from these hypotheses. The parameter condition
+implies theta<1, so the actual noise coefficients are strictly positive.
+Consequently this is mathematically equivalent to the paper's norm inequality
+with t=-s: ||N_theta f||_t >= ||f||_r. This is the exact nonsharp parameter
+range stated in the manuscript, not an assertion of the sharpest possible
+reverse-hypercontractive range.
+
+Dependency audit: all analytic premises are genuinely discharged
+
+1. ReverseHypercontractivityIngredients proves the scalar curvature comparison
+   under 0<r<1 and 0<=theta<=1-r. Its low-r and high-r cases use the correct
+   power monotonicity directions, and the positive-base hypotheses prevent
+   misuse of totalized real powers. The scalar inequality is a theorem, not
+   a field or parameter assumed by the final result.
+
+2. ReverseHypercontractivityTwoPoint proves HasDerivAt identities for the
+   actual power mean and the geometric mean of the noisy pair. It obtains
+   convexity of their difference on the positive half-line from the proved
+   second-derivative comparison, proves both value and first derivative zero
+   at x=1, and invokes the convex minimum criterion there. Homogeneity then
+   gives the squared two-input estimate. There is no assumed differentiability
+   or tangent-minimum conclusion. The implemented route is the geometric-mean
+   endpoint followed by bilinear transfer, rather than differentiating a
+   general negative-exponent mean directly; both are mathematically valid.
+
+3. BilinearTwoPoint proves the reverse Cauchy inequality with the required
+   cone hypotheses, controls the scaled contrasts of positive input pairs,
+   and treats both signs of the product of the two contrasts. In the negative
+   contrast case, reducing theta increases the right-hand side as needed.
+   This yields the scalar bilinear estimate under
+   theta<=(1-r)*(1-t), then the exact one-bit HasReverseBound for the explicit
+   bitJoint kernel. This discharges the tensorization hypothesis from an
+   independently proved analytic result.
+
+4. Tensorization propagates a one-coordinate bound through independent product
+   kernels using nonnegativity of the outer kernel. It takes nested means of
+   the SAME exponent in each coordinate and proves their exact flattening.
+   Thus it never swaps mixed norms or relies on a false Minkowski statement
+   for negative exponents. The endpoint actually uses the positive exponents
+   r and s/(1+s). The induction includes dimension zero, and the final finite
+   equivalence transfers the theorem from Fin n to an arbitrary finite
+   coordinate type. Positive function slices have positive means, so induction
+   is not vacuous at any stage.
+
+5. ReverseHolder is an explicit finite duality reduction. It does not need to
+   assume or prove a general reverse-Holder inequality: the bilinear estimate
+   is instantiated at g=h^(-s-1). The identities for the dual exponent
+   t=s/(1+s) turn both sides into powers of A=E[h^(-s)]. The rearrangement
+   A<=K^(-s) uses strictly positive A and K and the correct negative-power
+   inequality direction. Its generic bilinear hypothesis is later supplied
+   by the tensorized theorem; it does not remain at the endpoint.
+
+6. NoiseMomentReduction transfers that bilinear statement through the proved
+   joint-kernel identity and applies the preceding duality. Its hbilinear
+   premise is explicitly filled in ReverseHypercontractivity.negative_moment
+   using BilinearTwoPoint.bit_reverse_bound and
+   Tensorization.bool_cube_reverse_bound_fintype. The identity
+   (1-r)*(1-s/(1+s))=(1-r)/(1+s) matches the endpoint's parameter bound.
+
+Operator and normalization match the manuscript exactly
+
+Noise.noiseWeight(theta,false)=(1+theta)/2 and
+Noise.noiseWeight(theta,true)=(1-theta)/2. Under the established encoding
+false=+1 and true=-1, xor is multiplication of signs. Therefore cubeNoise is
+the manuscript's independent-coordinate sign-multiplier operator at correlation
+theta. There is no square-root change of noise parameter or substitution of
+a different averaging operator.
+
+NoiseKernel.cubeNoise_eq_kernel_sum is proved by the actual xor-translation
+equivalence. The kernel is symmetric. Its joint form includes one factor 1/2
+per coordinate, so it pairs uniform input signs with the appropriate
+conditional noise distribution. Self-adjointness and the reverse pairing
+identity are proved, not assumed. The endpoint's uniform_weighted_sum proves
+that the product weights (1/2)^card(iota) are exactly
+spinMean = (2^card(iota))^(-1) times the counting sum. No normalization factor
+is lost when passing from the joint kernel to the negative moment.
+
+Independent executable checks
+
+I ran `lake env lean --stdin` with #check and #print axioms, without lake build
+or cache operations. The command completed successfully. The elaborated
+negative_moment type had exactly the hypotheses described above. For each of
+  ReverseHypercontractivity.negative_moment,
+  ReverseHypercontractivityTwoPoint.normalized_two_point,
+  BilinearTwoPoint.bit_reverse_bound,
+  Tensorization.bool_cube_reverse_bound_fintype, and
+  NoiseKernel.jointKernel_bilinear_eq_reverse,
+Lean reported precisely [propext, Classical.choice, Quot.sound]. In particular,
+the endpoint's transitive proof contains no sorryAx, custom RH axiom, or
+compiler-trust axiom. A textual scan of the eight modules found no actual
+axiom, sorry/admit, unsafe, native_decide, extern, or implemented_by declaration.
+
+While this audit was running, a reverse_norm wrapper was added to the source.
+Its mathematical statement and negative-power conversion are faithful to the
+paper. An independent source compile at that intermediate snapshot failed in
+the final exponent identity, leaving t/t=1 because the nonzero consequence of
+t<0 was not supplied to field_simp. I reported the precise failure to the
+integrating agent and made no source edits. This is a wrapper compilation issue,
+not a defect in the compiled negative_moment theorem. A subsequent source
+check is needed after that local repair; its result should be recorded below.
+
+Remaining scope boundary
+
+The generic finite-cube analytic input is now genuinely formalized. It does
+not by itself integrate over arbitrary symmetric coupling magnitudes, prove
+the uniform graphical mass bound, control the large-coupling exceptional event,
+establish the paper's complete non-Gaussian lower tail, or supply the algorithm
+and runtime proof. The FiniteLowerTail development being added by another
+agent was outside this follow-up's assigned scope. No full-paper certification
+is implied by this successful RH audit.
+
+2026-10-06 FOLLOW-UP: NORM WRAPPER REPAIRED; FINITE LOWER TAIL AUDITED
+
+The integrating agent supplied the missing t!=0 fact in reverse_norm's scalar
+exponent simplification. I then independently reran
+`lake env lean SpinGlass/ReverseHypercontractivity.lean`; it completed with
+exit code zero, including the current reverse_norm source. A separate imported
+#check showed the exact manuscript statement with 0<r<1, t<0,
+0<theta<=(1-r)/(1-t), and arbitrary strictly positive f. #print axioms reported
+only [propext, Classical.choice, Quot.sound]. The intermediate wrapper compile
+issue recorded above is RESOLVED.
+
+At the integrating agent's further request I read FiniteLowerTail.lean in full
+and independently printed its two final theorem types and axiom dependencies.
+The command completed successfully. The actual statements are:
+
+  noisy_negative_moment_le_second_moment:
+    for 0<theta<1, f>0, E[f]=1, and
+    s=(1-sqrt(theta))/sqrt(theta),
+      E[(cubeNoise theta f)^(-s)] <= E[f^2];
+
+  noisy_lower_tail_le_second_moment:
+    under the same assumptions and z>0,
+      card{epsilon : cubeNoise theta f epsilon < z} / 2^card(iota)
+        <= E[f^2] * z^s.
+
+Both theorem types have only these natural hypotheses. Neither contains a
+reverse-hypercontractivity premise, an assumed negative moment, an assumed
+tail inequality, or an assumed bound on E[f^2]. Both axiom lists are exactly
+[propext, Classical.choice, Quot.sound]. The source contains no actual sorry,
+admit, axiom, unsafe, native_decide, extern, or implemented_by declaration.
+
+The proof selects r=1-sqrt(theta) and s=r/sqrt(theta), uses already proved
+positivity and the exact parameter identity to invoke negative_moment, and
+combines it with the genuine finite weighted interpolation theorem. The
+exponent simplification -s/r=-1/(1-r) is correct and has nonzero denominators
+proved from theta in (0,1). Thus the final power of the second moment is one,
+as in the manuscript's conditional-sign argument.
+
+The tail theorem proves the pointwise inequality
+1_{h<z} <= z^s*h^(-s) for positive h,z and s>0. It then averages and explicitly
+identifies the indicator sum with the cardinality of the filtered Boolean
+cube. This is the actual uniform probability of the event, not a placeholder
+quantity named probability. The empty coordinate type is included correctly.
+
+There is no circularity in the mean-one assumption: it is a natural property
+of the intended inflated graphical function and is logically weaker than the
+claimed negative-moment or tail conclusion. The RHS E[f^2] remains the finite
+conditional quantity C(a); the theorem does not assert that it is uniformly
+bounded for every magnitude array.
+
+Updated scope: the generic finite-cube analytic component and its finite
+mean-one lower-tail consequence are now formalized. To obtain the paper's
+non-Gaussian restricted negative moment and final probability bound, the
+remaining work still includes constructing the disorder/sign/magnitude model,
+instantiating the inflated graphical function, integrating its conditional
+second moment over magnitudes, proving the uniform graphical mass bound, and
+controlling the large-coupling exception. The full-paper algorithm and runtime
+guarantee remain outside these proved results.

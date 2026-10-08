@@ -1,0 +1,6 @@
+PASS: custom_axiom was rejected by the axiom audit
+/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/audit-fixtures.K9kWt9/custom_axiom.lean:5:0: error: Disallowed axiom SpinGlass.auditFixture in SpinGlass.auditFixture
+PASS: public_placeholder was rejected by the axiom audit
+/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/audit-fixtures.K9kWt9/public_placeholder.lean:5:0: error: Disallowed axiom sorryAx in SpinGlass.auditFixture
+PASS: private_placeholder was rejected by the axiom audit
+/Users/qiangwu/Documents/Codex/2026-10-05/can/outputs/lean4-formalization/.lake/audit-fixtures.K9kWt9/private_placeholder.lean:7:0: error: Disallowed axiom sorryAx in _private.«.lake».«audit-fixtures.K9kWt9».private_placeholder.0.SpinGlass.auditFixture

@@ -1,0 +1,91 @@
+{
+  "recorded_at_utc": "2026-10-06T07:23:05.699426+00:00",
+  "overall_status": "PARTIAL_FORMALIZATION",
+  "paper_main_theorem_formally_proved": false,
+  "paper_correctness_certified": false,
+  "original_manuscript": {
+    "filename": "Arbitrary_Accuracy_Counting_Spin_Glasses_Your_Template.pdf",
+    "sha256": "1da9e8254318b0ac74a684e4789ed0ea5caffaf9b4fe317ecff2626d666d0c52"
+  },
+  "lean_version": "Lean (version 4.32.1, arm64-apple-darwin24.6.0, commit f054605aea4b840552cca2e725580bffd1e1b704, Release)",
+  "mathlib_commit": "520045ab14e26149ee970e2e617ca04b09bde5d6",
+  "mathematical_module_count": 23,
+  "source_verification": {
+    "command": "./verify.sh",
+    "exit_code": 0,
+    "log": "verification.log",
+    "scope": "Every mathematical module listed by SpinGlass.lean, plus SemanticChecks.lean and Audit.lean"
+  },
+  "axiom_audit": {
+    "passed": true,
+    "permitted_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "checks_private_declarations": true,
+    "theorem_declarations": 385,
+    "total_declarations": 476,
+    "counts_include_generated_declarations": true,
+    "log": "axiom-audit.log"
+  },
+  "audit_negative_controls": {
+    "command": "./verify-audit.sh",
+    "exit_code": 0,
+    "rejected": [
+      "custom_axiom",
+      "public_placeholder",
+      "private_placeholder"
+    ],
+    "log": "audit-self-check.log"
+  },
+  "formalization_sources_sha256": {
+    "Audit.lean": "ea24a6a0c2e4370364af7152e55db67fbb460c17e190d390d0d7500b0ab72f86",
+    "SemanticChecks.lean": "8b950421fe592d590ec8c94587bf59831769a6b497000f5f85f8ad1c679649ea",
+    "SpinGlass/AccuracyBudget.lean": "dda12de5fb0d4374dce2be7b559033cdb7413174b3341050e207d499ea8e4f10",
+    "SpinGlass/Algebra.lean": "cf2081cb9198be3fdf86c0e28e0df48d7410605160ca4bbe2faf52f39558d925",
+    "SpinGlass/BilinearTwoPoint.lean": "de9d58f5329f1e849f958f0b3b9088e7340745e38c91a32a60e77d496c6eb9c5",
+    "SpinGlass/ConditionalSpinGlass.lean": "0341b650dc9084f6a970b1463d09c7252add7ff39ae5ecaf17b9a4681bb8d985",
+    "SpinGlass/Degree.lean": "1c32cb86ec29dd822c435a01fc0234b2a3fc0f80b142260cd753e1d5b6bdcb47",
+    "SpinGlass/ErrorReduction.lean": "7975aea94ec692d4ff567b314e3fcc00678d28dfa4d8f66d29c56fb731268143",
+    "SpinGlass/Expansion.lean": "8cf855b242b66499ba3d98b28f5d3440d39ac159c50f06080c68d730af859a6e",
+    "SpinGlass/FiniteLowerTail.lean": "8d75d55e2ee15fc5e3000ba79aa7fa0692975fc98c92b312ad135102a5da171c",
+    "SpinGlass/GraphicalMass.lean": "e70663e1fd91534c775ab75b39506e8d11fa67fc882e418745aa5a2b46cc60f4",
+    "SpinGlass/LocalCube.lean": "0b24fd6ce6c7d3db6c142c6ada7e9f95939bb9a20204e0610379633bae486a85",
+    "SpinGlass/LowerTail.lean": "d91431f9d402f04c4d12dea144eacbc7df8ae311e4bed90687b57afbcf01df33",
+    "SpinGlass/Mobius.lean": "10f8189f2896edf180bcca3eed061640e0f6faaec31b6fd167e7c3b38a715da1",
+    "SpinGlass/Noise.lean": "91be9c8bb8abd3e33c8ed089d26c8b789dd35c56a6b685b5fb2db371883e166e",
+    "SpinGlass/NoiseKernel.lean": "a8185cf06f1a750ff4716fa76e5add42cbecc71bbad3de6f02351285a5aa6e38",
+    "SpinGlass/NoiseMomentReduction.lean": "1c831354ae22372e5027e64039dd1566213d4e574bd207c03b8e163c04c7f46d",
+    "SpinGlass/Partition.lean": "26681327bee97dff687052d2a592765822de9422d37b09ff33e181194b524ff9",
+    "SpinGlass/RandomCoefficient.lean": "482fe045db7c48b207abea6416bb02b3e7dbaf5b9d29ed238099588764842f8b",
+    "SpinGlass/ReverseHolder.lean": "781b92c83b5990922fa69acb41a569ade5fa450c80d7618b4869bce21015eb41",
+    "SpinGlass/ReverseHypercontractivity.lean": "49a8d5f7ceae9690a4f925658fee818ff824cb64f991591de774b6b677bb50de",
+    "SpinGlass/ReverseHypercontractivityIngredients.lean": "852e7051f81a4851638cafaa5256a0db969f9053b6e41d618fd8c5478c5c6beb",
+    "SpinGlass/ReverseHypercontractivityTwoPoint.lean": "b51ba6872b97329d9665c962538edf98efa1a4ca3e9a2f0dd4e359c2010c3075",
+    "SpinGlass/Support.lean": "a5b2aaba277dae100cb33d292140755ce3a30523d8ff8325e716ca5eb09a1631",
+    "SpinGlass/Tensorization.lean": "88ce3c421e43f28f0321a8f4376739c4460b2f382a64bc9837bc8604e6484aa6",
+    "SpinGlass.lean": "e775849c704e0fab7620e039927751e7873cafbf3884ccc4f490fe05bf578cca"
+  },
+  "verification_configuration_sha256": {
+    "lean-toolchain": "8e3538e0ab5f81a3ee04927d8838c8c674e0e112838b4b3ce87ec218143276af",
+    "lakefile.toml": "a8d1dff87b4b5a122b7051da8522bcedc94f75299a78ff6ec7fa2c6647a7be15",
+    "lake-manifest.json": "51411937a35ea9f1c5af749bf3b98e7ab85fafb7e73828fa20d3724a1d1cdc19",
+    "verify.sh": "3ac2142dff296e4889b48c21ea0a7fe46f90104778f9c7e92518171477a4b106",
+    "verify-audit.sh": "14eb2a148456c27172b812b8e804cb9771631a6cc47b9c5e3a5e9e3bec14c0a6",
+    "scripts/check_sources.sh": "fce53ce7ee1d5869225ba4fb584c3f1a799e331f9483fb42e9212b7fcc46d1a0",
+    "scripts/check_audit_rejections.sh": "72a2433bde71e930835c00e5dbb5097c41fd07c3e1e0a0a435b81fc1ffce569e",
+    "scripts/get_cache.sh": "d349f345889c338166d10e3d6d354a51f615811a8eb8a223ba375fad7d3e00c3",
+    "mathlib-imports.txt": "382516889bd67bda37dfafbf7545c9abb22d2fc122f625df226dabd172c6fea7"
+  },
+  "main_remaining_obligations": [
+    "Construction of the general symmetric-disorder sign/magnitude model and its moment/integrability laws",
+    "Uniform entropy/exponential-moment bound, inflated graphical-mass constant, and disorder cutoff probability",
+    "Support and branching enumeration/mass/truncation estimates",
+    "Complete resummation/coloring algorithm, recurrence correctness, and estimator error",
+    "Uniform cutoff selection and operation-count/runtime proof",
+    "Instantiation of Theorems 1.1 and 3.1 and derivation of the moment corollaries"
+  ],
+  "environment": "Additional probability-library extraction encountered ENOSPC. Generated task dependency build caches were cleared after the successful verification. See environment-note.json; restore dependencies before rerunning.",
+  "coverage_document": "COVERAGE.md"
+}
