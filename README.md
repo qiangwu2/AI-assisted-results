@@ -4,6 +4,10 @@ AI-assisted proofs and mathematical results.
 
 This repository collects manuscripts developed and revised with AI assistance. Each project includes its manuscript PDF and a description of its verification scope.
 
+## Human contribution and AI assistance
+
+These works build, to varying degrees, on the author's previous research. The author contributed mathematical ideas and insights to guide the AI's proof development and checked the underlying proof ideas. This guidance and review give the author greater confidence in the correctness of the results, though errors or gaps may remain.
+
 ## Projects
 
 | Project | Manuscript | Revision |
