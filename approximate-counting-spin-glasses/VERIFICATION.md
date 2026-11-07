@@ -42,3 +42,5 @@ The ZIP has been replaced by the extracted folder; the original hash above ident
 From the `lean4-formalization/` directory, restore the pinned dependencies using `./scripts/get_cache.sh`, then run `./verify.sh` and `./verify-audit.sh`. See the [formalization README](lean4-formalization/README.md) for details. Dependency restoration requires network access and storage.
 
 Lean checks encoded propositions relative to its foundations and trusted checker. Connecting those propositions to the manuscript's definitions and claims additionally requires the correspondence review. The available evidence does not certify floating-point execution, an arbitrary later revision, or the proposed extensions.
+
+On 6 November 2026, the manuscript author byline, author email address, and any author running headers or metadata were removed. The mathematical text, references, page count, and remaining layout were preserved. The PDF checksum in `SHA256SUMS.txt` was updated; this attribution-only edit does not constitute a new mathematical review or Lean verification.

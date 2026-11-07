@@ -7,3 +7,5 @@ The review covered the zero-field gauge argument, score covariance, conditional 
 The standalone source compiled successfully; citation resolution, internal references, author details and rendered pages were checked. The literature revision preserved the mathematical results. No Lean formalization of this revised manuscript is included, and compilation of LaTeX is not a proof verification.
 
 The attached PDF is identified by SHA256SUMS.txt. The verification description applies to this snapshot, not arbitrary future edits.
+
+On 6 November 2026, the manuscript author byline, author email address, and any author running headers or metadata were removed. The mathematical text, references, page count, and remaining layout were preserved. The PDF checksum in `SHA256SUMS.txt` was updated; this attribution-only edit does not constitute a new mathematical review or Lean verification.

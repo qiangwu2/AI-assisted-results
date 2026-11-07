@@ -2,8 +2,6 @@
 
 [Read the manuscript](joint-mple-fluctuations.pdf) · [Verification scope](VERIFICATION.md)
 
-**Author:** Qiang Wu  
-**Email:** qiangw.math@gmail.com  
 **Revision:** 7 October 2026 · 18 pages · 22 references
 
 These files are the revised manuscript prepared on the date above. This date identifies the revision, not the first discovery or generation of the result.
